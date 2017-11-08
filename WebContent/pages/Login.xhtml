@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/plantilla.xhtml">
+
+    
+	<ui:define name="body">
+		
+		<body class="hold-transition login-page">
+			<div class="login-box">
+			  <div class="login-logo">
+			    <a href="#"><b>Admin</b>LTE</a>
+			  </div>
+			  <!-- /.login-logo -->
+			  <div class="login-box-body">
+			    <p class="login-box-msg">Sign in to start your session</p>
+			
+			   <!-- <form action="../../index2.html" method="post"> -->
+			    <h:form id="loginForm">
+					<div class="form-group has-feedback">
+				   	   <h:inputText value="#{UserBean.user.username}" placeholder="User"/>							   	   
+					</div>
+					<div class="form-group has-feedback">				
+					   <p:password id="nonFeedback" value="#{UserBean.user.password}" placeholder="Password"/>
+								   	   
+					</div>
+					<div class="row">
+					<div class="col-xs-4">			       
+						<p:commandButton value="Sign In." class="btn btn-primary btn-block btn-flat"  actionListener= "#{UserBean.iniciarSesion}"></p:commandButton>
+					</div>
+					<!-- /.col -->
+					</div>
+			    </h:form> 
+					  
+			    <!-- /.social-auth-links -->
+			
+			    <a href="#">I forgot my password</a><br></br>
+			    <a href="register.html" class="text-center">Register a new membership</a>
+			    
+			
+			  </div>
+			  <!-- /.login-box-body -->
+			</div>
+			<!-- /.login-box -->	
+		</body>	
+		<!--  -->		
+
+	</ui:define>    
+
+</ui:composition>
