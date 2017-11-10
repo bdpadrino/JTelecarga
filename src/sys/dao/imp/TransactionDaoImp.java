@@ -25,7 +25,6 @@ public class TransactionDaoImp implements TransactionDao {
 
     @Override
     public  List<Transaction> listTransactions() {
-    	System.out.println("buscando transacciones");
         Session session = HibernateUtil.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
         List<Transaction> listaTransaction = session.createQuery("FROM Transaction").list();

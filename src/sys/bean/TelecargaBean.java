@@ -43,6 +43,7 @@ public class TelecargaBean implements Serializable {
 	}
 	
 	public List<Telecarga> getListTelecargas() {
+		System.out.println("buscando telecargas");
 		listTelecargas = ct.listTelecargas();
 		
 		return listTelecargas;
@@ -52,6 +53,9 @@ public class TelecargaBean implements Serializable {
 		this.listTelecargas = listTelecargas;
 	} 
 	
-	
+	public void eliminarTelecarga() {
+		System.out.println("Enttrando a eliminar " +Telecarga.getRqtKey());
+		ct.deleteTelecarga(Telecarga.getRqtKey());
+	}
 	
 }

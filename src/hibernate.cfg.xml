@@ -13,7 +13,6 @@
    <property name="show_sql">true</property>
    <property name="hibernate.format_sql">true</property>
    
-   <mapping class="sys.model.Empleado"/> 
    <mapping class="sys.model.Transaction"/>
    <mapping class="sys.model.User"/>
    <mapping class="sys.model.Telecarga"/>

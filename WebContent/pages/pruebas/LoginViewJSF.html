@@ -16,39 +16,29 @@
       	/* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
       	@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
 		@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
-		
 		body{
 			margin: 0;
 			padding: 0;
 			background: #fff;
-		
 			color: #fff;
 			font-family: Arial;
 			font-size: 12px;
 		}
 		
 		.body{
-			position: absolute;
-			top: -20px;
-			left: -20px;
-			right: -40px;
-			bottom: -40px;
-			width: auto;
-			height: auto;
-			background-image: url(http://ginva.com/wp-content/uploads/2012/07/city-skyline-wallpapers-008.jpg);
+			position: absolute;	
+			width: 100%;
+			height: 100%;
+			background-image: url(http://blog.bazaarvoice.com/wp-content/uploads/FakeReviews-768x396.jpg);
 			background-size: cover;
-			-webkit-filter: blur(5px);
+			-webkit-filter: blur(0px);
 			z-index: 0;
 		}
 		
 		.grad{
 			position: absolute;
-			top: -20px;
-			left: -20px;
-			right: -40px;
-			bottom: -40px;
-			width: auto;
-			height: auto;
+			width: 100%;
+			height: 100%;
 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
 			z-index: 1;
 			opacity: 0.7;
@@ -70,7 +60,7 @@
 		}
 		
 		.header div span{
-			color: #5379fa !important;
+			color: #173ab2 !important;
 		}
 		
 		.login{
@@ -83,7 +73,7 @@
 			z-index: 2;
 		}
 		
-		.login input[type=text]{
+		.login inputText{
 			width: 250px;
 			height: 30px;
 			background: transparent;
@@ -96,7 +86,7 @@
 			padding: 4px;
 		}
 		
-		#login inputText{
+		.login input[type=text]{
 			width: 250px;
 			height: 30px;
 			background: transparent;
@@ -167,6 +157,10 @@
 		::-moz-input-placeholder{
 		   color: rgba(255,255,255,0.6);
 		}
+		
+		.intro { 
+		    background-color: yellow;
+		}
     </style>
     
     
@@ -179,14 +173,12 @@
 		</div>
 		<h:form>
 			 <div class="login">
-				<p:outputLabel value="usuario" />
-			   	<h:inputText id="login" value="#{UserBean.user.username}" styleClass="input[type=text]"></h:inputText><br></br>
-			   	<p:outputLabel value="password" />
-			   	<h:inputText value="#{UserBean.user.password}" styleClass=".login input[type=password]"></h:inputText><br></br>
-			 	<p:commandButton value="agregar" actionListener= "#{UserBean.iniciarSesion}"  styleClass=".login input[type=button]" ></p:commandButton>
-			 </div> 
-			 
-			 	<h:inputText id="login" value="#{UserBean.user.username}" styleClass="input[type=text]"></h:inputText><br></br>
+			 	<h:input type="text" placeholder="username" name="user"/><br/>
+				<h: input type="password" placeholder="password" name="password"/><br/>
+				<h: input type="button" value="Login"/>
+				
+				
+				</div>
 		</h:form>
  
 </body>

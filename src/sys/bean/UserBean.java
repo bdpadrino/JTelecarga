@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 //import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import sys.dao.imp.UserDaoImp;
 import sys.dao.UserDao;
@@ -62,11 +64,12 @@ public class UserBean implements Serializable{
 		if (user.getUsername().equals("admin") && user.getPassword().equals("admin")){
 			System.out.println("clave correcta");
 			System.out.println("user" +user.getUsername() + "password" + user.getPassword());
-			return "/HistorialTransacciones.xhtml?faces-redirect=true";
+			return "/index.xhtml?faces-redirect=true";
 		}
 		else {
 			System.out.println("clave incorrecta");
 			System.out.println("user" +user.getUsername() + "password" + user.getPassword());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Credenciales Erroneas"));
 			return "";
 		}
 		

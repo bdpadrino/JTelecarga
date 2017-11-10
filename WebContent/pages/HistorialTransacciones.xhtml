@@ -72,11 +72,7 @@
 			        <p:column headerText="Serial" priority="2" filterBy="#{car.card_acceptor_terminal_id}" sortBy="#{car.card_acceptor_terminal_id}" filterMatchMode="contains">
 			            <h:outputText value="#{car.card_acceptor_terminal_id}" />
 			        </p:column>
-			   -->      
-			        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">
-			            <h:outputText value="#{car.card_holder}" />
-			        </p:column>
-			    <!--     
+			        
 			        <p:column headerText="N Tarjeta" priority="2" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
 			            <h:outputText value="#{car.pan}" />
 			        </p:column>
@@ -84,8 +80,12 @@
 			        <p:column headerText="Emisor" priority="3" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
 			            <h:outputText value="#{car.issuer}" />
 			        </p:column>
-			  -->      
-			        <p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
+			   -->      
+			        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">
+			            <h:outputText value="#{car.card_holder}" />
+			        </p:column>
+			  	
+		  			<p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
 			            <h:outputText value="#{car.card_acceptor_name}" />
 			        </p:column>	 
 			        			 
@@ -108,15 +108,7 @@
 			        </p:column>
 			        
 			        <p:column headerText="Moneda" priority="1" filterBy="#{car.currency}" sortBy="#{car.currency}" filterMatchMode="contains">
-			            <f:facet name="filter">
-						    <p:selectOneButton onchange="PF('carsTable').filter()">
-						        <f:converter converterId="javax.faces.Boolean" />
-						        <f:selectItem itemLabel="All" itemValue="" />
-						        <f:selectItem itemLabel="USD" itemValue="true" />
-						        <f:selectItem itemLabel="VEF" itemValue="false" />
-						    </p:selectOneButton>
-						</f:facet>
-			            <h:outputText value="#{car.currency ? 'USD': 'VEF'}" />
+			             <h:outputText value="#{car.currency}"/>
 			        </p:column>
 			        
 	 			</p:dataTable>
@@ -172,13 +164,12 @@
 			                <h:outputText value="Fecha expiracion de la tarjeta" />
 			                <h:outputText value="#{transactionBean.transaction.date_expiration}" />	          
 			                
-			               
+			                <h:outputText value="Lugar" />
+			                <h:outputText value="#{transactionBean.transaction.place}" />	
 			            </p:panelGrid>
 			        </p:outputPanel>
 			    </p:dialog>
-			    
-			    
-			    
+
 		  </h:form> 
    	  </div> <!-- box-body -->
 	</div>  <!-- box-primary -->

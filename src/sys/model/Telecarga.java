@@ -1,12 +1,19 @@
 package sys.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Telecarga {
+@Entity
+@Table(name = "telecarga")
+public class Telecarga implements Serializable {
 
+	private static final long serialVersionUID = -2377928793844837851L;
+	
 	@Id
     @Column(name = "solCve")
 	private Integer rqtKey;  				//Clave de solicitud, (no se usa)
@@ -17,7 +24,7 @@ public class Telecarga {
 	@Column(name = "terId")
 	private Integer terId;					//Numero de la caja de la terminal
 	@Column(name = "aplDescripción")
-	private String  appDesc;				//Descripción de la aplicación (comercio, restaurantesucursal)
+	private String  appDesc;				//Descripción de la aplicación (comercio, restaurante, sucursal)
 	@Column(name = "plnDescripción")
 	private String  planDesc;				//Descripción del plan, crédito o débito (solamente paratransacciones con pin-pad)
 	@Column(name = "terOperativa")
@@ -120,7 +127,7 @@ public class Telecarga {
 	private Integer country;				//Pais residente de la terminal
 	@Column(name = "moneda")
 	private Integer currency;				//0= Pesos Mexicanos 1= Dolares
-	@Column(name = "bcoNpromocionesombre")
+	@Column(name = "promociones")
 	private String	promotions;				//Promociones validas para la terminal
 	@Column(name = "montoMaxOper")
 	private String 	qpsMaxAmount;			//Monto maximo permitido para transacciones QPS
