@@ -24,7 +24,7 @@
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
          	  <h:form> 
-              	<p:commandButton action="cadastro-default?faces-redirect=true" ajax="false" icon="fa fa-plus"
+              	<p:commandButton action="#" ajax="false" icon="fa fa-plus"
                    	            value="Agregar" styleClass="btn-primary"/>
               	<p:spacer width="5"/>
                 <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
@@ -56,12 +56,10 @@
 		  			<p:column headerText="Id" priority="1" width ="50" >
 			            <h:outputText value="#{tele.rqtKey}" />
 			        </p:column>
-			        
-			       			        
+			        	        
 			        <p:column headerText="Numero de folio" priority="1" filterBy="#{tele.tcFolio}" sortBy="#{tele.tcFolio}" filterMatchMode="contains">
 			            <h:outputText value="#{tele.tcFolio}" />
 			        </p:column>
-			        tcFolio
 
 			        <p:column headerText="Aplicación" priority="1" filterBy="#{tele.appDesc}" sortBy="#{tele.appDesc}" filterMatchMode="contains">
 			            <h:outputText value="#{tele.appDesc}" />

@@ -16,5 +16,6 @@
    <mapping class="sys.model.Transaction"/>
    <mapping class="sys.model.User"/>
    <mapping class="sys.model.Telecarga"/>
+   <mapping class="sys.model.TerminalInfo"/>
  </session-factory>
 </hibernate-configuration>
