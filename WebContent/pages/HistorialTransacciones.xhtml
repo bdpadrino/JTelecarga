@@ -23,280 +23,270 @@
 
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
-         	  
+         	 
           	</div> <!--  box -header -->
-         <div class="box-body">                                   
-            <div class="nav-tabs-custom">
-	            <ul class="nav nav-tabs">
-	              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
-	              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
-	              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-credit-card"></i></a></li>
-	            </ul>
-	            <div class="tab-content">
-	              <div class="tab-pane active" id="tab_1">
-		            <h:form>
-		   				<p:dataTable id="tableStateDT" var="car" value="#{transactionBean.listTransactions}" widgetVar="carsTable" multiViewState="true"
-			                 rows="10" paginator="true" paginatorPosition="bottom" 
-			                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			                 rowsPerPageTemplate="5,10,15,20"
-			                 selectionMode="single" selection="#{transactionBean.transaction}" rowKey="#{car.systems_trace_number}"
-			                 emptyMessage="No hay transacciones" >
-			                
+	         <div class="box-body">                                   
+	            <div class="nav-tabs-custom">
+		            <ul class="nav nav-tabs">
+		              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
+		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
+		              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-credit-card"></i></a></li>
+		            </ul>
+		            <div class="tab-content">
+		              <div class="tab-pane active" id="tab_1">
+			            <h:form id="searchForm">
+			   				<p:dataTable id="tableStateDT" var="car" value="#{transactionBean.listTransactions}" widgetVar="carsTable" multiViewState="true"
+				                 rows="10" paginator="true" paginatorPosition="bottom" 
+				                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				                 rowsPerPageTemplate="5,10,15,20"
+				                 selectionMode="single" selection="#{transactionBean.transaction}" rowKey="#{car.systems_trace_number}"
+				                 emptyMessage="No hay transacciones" >
+				                
+				 
+						        <f:facet name="header">
+						            <p:outputPanel>
+						            	<div align="right">
+							                <h:outputText value="Search all fields: " />
+							                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+						           		</div>
+						            </p:outputPanel>
+					        	</f:facet>
+					 
+						        <p:column headerText="Id" priority="1" filterBy="#{car.systems_trace_number}" sortBy="#{car.systems_trace_number}" filterMatchMode="contains">
+						            <h:outputText value="#{car.systems_trace_number}" />
+						        </p:column>
+					 
+						        <p:column headerText="Tipo de Transaccion" priority="3" filterBy="#{car.transaction_type}" sortBy="#{car.transaction_type}" filterMatchMode="contains">
+						            <h:outputText value="#{car.transaction_type}" />
+						        </p:column>
+						 <!-- 
+						        <p:column headerText="Modo de Entrada" priority="3" filterBy="#{car.pos_entry_mode}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">			 
+						            <h:outputText value="#{car.pos_entry_mode}" />
+						        </p:column>
+					 
+						        <p:column headerText="Modelo" priority="2" filterBy="#{car.model}" sortBy="#{car.model}" filterMatchMode="contains">
+						            <h:outputText value="#{car.model}" />
+						        </p:column>
+						 
+						        <p:column headerText="Serial" priority="2" filterBy="#{car.card_acceptor_terminal_id}" sortBy="#{car.card_acceptor_terminal_id}" filterMatchMode="contains">
+						            <h:outputText value="#{car.card_acceptor_terminal_id}" />
+						        </p:column>
+						        
+						        <p:column headerText="N Tarjeta" priority="2" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
+						            <h:outputText value="#{car.pan}" />
+						        </p:column>
+						        
+						        <p:column headerText="Emisor" priority="3" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
+						            <h:outputText value="#{car.issuer}" />
+						        </p:column>
+						   -->      
+						        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">
+						            <h:outputText value="#{car.card_holder}" />
+						        </p:column>
+						  	
+					  			<p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
+						            <h:outputText value="#{car.card_acceptor_name}" />
+						        </p:column>	 
+						        			 
+						 		<p:column headerText="Fecha" priority="1" filterBy="#{car.date_transaction}" sortBy="#{car.date_transaction}" filterMatchMode="contains">
+						            <h:outputText value="#{car.date_transaction}">
+						            	<f:convertDateTime pattern="dd/MM/yyyy" />
+						            </h:outputText>
+						        </p:column>
+						     
+						     <!--    
+						        <p:column headerText="Hora" priority="1" filterBy="#{car.time_transaction}" sortBy="#{car.time_transaction}" filterMatchMode="contains">
+						            <h:outputText value="#{car.time_transaction}">
+						           	 	<f:convertDateTime pattern="HH:mm" />
+						           	 </h:outputText>
+						        </p:column>
+					  		-->
+					  		
+						       <p:column headerText="Monto" priority="1" filterBy="#{car.amount_transaction}" sortBy="#{car.amount_transaction}" filterMatchMode="contains">
+						            <h:outputText value="#{car.amount_transaction}">
+						             	<f:convertNumber  type="currency"/>
+						            </h:outputText>
+						        </p:column>
+						        
+						        <p:column headerText="Moneda" priority="1" filterBy="#{car.currency}" sortBy="#{car.currency}" filterMatchMode="contains">
+						             <h:outputText value="#{car.currency}"/>
+						        </p:column>
+						        
+				 			</p:dataTable>
+				 			
+				 			<p:contextMenu for="tableStateDT">
+						        <p:menuitem value="View" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
+						        <p:menuitem value="Delete" update="tableStateDT" icon="ui-icon-close" actionListener="#{transactionBean.deleteTransaction}"/>
+						    </p:contextMenu>
 			 
-					        <f:facet name="header">
-					            <p:outputPanel>
-					            	<div align="right">
-						                <h:outputText value="Search all fields: " />
-						                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-					           		</div>
-					            </p:outputPanel>
-				        	</f:facet>
-				 
-					        <p:column headerText="Id" priority="1" filterBy="#{car.systems_trace_number}" sortBy="#{car.systems_trace_number}" filterMatchMode="contains">
-					            <h:outputText value="#{car.systems_trace_number}" />
-					        </p:column>
-				 
-					        <p:column headerText="Tipo de Transaccion" priority="3" filterBy="#{car.transaction_type}" sortBy="#{car.transaction_type}" filterMatchMode="contains">
-					            <h:outputText value="#{car.transaction_type}" />
-					        </p:column>
-					 <!-- 
-					        <p:column headerText="Modo de Entrada" priority="3" filterBy="#{car.pos_entry_mode}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">			 
-					            <h:outputText value="#{car.pos_entry_mode}" />
-					        </p:column>
-				 
-					        <p:column headerText="Modelo" priority="2" filterBy="#{car.model}" sortBy="#{car.model}" filterMatchMode="contains">
-					            <h:outputText value="#{car.model}" />
-					        </p:column>
-					 
-					        <p:column headerText="Serial" priority="2" filterBy="#{car.card_acceptor_terminal_id}" sortBy="#{car.card_acceptor_terminal_id}" filterMatchMode="contains">
-					            <h:outputText value="#{car.card_acceptor_terminal_id}" />
-					        </p:column>
-					        
-					        <p:column headerText="N Tarjeta" priority="2" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
-					            <h:outputText value="#{car.pan}" />
-					        </p:column>
-					        
-					        <p:column headerText="Emisor" priority="3" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
-					            <h:outputText value="#{car.issuer}" />
-					        </p:column>
-					   -->      
-					        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">
-					            <h:outputText value="#{car.card_holder}" />
-					        </p:column>
-					  	
-				  			<p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
-					            <h:outputText value="#{car.card_acceptor_name}" />
-					        </p:column>	 
-					        			 
-					 		<p:column headerText="Fecha" priority="1" filterBy="#{car.date_transaction}" sortBy="#{car.date_transaction}" filterMatchMode="contains">
-					            <h:outputText value="#{car.date_transaction}">
-					            	<f:convertDateTime pattern="dd/MM/yyyy" />
-					            </h:outputText>
-					        </p:column>
-					        
-					        <p:column headerText="Hora" priority="1" filterBy="#{car.time_transaction}" sortBy="#{car.time_transaction}" filterMatchMode="contains">
-					            <h:outputText value="#{car.time_transaction}">
-					           	 	<f:convertDateTime pattern="HH:mm" />
-					           	 </h:outputText>
-					        </p:column>
-				 
-					       <p:column headerText="Monto" priority="1" filterBy="#{car.amount_transaction}" sortBy="#{car.amount_transaction}" filterMatchMode="contains">
-					            <h:outputText value="#{car.amount_transaction}">
-					             	<f:convertNumber  type="currency"/>
-					            </h:outputText>
-					        </p:column>
-					        
-					        <p:column headerText="Moneda" priority="1" filterBy="#{car.currency}" sortBy="#{car.currency}" filterMatchMode="contains">
-					             <h:outputText value="#{car.currency}"/>
-					        </p:column>
-					        
-			 			</p:dataTable>
-			 			
-			 			<p:contextMenu for="tableStateDT">
-					        <p:menuitem value="View" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
-					        <p:menuitem value="Delete" update="tableStateDT" icon="ui-icon-close" actionListener="#{dtContextMenuView.deleteCar}"/>
-					    </p:contextMenu>
-		 
-						<p:dialog header="Detalle Transacciones" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
-					        <p:outputPanel id="carDetail">
-					            <p:panelGrid  columns="2" rendered="#{not empty transactionBean.listTransactions}">
-					             
-					                <h:outputText value="Id:" />
-					                <h:outputText value="#{transactionBean.transaction.systems_trace_number}" />
-					 
-					 				<h:outputText value="Tipo de Transaccion:" />
-					                <h:outputText value="#{transactionBean.transaction.transaction_type}" />
-					                
-					                <h:outputText value="Modo de Entrada:" />
-					                <h:outputText value="#{transactionBean.transaction.pos_entry_mode}" />
-					                
-					                <h:outputText value="Modelo del Terminal:" />
-					                <h:outputText value="#{transactionBean.transaction.model}" />
-					                
-					                <h:outputText value="Serial del Terminal:" />
-					                <h:outputText value="#{transactionBean.transaction.card_acceptor_terminal_id}" />			                
-					                
-			                      	<h:outputText value="Currency:"/>
-					                <h:outputText value="#{transactionBean.transaction.currency}" />
-					                
-					                <h:outputText value="Emisor:"/>
-					                <h:outputText value="#{transactionBean.transaction.issuer}" />			                
-					                
-					                <h:outputText value="Comercio:"/>
-					                <h:outputText value="#{transactionBean.transaction.card_acceptor_name}"/>
-					 
-					                <h:outputText value="Tarjetahabiente:" />
-					                <h:outputText value="#{transactionBean.transaction.card_holder}"/>
-					 
-					                <h:outputText value="Numero de Tarjeta:" />
-					                <h:outputText value="#{transactionBean.transaction.pan}" />			                
-					                
-					                <h:outputText value="Monto:" />
-					                <h:outputText value="#{transactionBean.transaction.amount_transaction}" />
-					                
-					               	<h:outputText value="Fecha:" />
-					                <h:outputText value="#{transactionBean.transaction.date_transaction}" />
-					                
-					                <h:outputText value="Hora:" />
-					                <h:outputText value="#{transactionBean.transaction.time_transaction}" />
-					               
-					                <h:outputText value="Fecha expiracion de la tarjeta" />
-					                <h:outputText value="#{transactionBean.transaction.date_expiration}" />	          
-					                
-					                <h:outputText value="Lugar" />
-					                <h:outputText value="#{transactionBean.transaction.place}" />	
-					            </p:panelGrid>
-					        </p:outputPanel>
-					    </p:dialog>
-				  	</h:form>
-				  </div> <!-- tab-pane 1--> 
-				  <div class="tab-pane" id="tab_2">
-					  <h:form>
-					    <div class="form-group">
-					    				 				
-			 				<div class="col-md-4">
-			 				<p:outputLabel value="Tipo de Transaccion:" />
-			                <p:inputText value="#{transactionBean.transaction.transaction_type}" class="form-control"/>
-			                </div>
-			 				
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Modo de Entrada:" />
-			                <p:inputText value="#{transactionBean.transaction.pos_entry_mode}" class="form-control"/>
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Modelo del Terminal:" />
-			                <p:inputText value="#{transactionBean.transaction.model}" class="form-control"/>
-			                </div>
-			 				
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Serial del Terminal:" />
-			                <p:inputText value="#{transactionBean.transaction.card_acceptor_terminal_id}" class="form-control"/>			                
-			                </div>
-			                
-			 				<div class="col-md-4">
-	                      	<p:outputLabel value="Currency:"/>
-			                <p:inputText value="#{transactionBean.transaction.currency}" class="form-control"/>
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Emisor:"/>
-			                <p:inputText value="#{transactionBean.transaction.issuer}" class="form-control"/>			                
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Comercio:"/>
-			                <p:inputText value="#{transactionBean.transaction.card_acceptor_name}" class="form-control"/>
-							 </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Tarjetahabiente:" />
-			                <p:inputText value="#{transactionBean.transaction.card_holder}" class="form-control"/>
-			 				</div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Numero de Tarjeta:" />
-			                <p:inputText value="#{transactionBean.transaction.pan}" class="form-control"/>			                
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Monto:" />
-			                <p:inputText value="#{transactionBean.transaction.amount_transaction}" class="form-control"/>
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                  	<p:outputLabel for="date" value="Fecha: " />
-			                  	<div class="input-group date">
-	                                 <div class="input-group-addon">
-	                                   <i class="fa fa-calendar"></i>
-	                                 </div>   
-						        	<p:inputMask id="date" value="#{transactionBean.transaction.date_transaction}" mask="99/99/9999" class="form-control"/>
-			               			</div>
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Hora:" />
-			                <p:inputText value="#{transactionBean.transaction.time_transaction}" class="form-control"/>
-			               	</div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Fecha expiracion de la tarjeta:" />
-			                <p:inputText value="#{transactionBean.transaction.date_expiration}" class="form-control"/>	          
-			                </div>
-			                
-			 				<div class="col-md-4">
-			                <p:outputLabel value="Lugar" />
-			                <p:inputText value="#{transactionBean.transaction.place}" class="form-control"/>	
-						    </div>
-			               	 
-			                <div class="col-md-12">	
-			                		<br/>	<br/>		    
-						    </div>
-						    
-						    <div class="col-md-4">	
-			                		<br/>	<br/>		    
-						    </div>
-						    
-						    <div class="col-md-2">
-					       		<p:commandButton value="Submit" update="display"   class="btn btn-block btn-success" oncomplete="PF('dlg').show()" icon="fa fa-plus-square"/>
-				   			</div>
-				    		<div class="col-md-2">
-				    			<p:commandButton value="Reset" type="reset" class="btn btn-block btn-primary"/>
-				 			</div>
-				   			
-						    
-					 
-					    </div> <!-- form-goup -->    
-					    <p:dialog widgetVar="dlg" modal="true" resizable="false" header="Values" showEffect="fade"> 
-					        <p:panelGrid id="display" columns="2" columnClasses="label,value">
-					            <h:outputText value="Date: " />
-					            <h:outputText id="dateValue" value="#{maskView.date}" />
-					 
-					            <h:outputText value="Phone: " />
-					            <h:outputText id="phoneValue" value="#{maskView.phone}" />
-					 
-					            <h:outputText value="Phone with Ext: " />
-					            <h:outputText id="phoneWithExtValue" value="#{maskView.phoneExt}"/>
-					 
-					            <h:outputText value="taxId: " />
-					            <h:outputText id="taxValue" value="#{maskView.taxId}" />
-					 
-					            <h:outputText value="SSN: " />
-					            <h:outputText id="ssnValue" value="#{maskView.ssn}" />
-					 
-					            <h:outputText value="Product Key: " />
-					            <h:outputText id="keyValue" value="#{maskView.productKey}" />
-					        </p:panelGrid>
-					    </p:dialog>
-				   	  </h:form>
-				  </div><!-- tab-pane 2--> 
-			    </div> <!-- tab-content -->
-			</div><!-- nav-tabs-custom -->
-   	  	</div> <!-- box-body -->
-   	  	<div class="box-footer">    
-		    
-  		</div>
-	</div>  <!-- box-primary -->
+							<p:dialog header="Detalle Transaccion ##{transactionBean.transaction.systems_trace_number}" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
+						        <p:outputPanel id="carDetail">
+						            <p:panelGrid  columns="2" rendered="#{not empty transactionBean.listTransactions}">
+						             
+						                <h:outputText value="Tipo de Transaccion:" />
+						                <h:outputText value="#{transactionBean.transaction.transaction_type}" />
+						                
+						                <h:outputText value="Modo de Entrada:" />
+						                <h:outputText value="#{transactionBean.transaction.pos_entry_mode}" />
+						                
+						                <h:outputText value="Modelo del Terminal:" />
+						                <h:outputText value="#{transactionBean.transaction.model}" />
+						                
+						                <h:outputText value="Serial del Terminal:" />
+						                <h:outputText value="#{transactionBean.transaction.card_acceptor_terminal_id}" />			                
+						                
+				                      	<h:outputText value="Currency:"/>
+						                <h:outputText value="#{transactionBean.transaction.currency}" />
+						                
+						                <h:outputText value="Emisor:"/>
+						                <h:outputText value="#{transactionBean.transaction.issuer}" />			                
+						                
+						                <h:outputText value="Comercio:"/>
+						                <h:outputText value="#{transactionBean.transaction.card_acceptor_name}"/>
+						 
+						                <h:outputText value="Tarjetahabiente:" />
+						                <h:outputText value="#{transactionBean.transaction.card_holder}"/>
+						 
+						                <h:outputText value="Numero de Tarjeta:" />
+						                <h:outputText value="#{transactionBean.transaction.pan}" />			                
+						                
+						                <h:outputText value="Monto:" />
+						                <h:outputText value="#{transactionBean.transaction.amount_transaction}" />
+						                
+						               	<h:outputText value="Fecha:" />
+						                <h:outputText value="#{transactionBean.transaction.date_transaction}">
+							            	<f:convertDateTime pattern="dd/MM/yyyy" />
+							            </h:outputText>
+						           
+						                <h:outputText value="Fecha expiracion de la tarjeta" />
+						                <h:outputText value="#{transactionBean.transaction.date_expiration}">
+							            	<f:convertDateTime pattern="dd/MM/yyyy" />
+							            </h:outputText>
+						                
+						                <h:outputText value="Lugar" />
+						                <h:outputText value="#{transactionBean.transaction.place}" />	
+						            </p:panelGrid>
+						        </p:outputPanel>
+						    </p:dialog>
+					  	</h:form>
+					  </div> <!-- tab-pane 1--> 
+					  <div class="tab-pane" id="tab_2">
+						  <h:form id="addForm">
+						  	
+						    <div class="form-group">
+						    				 				
+				 				<div class="col-md-4">
+				 				<p:outputLabel value="Tipo de Transaccion:" />
+				                <p:inputText value="#{transactionBean.transaction.transaction_type}" class="form-control" required="true"/>
+				                </div>
+				 				
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Modo de Entrada:" />
+				               	<p:selectOneMenu id="entry_mode" value="#{transactionBean.transaction.currency}" required="true">
+							            <f:selectItem itemLabel="Select One" itemValue="" />
+							            <f:selectItem itemLabel="Banda" itemValue="Banda" />
+							            <f:selectItem itemLabel="EMV" itemValue="EMV" />
+							            <f:selectItem itemLabel="Manual" itemValue="Manual" />		
+							            <f:selectItem itemLabel="Contacless" itemValue="Contacless" />							  
+							        </p:selectOneMenu>
+				                </div>
+				                
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Modelo del Terminal:" />
+				                <p:inputText value="#{transactionBean.transaction.model}" class="form-control"/>
+				                </div>
+				 				
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Serial del Terminal:" />
+				                <p:inputText value="#{transactionBean.transaction.card_acceptor_terminal_id}" class="form-control"/>			                
+				                </div>
+				                
+				 				<div class="col-md-4">
+			                      	<p:outputLabel value="Currency:"/>
+					                <!-- <p:inputText value="#{transactionBean.transaction.currency}" class="form-control"/>  -->
+					                <p:selectOneMenu id="console" value="#{transactionBean.transaction.currency}" >
+							            <f:selectItem itemLabel="Select One" itemValue="" />
+							            <f:selectItem itemLabel="Dolar Americano" itemValue="USD" />
+							            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
+							            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
+							        </p:selectOneMenu>
+				                </div>
+				                
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Emisor:"/>
+				                <p:inputText value="#{transactionBean.transaction.issuer}" class="form-control"/>			                
+				                </div>
+				                
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Comercio:"/>
+				                <p:inputText value="#{transactionBean.transaction.card_acceptor_name}" class="form-control"/>
+								 </div>
+				                
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Tarjetahabiente:" />
+				                <p:inputText value="#{transactionBean.transaction.card_holder}" class="form-control"/>
+				 				</div>
+				                
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Numero de Tarjeta:" />
+				                <p:inputText value="#{transactionBean.transaction.pan}" class="form-control"/>			                
+				                </div>
+				                
+				 				<div class="col-md-4">
+					                <p:outputLabel value="Monto:" />
+					                <p:inputText value="#{transactionBean.transaction.amount_transaction}" class="form-control"/>
+				                </div>
+				                
+				 				<div class="col-md-4">
+				                  	<p:outputLabel value="Fecha: " />
+				                  	<div class="input-group date">
+		                                 <div class="input-group-addon">
+		                                   <i class="fa fa-calendar"></i>
+		                                 </div>   
+		                                 <p:calendar id="popup" value="#{transactionBean.transaction.date_transaction}" pattern="dd/MM/yyyy"/>
+							        <!--  	<p:inputMask id="date" value="#{transactionBean.transaction.date_transaction}" mask="99/99/9999" class="form-control"/>
+				               		-->	</div>
+				                </div>
+				                
+				                <!--  
+				 				<div class="col-md-4">
+					               <p:outputLabel for="time" value="Hora:"  />
+	        						<p:calendar id="time" value="#{transactionBean.transaction.time_transaction}" pattern="HH:mm" timeOnly="true"   />
+				               	</div>
+				                -->
+				                
+				 				<div class="col-md-4">
+					                <p:outputLabel value="Fecha expiracion de la tarjeta:" />
+					                <p:inputText value="#{transactionBean.transaction.date_expiration}" class="form-control"/>	          
+				                </div>
+				                
+				 				<div class="col-md-4">
+				                <p:outputLabel value="Lugar" />
+				                <p:inputText value="#{transactionBean.transaction.place}" class="form-control"/>	
+							    </div>
+				               	 
+				                <div class="col-md-12">	
+				                		<br/>	<br/>		    
+							    </div>
+							    
+							    <div class="col-md-4">	
+				                		    
+							    </div>
+							    
+							    <div class="col-md-2">
+						       		<p:commandButton value="Submit" update="searchForm:tableStateDT" actionListener="#{transactionBean.addTransaction}" class="btn btn-block btn-success" oncomplete="PF('dlg').show()" icon="fa fa-plus-square"/>
+					   			</div>
+					    		<div class="col-md-2">
+					    			<p:commandButton value="Reset" type="reset" class="btn btn-block btn-primary"/>
+					 			</div>
+					   		  </div> <!-- form-goup -->   
+						   
+					   	  </h:form>
+					  </div><!-- tab-pane 2--> 
+				    </div> <!-- tab-content -->
+				</div><!-- nav-tabs-custom -->
+	   	  	</div> <!-- box-body -->	   	  
+		</div>  <!-- box-primary -->
         	        
     </ui:define>
 
