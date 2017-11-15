@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/plantilla.xhtml">
+	
+	    
+    <ui:define name="title">
+       Telecargas BDU
+    </ui:define>
+
+    <ui:define name="description">
+        Telecargas efectuadas en dispositivos POS
+    </ui:define>
+
+    <ui:define name="body">
+    	<f:metadata>
+        </f:metadata>
+   		 <adm:breadcrumb title="Historial de Telecargas"/>
+
+     	 <div class="box box-primary"> 
+         	<h:form id="form">
+	         	<div class="box-header with-border">
+	         	  
+	              	<p:commandButton action="#" ajax="false" icon="fa fa-plus"
+	                   	            value="Agregar" styleClass="btn-primary"/>
+	              	<p:spacer width="5"/>
+	                <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
+	                                 update="tableStateDT" actionListener="#{telecargaBean.eliminarTelecarga}"/>
+	                <p:spacer width="5"/>
+	                
+	                <p:separator/>
+	         
+	          </div> <!--  box -header -->
+	          <div class="box-body">                                   
+	              
+	   				<p:dataTable id="tableStateDT" var="tele" value="#{telecargaBean.listBdus}" widgetVar="teleTable" multiViewState="true"
+		                 rows="10" paginator="true" paginatorPosition="bottom" 
+		                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                 rowsPerPageTemplate="5,10,15,20"
+		                 selectionMode="single" selection="#{telecargaBean.bdu}" rowKey="#{tele.id}"
+		                 emptyMessage="No hay Telecargas" >
+		                
+		 
+			  			<p:column headerText="Id" priority="1" width ="50" >
+				            <h:outputText value="#{tele.id}" />
+				        </p:column>
+				        	        
+				        <p:column headerText="Numero de folio" priority="1" >
+				            <h:outputText value="#{tele.tcFolio}" />
+				        </p:column>
+	
+				       							       
+		 			</p:dataTable>
+		 			
+		 	
+	 
+	    	
+	   	  </div> <!-- box-body -->
+   	   </h:form> 
+	</div>  <!-- box-primary -->
+        	        
+    </ui:define>
+
+</ui:composition>

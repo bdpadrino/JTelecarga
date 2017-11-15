@@ -57,8 +57,6 @@ public class Transaction {
 
 	}
 
-	
-
 	public Transaction(Integer systems_trace_number, String transaction_type, String pos_entry_mode, String model,
 			String iso, String pan, String card_holder, String issuer, String card_acceptor_name,
 			String card_acceptor_terminal_id, Double amount_transaction, Date time_transaction, Date date_transaction,

@@ -19,7 +19,7 @@
     <ui:define name="body">
     	<f:metadata>
         </f:metadata>
-   		 <adm:breadcrumb title="Historial de Telecargas"/>
+   		 <adm:breadcrumb title="Detalle de Telecarga"/>
 
      	 <div class="box box-primary"> 
          	
@@ -200,9 +200,29 @@
 					
 					<h:outputText value="Leyenda de impresión para QPS:" />
 					<h:outputText value="#{telecargaBean.telecarga.qpsPrintLegend}"/>
-	                
-				</p:panelGrid>
+					      
+				</p:panelGrid>			
+				
 	  		</h:form> 
+	  		
+	  		
+	  		<h:form id="bduForm"> 
+		  		<p:button  value="Ver BDU" action="#{telecargaBean.listBdus}">
+				</p:button>
+			
+  				<p:panelGrid columns="2">
+				    <f:facet name="header">
+				       BDU_MULT
+				    </f:facet>
+	  				
+					<h:outputText value="Nombre del Comercio:" />
+					<h:outputText value="#{telecargaBean.bdu.commerceName}"/>
+					
+					<h:outputText value="Nombre del Comercio:" />
+					<h:outputText value="#{productId}"/>
+					
+				</p:panelGrid>	
+			</h:form> 
 	  	  </div> <!-- box-body -->
 		</div>  <!-- box-primary -->
         	        

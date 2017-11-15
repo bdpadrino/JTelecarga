@@ -60,43 +60,20 @@ public class TransactionBean implements Serializable {
 	}
 	
 	public void addTransaction() {
-	
-		/*SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");		 
-		java.util.Date dt;		
-		java.sql.Date sqlDate = null;*/
-		try {	
-		
-			System.out.println("procede a agregar" );
-			System.out.println("pr "+transaction.getTransaction_type());
-			System.out.println(transaction.toString());
-			System.out.println("fecha obtenida" +transaction.getDate_transaction());
-			/*dt = format.parse(format.format(transaction.getDate_transaction()));			
-			sqlDate = new java.sql.Date(dt.getTime());
-			transaction.setDate_transaction(sqlDate);
-			System.out.println("date" +sqlDate);*/
-			//Util util = new Util();
-			//transaction.setDate_transaction(util.addDateFormat(transaction.getDate_transaction()));
-			//transaction.setDate_expiration(util.addDateFormat(transaction.getDate_expiration()));
+		try {
 			int id = ct.addTransaction(transaction);
 			FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
 		} 
-		/*catch (ParseException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error",e.getMessage()));
-			System.out.println("mensaje parse" +e.getMessage());
-			System.out.println("causa" +e.getCause());
-		}*/
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error",e.getMessage()));
 			System.out.println("mensaje exc" +e.getMessage());
 			System.out.println("causa" +e.getCause());
-			e.printStackTrace();
-		}
-		
-		
-
-		
+		}		
 	}
 	
+	public void modifyTransaction() {
+		
+	}
 	
 	
 	

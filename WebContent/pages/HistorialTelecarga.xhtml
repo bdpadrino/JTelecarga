@@ -97,6 +97,13 @@
 		 			
 		 			<p:contextMenu for="tableStateDT">
 				        <p:menuitem value="Ver Detalle" icon="ui-icon-search" action="TelecargaDetail.xhtml?faces-redirect=true"/>
+				        	
+				        <p:menuitem value="Ver Detalle2" icon="ui-icon-search" outcome="TelecargaDetail.xhtml">
+					        <f:param name="telecarga" value="#{telecargaBean.listTelecargas}" />
+					        <f:param name="bdu" value="#{telecargaBean.listBdus}" />
+				            <f:param name="productId" value="30" />
+					        
+				      </p:menuitem>  
 				        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{telecargaBean.eliminarTelecarga}"/>
 				    </p:contextMenu>
 	 

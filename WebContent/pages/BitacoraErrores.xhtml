@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/plantilla.xhtml">
+	
+	    
+    <ui:define name="title">
+       Bitacora de Errores
+    </ui:define>
+
+    <ui:define name="description">
+        
+    </ui:define>
+
+    <ui:define name="body">    	
+   		<!-- breadcumb -->
+	  <div class="box box-primary"> 
+     	<h:form>
+          <div class="box-header with-border">   
+          </div> <!--  box -header -->
+          <div class="box-body">                                  
+  				<p:dataTable id="tableStateDT" var="tele" value="#{bitacoraErrorBean.listBitacoraErrors}" widgetVar="teleTable" multiViewState="true"
+                 rows="10" paginator="true" paginatorPosition="bottom" 
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="10,15,20"
+                 selectionMode="single" selection="#{bitacoraErrorBean.bitacoraError}" rowKey="#{tele.id}"
+                 emptyMessage="No existen errores en la bitacora" >
+                
+		        <f:facet name="header">
+		            <p:outputPanel>
+		            	<div align="right">
+			                <h:outputText value="Search all fields: " />
+			                <p:inputText id="globalFilter" onkeyup="PF('teleTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+		           		</div>
+		            </p:outputPanel>
+	        	</f:facet>
+	 
+	  			<p:column headerText="Id" priority="1" width ="50" >
+		            <h:outputText value="#{tele.id}" />
+		        </p:column>
+		       			        
+		        <p:column headerText="Codigo de Error" priority="2" filterBy="#{tele.codigoError}" sortBy="#{tele.codigoError}" filterMatchMode="contains">
+		            <h:outputText value="#{tele.codigoError}" />
+		        </p:column>
+			       
+		       <p:column headerText="Mensaje" priority="1" filterBy="#{tele.mensajeError}" sortBy="#{tele.mensajeError}" filterMatchMode="contains">
+		            <h:outputText value="#{tele.mensajeError}" />
+		        </p:column>
+		        
+		        <p:column headerText="Fecha" priority="1" filterBy="#{tele.fecha}" sortBy="#{tele.fecha}" filterMatchMode="contains">
+		            <h:outputText value="#{tele.fecha}" />
+		        </p:column>			        
+			</p:dataTable>
+ 			
+ 			<p:contextMenu for="tableStateDT">
+		        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{terminalInfoBean.eliminarTerminalInfo}"/>
+		    </p:contextMenu>
+		</div> <!-- box-body -->
+  	  </h:form>
+	</div>  <!-- box-primary -->
+         	        
+    </ui:define>
+
+</ui:composition>

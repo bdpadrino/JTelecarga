@@ -18,5 +18,6 @@
    <mapping class="sys.model.Telecarga"/>
    <mapping class="sys.model.TerminalInfo"/>
    <mapping class="sys.model.Bdu"/>
+   <mapping class="sys.model.BitacoraError"/>
  </session-factory>
 </hibernate-configuration>
