@@ -3,6 +3,10 @@ package sys.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Util {
 	
@@ -36,6 +40,46 @@ public class Util {
         return sdf.format(ourJavaTimestampObject);
     }
     
-    
+
+	
+   /**
+    * 
+    * @throws IOException
+    */
+   public void writeFile(String codigoError, String mensajeError){
+	   try { 
+		    /*String pathFile = new File(".").getCanonicalPath();
+		    String pathFileA = new File(".").getAbsolutePath()+"/src/sys/"+nombreArchivo;
+		    String pathFilep = new File(".").getPath()+"/src/"+nombreArchivo;
+		    String path2 = System.getProperty("user.dir");
+		    
+		    System.out.println("path2" +path2);		
+		    System.out.println("rutaArchivo" +pathFile);		
+		    System.out.println("rutaArchivoA" +pathFileA);
+		    System.out.println("rutaArchivoP" +pathFilep);*/
+	        String ruta = "C://TelechargeLogs//LogFile.txt";
+	        File archivo = new File(ruta);
+	        BufferedWriter bw;
+	        if(archivo.exists()) {
+	            bw = new BufferedWriter(new FileWriter(archivo,true));	            
+	            bw.write(codigoError+" "+mensajeError );
+	            bw.newLine();
+	        } else {
+	            bw = new BufferedWriter(new FileWriter(archivo));
+	            bw.write(codigoError+" "+mensajeError );
+	            bw.newLine();
+	        }
+	        bw.close();
+	   } 
+	   catch(SecurityException e) {
+		   System.out.println("error SE"+e.getMessage() +" causa "+e.getCause());
+	   }
+	   catch(IOException e) {
+		   System.out.println("error IO"+e.getMessage() +" causa "+e.getCause());
+	   }
+	   catch(Exception e) {
+		   System.out.println("error E"+e.getMessage() +" causa "+e.getCause());
+	   }
+    }
 	
 }

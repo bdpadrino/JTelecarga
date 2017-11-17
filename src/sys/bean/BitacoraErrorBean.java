@@ -7,6 +7,8 @@ import javax.faces.bean.SessionScoped;
 import sys.dao.BitacoraErrorDao;
 import sys.dao.imp.BitacoraErrorDaoImp;
 import sys.model.BitacoraError;
+import sys.util.Util;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -53,5 +55,12 @@ public class BitacoraErrorBean implements Serializable {
 		System.out.println("Enttrando a eliminar " +bitacoraError.getId());
 		cbe.deleteBitacoraError(bitacoraError.getId());
 	}
+	
+	public void generaArchivo() {
+		System.out.println("ENTRO");
+		Util util =new Util();
+		util.writeFile("Err","error por x y z");
+	}
+	
 
 }

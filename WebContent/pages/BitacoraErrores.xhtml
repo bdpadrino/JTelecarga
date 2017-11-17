@@ -21,6 +21,11 @@
 	  <div class="box box-primary"> 
      	<h:form>
           <div class="box-header with-border">   
+  				<p:commandButton value="Genera txt" icon="fa fa-newspaper" styleClass="btn-danger" actionListener="#{bitacoraErrorBean.generaArchivo}"/>
+              	<p:spacer width="5"/>
+              
+              	<p:separator/>
+          
           </div> <!--  box -header -->
           <div class="box-body">                                  
   				<p:dataTable id="tableStateDT" var="tele" value="#{bitacoraErrorBean.listBitacoraErrors}" widgetVar="teleTable" multiViewState="true"
