@@ -7,15 +7,16 @@ import org.hibernate.Session;
 
 import sys.dao.UserDao;
 import sys.model.User;
+import sys.util.HibernateUtilST;
 
 
 public class UserDaoImp implements UserDao {
    
-    HibernateUtil hu = new HibernateUtil();
+    HibernateUtilST hu = new HibernateUtilST();
 
     @Override
     public Integer addUser(User e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(e); 
         session.getTransaction().commit();
@@ -26,7 +27,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public  List<User> listUsers() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
         List<User> listUser = session.createQuery("FROM User").list();
         session.close();
@@ -36,7 +37,7 @@ public class UserDaoImp implements UserDao {
     
     @Override
     public void modifyUser(User e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         User nuevo = (User) session.get(User.class, e.getId());
         nuevo.setUsername(e.getUsername());
@@ -48,7 +49,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void deleteUser(Integer id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         User e = findByID(id);
         session.delete(e);
@@ -59,7 +60,7 @@ public class UserDaoImp implements UserDao {
 
     @Override 
     public User findByID(Integer id) {   
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         User e = (User) session.get(User.class, id);
         session.close();
         return e;
@@ -67,7 +68,7 @@ public class UserDaoImp implements UserDao {
    
    
     public void deleteAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("DELETE FROM User");
         query.executeUpdate();
@@ -79,7 +80,7 @@ public class UserDaoImp implements UserDao {
     
     @Override   
     public User findByUsername(String username) {   
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         User e = (User) session.createQuery("FROM User where username = '"+username+"'").uniqueResult();
         session.close();
         return e;

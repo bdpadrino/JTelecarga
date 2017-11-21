@@ -6,15 +6,16 @@ import org.hibernate.Session;
 
 import sys.dao.BitacoraErrorDao;
 import sys.model.BitacoraError;
+import sys.util.HibernateUtilST;
 
 
 public class BitacoraErrorDaoImp implements BitacoraErrorDao {
    
-    HibernateUtil hu = new HibernateUtil();
+    HibernateUtilST hu = new HibernateUtilST();
 
     @Override
     public Integer addBitacoraError(BitacoraError e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(e); 
         session.getTransaction().commit();
@@ -25,7 +26,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
 
     @Override
     public  List<BitacoraError> listBitacoraErrors() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
         List<BitacoraError> listaBitacoraError = session.createQuery("FROM BitacoraError").list();
         session.close();
@@ -35,7 +36,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
     
     @Override
     public void modifyBitacoraError(BitacoraError e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         BitacoraError nuevo = (BitacoraError) session.get(BitacoraError.class, e.getId());
         nuevo.setFecha(e.getFecha());;
@@ -48,7 +49,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
 
     @Override
     public void deleteBitacoraError(Integer id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         BitacoraError e = findByID(id);
         session.delete(e);
@@ -59,7 +60,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
 
     @Override
     public BitacoraError findByID(Integer id) {   
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         BitacoraError e = (BitacoraError) session.get(BitacoraError.class, id);
         session.close();
         return e;
@@ -67,7 +68,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
    
    
     public void deleteAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("DELETE FROM BitacoraError");
         query.executeUpdate();
@@ -77,11 +78,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
 
     }
     
-    public String createErrorCode(String ubi, String tip, String err) {
-    	String codigoError = "E_"+ubi+"_"+tip+"_"+err;
-    	System.out.println("codigo de error = "+codigoError);
-    	return codigoError;
-    }
+   
       
 }
 

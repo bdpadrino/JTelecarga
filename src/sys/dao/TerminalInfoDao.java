@@ -12,5 +12,6 @@ public interface TerminalInfoDao {
 	public void modifyTerminalInfo(TerminalInfo e);
 	public void deleteTerminalInfo(Integer id);
 	public TerminalInfo findByID(Integer id);
+	TerminalInfo findTerminalInfoByFolio (Integer folio);
 	
 }

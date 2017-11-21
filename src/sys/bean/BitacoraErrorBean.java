@@ -2,8 +2,11 @@ package sys.bean;
 
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
 import sys.dao.BitacoraErrorDao;
 import sys.dao.imp.BitacoraErrorDaoImp;
 import sys.model.BitacoraError;
@@ -42,7 +45,6 @@ public class BitacoraErrorBean implements Serializable {
 	}
 
 	public List<BitacoraError> getListBitacoraErrors() {
-		System.out.println("buscando BitacoraErrors");
 		listBitacoraErrors = cbe.listBitacoraErrors();
 		return listBitacoraErrors;
 	}
@@ -52,8 +54,12 @@ public class BitacoraErrorBean implements Serializable {
 	} 
 	
 	public void eliminarBitacoraError() {
-		System.out.println("Enttrando a eliminar " +bitacoraError.getId());
-		cbe.deleteBitacoraError(bitacoraError.getId());
+		if (bitacoraError == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
+		}
+		else {
+			cbe.deleteBitacoraError(bitacoraError.getId());
+		}		
 	}
 	
 	public void generaArchivo() {

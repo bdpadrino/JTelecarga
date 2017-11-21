@@ -1,6 +1,5 @@
 package sys.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,12 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "telecarga")
-public class Telecarga implements Serializable {
 
-	private static final long serialVersionUID = -2377928793844837851L;
-	
+@Entity
+@Table(name = "ACT")
+public class TelecargaACT {
+
 	@Id
     @Column(name = "solCve")
 	private Integer rqtKey;  				//Clave de solicitud, (no se usa)
@@ -24,11 +22,11 @@ public class Telecarga implements Serializable {
 	@Column(name = "terId")
 	private Integer terId;					//Numero de la caja de la terminal
 	@Column(name = "aplDescripción")
-	private String  appDesc;				//Descripción de la aplicación (comercio, restaurante, sucursal)
+	private String  appDesc;				//Descripción de la aplicación (comercio, restaurantesucursal)
 	@Column(name = "plnDescripción")
 	private String  planDesc;				//Descripción del plan, crédito o débito (solamente paratransacciones con pin-pad)
 	@Column(name = "terOperativa")
-	private char 	operativeTer; 			//	M = operativa manual (digitar no. De tarjeta )	o N =operativa normal (tarjeta deslizada)
+	private char 	operativeTer; 			//M = operativa manual (digitar no. De tarjeta )	o N =operativa normal (tarjeta deslizada)
 	@Column(name = "terVentaForzada")
 	private Integer forceSaleTer;  			//0= no lleva venta forzada ó 1 = Lleva venta forzada.
 	@Column(name = "comAfiliación")
@@ -48,7 +46,7 @@ public class Telecarga implements Serializable {
 	@Column(name = "terIdEncr")
 	private String 	encrTermId;				//Valor del numero de terminal Id con el cual se deberá de conectar a base 24
 	@Column(name = "odtFolioTelecarga")
-	private Integer tcFolio;					//Folio de telecarga
+	private Integer tcFolio;				//Folio de telecarga
 	@Column(name = "cTram")
 	private String	paperKey;				//Clave de tramite, actualmente no es utilizado.
 	@Column(name = "cpCve")
@@ -133,8 +131,8 @@ public class Telecarga implements Serializable {
 	private String 	qpsMaxAmount;			//Monto maximo permitido para transacciones QPS
 	@Column(name = "leyendaImpresión")
 	private String  qpsPrintLegend;			//Leyenda de impresión para vouchers QPS
-	
-	
+
+
 	public Integer getRqtKey() {
 		return rqtKey;
 	}

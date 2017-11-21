@@ -73,6 +73,10 @@ public class BitacoraError {
 				+ ", fecha=" + fecha + "]";
 	}
 
-
+	public String createErrorCode(String ubi, String tip, String err) {
+    	String codigoError = "E_"+ubi+"_"+tip+"_"+err;
+    	System.out.println("codigo de error = "+codigoError);
+    	return codigoError;
+    }
   
 }

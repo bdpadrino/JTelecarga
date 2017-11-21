@@ -2,10 +2,12 @@ package sys.bean;
 
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
-//import sys.dao.TerminalInfoDao;
+import sys.dao.TerminalInfoDao;
 import sys.dao.imp.TerminalInfoDaoImp;
 import sys.model.TerminalInfo;
 
@@ -17,10 +19,13 @@ import java.util.List;
 @SessionScoped
 public class TerminalInfoBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8391406716939255167L;
 
 	//TerminalInfoDao
-	TerminalInfoDaoImp cti = new TerminalInfoDaoImp();    
+	TerminalInfoDao cti = new TerminalInfoDaoImp();    
 	
 	private TerminalInfo terminalInfo;  
 	private List<TerminalInfo> listTerminalInfos;
@@ -54,7 +59,13 @@ public class TerminalInfoBean implements Serializable {
 	} 
 	
 	public void eliminarTerminalInfo() {
-		cti.deleteTerminalInfo(terminalInfo.getId());
+		if (terminalInfo == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
+		}
+		else {
+			cti.deleteTerminalInfo(terminalInfo.getId());
+		}
+		
 	}
 	
 }

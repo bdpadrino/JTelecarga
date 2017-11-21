@@ -6,15 +6,16 @@ import org.hibernate.Session;
 
 import sys.dao.TransactionDao;
 import sys.model.Transaction;
+import sys.util.HibernateUtilST;
 
 
 public class TransactionDaoImp implements TransactionDao {
    
-    HibernateUtil hu = new HibernateUtil();
+    //HibernateUtilST hu = new HibernateUtilST();
 
     @Override
     public Integer addTransaction(Transaction e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(e); 
         session.getTransaction().commit();
@@ -25,7 +26,7 @@ public class TransactionDaoImp implements TransactionDao {
 
     @Override
     public  List<Transaction> listTransactions() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
         List<Transaction> listaTransaction = session.createQuery("FROM Transaction").list();
         session.close();
@@ -35,7 +36,7 @@ public class TransactionDaoImp implements TransactionDao {
     
     @Override
     public void modifyTransaction(Transaction e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Transaction nuevo = (Transaction) session.get(Transaction.class, e.getSystems_trace_number());
         nuevo.setModel(e.getModel());;
@@ -48,7 +49,7 @@ public class TransactionDaoImp implements TransactionDao {
 
     @Override
     public void deleteTransaction(Integer id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Transaction e = findByID(id);
         session.delete(e);
@@ -59,7 +60,7 @@ public class TransactionDaoImp implements TransactionDao {
 
     @Override
     public Transaction findByID(Integer id) {   
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         Transaction e = (Transaction) session.get(Transaction.class, id);
         session.close();
         return e;
@@ -67,7 +68,7 @@ public class TransactionDaoImp implements TransactionDao {
    
    
     public void deleteAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("DELETE FROM Transaction");
         query.executeUpdate();

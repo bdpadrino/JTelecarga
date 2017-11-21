@@ -6,15 +6,16 @@ import org.hibernate.Session;
 
 import sys.dao.BduDao;
 import sys.model.Bdu;
+import sys.util.HibernateUtilST;
 
 
 public class BduDaoImp implements BduDao {
    
-    HibernateUtil hu = new HibernateUtil();
+    HibernateUtilST hu = new HibernateUtilST();
 
     @Override
     public Integer addBdu(Bdu e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(e); 
         session.getTransaction().commit();
@@ -26,7 +27,7 @@ public class BduDaoImp implements BduDao {
     @Override
     public  List<Bdu> listBdus() {
     	System.out.println("NTRO");
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
         List<Bdu> listaBdu = session.createQuery("FROM Bdu").list();
         session.close();
@@ -34,9 +35,20 @@ public class BduDaoImp implements BduDao {
         return listaBdu;
     }
     
+    
+    @Override
+    public  Bdu findBduByFolio(String folio) {
+    	System.out.println("findBduByFolio");
+        Session session = HibernateUtilST.getSessionFactory().openSession();	
+        Bdu bdu = (Bdu)session.createQuery("FROM Bdu as b WHERE b.tcFolio = "+folio+"").uniqueResult();
+        session.close();
+        System.out.println("Found " + bdu.toString() + " Bdu");
+        return bdu;
+    }
+    
     @Override
     public void modifyBdu(Bdu e) {
-       /* Session session = HibernateUtil.getSessionFactory().openSession();
+       /* Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Bdu nuevo = (Bdu) session.get(Bdu.class, e.getRqtKey());
         nuevo.setBnkKey(e.getBnkKey());;
@@ -48,7 +60,7 @@ public class BduDaoImp implements BduDao {
 
     @Override
     public void deleteBdu(Integer id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Bdu e = findByID(id);
         session.delete(e);
@@ -59,7 +71,7 @@ public class BduDaoImp implements BduDao {
 
     @Override
     public Bdu findByID(Integer id) {   
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         Bdu e = (Bdu) session.get(Bdu.class, id);
         session.close();
         return e;
@@ -67,7 +79,7 @@ public class BduDaoImp implements BduDao {
    
    
     public void deleteAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("DELETE FROM Bdu");
         query.executeUpdate();

@@ -10,12 +10,9 @@ import javax.faces.context.FacesContext;
 import sys.dao.TransactionDao;
 import sys.dao.imp.TransactionDaoImp;
 import sys.model.Transaction;
-
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import sys.util.*;
+
 
 @ManagedBean(name="transactionBean")
 @SessionScoped
@@ -56,7 +53,13 @@ public class TransactionBean implements Serializable {
 	} 
 	
 	public void deleteTransaction() {
-		ct.deleteTransaction(transaction.getSystems_trace_number());
+		if (transaction == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
+		}
+		else {
+			ct.deleteTransaction(transaction.getSystems_trace_number());
+		}	
+		
 	}
 	
 	public void addTransaction() {

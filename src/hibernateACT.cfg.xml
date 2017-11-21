@@ -3,21 +3,17 @@
 <hibernate-configuration>
   <session-factory>
   
-  											<!--ORACLE -->
+   											<!--ORACLE -->
    <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
    <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
    <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
    <property name="hibernate.connection.username">brayan</property>
-   <property name="hibernate.connection.password">4321</property>   
-   <property name="connection.pool_size">1</property>
-   <property name="show_sql">true</property>
-   <property name="hibernate.format_sql">true</property>
+   <property name="hibernate.connection.password">4321</property>
+   <property name="show_sql">false</property>
    
-   <mapping class="sys.model.Transaction"/>
-   <mapping class="sys.model.User"/>
-   <mapping class="sys.model.Telecarga"/>
-   <mapping class="sys.model.TerminalInfo"/>
-   <mapping class="sys.model.Bdu"/>
-   <mapping class="sys.model.BitacoraError"/>
+
+
+   <mapping class="sys.model.TelecargaACT"/>
+
  </session-factory>
 </hibernate-configuration>

@@ -2,17 +2,16 @@ package sys.bean;
 
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
 import sys.dao.BduDao;
-import sys.dao.TelecargaDao;
+import sys.dao.TelecargaSTDao;
 import sys.dao.imp.BduDaoImp;
-import sys.dao.imp.TelecargaDaoImp;
+import sys.dao.imp.TelecargaSTDaoImp;
 import sys.model.Bdu;
-import sys.model.Telecarga;
-
+import sys.model.TelecargaST;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,13 +21,13 @@ import java.util.List;
 public class TelecargaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	TelecargaDao ct = new TelecargaDaoImp();   
+	
+	TelecargaSTDao ct = new TelecargaSTDaoImp();   
 	BduDao cb = new BduDaoImp();
 	
-	private Telecarga Telecarga;  
+	private TelecargaST telecargaST;  
 	private Bdu bdu; 
-	private List<Telecarga> listTelecargas;
+	private List<TelecargaST> listTelecargas;
 	private List<Bdu> listBdus;
 	FacesContext context;
 	
@@ -38,16 +37,16 @@ public class TelecargaBean implements Serializable {
     
 	@PostConstruct
     public void init() {
-		this.Telecarga = new Telecarga();
+		this.telecargaST = new TelecargaST();
 		this.bdu = new Bdu();
     }
 	
-	public Telecarga getTelecarga() {
-		return Telecarga;
+	public TelecargaST getTelecarga() {
+		return telecargaST;
 	}
 	
-	public void setTelecarga(Telecarga Telecarga) {
-		this.Telecarga = Telecarga;
+	public void setTelecarga(TelecargaST telecargaST) {
+		this.telecargaST = telecargaST;
 	}
 	
 	public Bdu getBdu() {
@@ -58,13 +57,13 @@ public class TelecargaBean implements Serializable {
 		this.bdu = bdu;
 	}
 	
-	public List<Telecarga> getListTelecargas() {
+	public List<TelecargaST> getListTelecargas() {
 		System.out.println("buscando telecargas");
 		listTelecargas = ct.listTelecargas();
 		return listTelecargas;
 	}
 	
-	public void setListTelecargas(List<Telecarga> listTelecargas) {
+	public void setListTelecargas(List<TelecargaST> listTelecargas) {
 		this.listTelecargas = listTelecargas;
 	} 
 	
@@ -80,8 +79,13 @@ public class TelecargaBean implements Serializable {
 	
 	
 	public void eliminarTelecarga() {
-		System.out.println("Enttrando a eliminar " +Telecarga.getRqtKey());
-		ct.deleteTelecarga(Telecarga.getRqtKey());
+		if (telecargaST == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
+		}
+		else {
+			ct.deleteTelecarga(telecargaST.getRqtKey());
+		}	
+		
 	}
 	
 	public void getParamtersFromMaster() {
@@ -92,5 +96,5 @@ public class TelecargaBean implements Serializable {
 			
 			e.printStackTrace();
 		}
-		}
+	}
 }

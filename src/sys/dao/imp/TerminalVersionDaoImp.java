@@ -1,19 +1,19 @@
 package sys.dao.imp;
 
 import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import sys.dao.TerminalInfoDao;
-import sys.model.TerminalInfo;
+import sys.model.TerminalVersion;
 import sys.util.HibernateUtilST;
 
-public class TerminalInfoDaoImp implements TerminalInfoDao{
-   
-    HibernateUtilST hu = new HibernateUtilST();
+public class TerminalVersionDaoImp {
 
-    @Override
-    public Integer addTerminalInfo(TerminalInfo e) {
+	 HibernateUtilST hu = new HibernateUtilST();
+
+    //@Override
+    public Integer addTerminalVersion(TerminalVersion e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(e); 
@@ -23,31 +23,21 @@ public class TerminalInfoDaoImp implements TerminalInfoDao{
         return e.getId();
     }
 
-    @Override
-    public  List<TerminalInfo> listTerminalInfos() {
+    //@Override
+    public  List<TerminalVersion> listTerminalVersions() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
-        List<TerminalInfo> listaTerminalInfo = session.createQuery("FROM TerminalInfo").list();
+        List<TerminalVersion> listaTerminalVersion = session.createQuery("FROM TerminalVersion").list();
         session.close();
-        System.out.println("Found " + listaTerminalInfo.size() + " TerminalInfo");
-        return listaTerminalInfo;
+        System.out.println("Found " + listaTerminalVersion.size() + " TerminalVersion");
+        return listaTerminalVersion;
     }
-    
-    @Override
-    public  TerminalInfo findTerminalInfoByFolio (Integer folio) {
-	    Session session = HibernateUtilST.getSessionFactory().openSession();
-	    TerminalInfo tel = (TerminalInfo) session.createQuery("FROM TerminalInfo as t WHERE t.numeroFolio = "+folio).uniqueResult();
-	    //TerminalInfo tel = (TerminalInfo) session.createQuery("FROM solicitud WHERE numeroFolio = 1011").uniqueResult();
-	    //TerminalInfo tel =  (TerminalInfo) session.createQuery("FROM TerminalInfo as t WHERE t.numeroFolio =:numeroFolio").setParameter("numeroFolio", folio).uniqueResult();
-	    session.close();
-        return tel;
-    }
-    
-    @Override
-    public void modifyTerminalInfo(TerminalInfo e) {
+ 
+    //@Override
+   /* public void modifyTerminalVersion(TerminalVersion e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
-        TerminalInfo nuevo = (TerminalInfo) session.get(TerminalInfo.class, e.getId());
+        TerminalVersion nuevo = (TerminalVersion) session.get(TerminalVersion.class, e.getId());
         nuevo.setMarca(e.getMarca());
         nuevo.setModelo(e.getModelo());
         nuevo.setNumeroFolio(e.getNumeroFolio());
@@ -56,39 +46,42 @@ public class TerminalInfoDaoImp implements TerminalInfoDao{
         session.getTransaction().commit();
         session.close();
         System.out.println("Successfully updated " + e.toString());
-    }
+    }*/
 
-    @Override
-    public void deleteTerminalInfo(Integer id) {
+   // @Override
+    public void deleteTerminalVersion(Integer id) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
-        TerminalInfo e = findByID(id);
+        TerminalVersion e = findByID(id);
         session.delete(e);
         session.getTransaction().commit();
         session.close();
         System.out.println("Successfully deleted " + e.toString());
     }
 
-    @Override
-    public TerminalInfo findByID(Integer id) {   
+    //@Override
+    public TerminalVersion findByID(Integer id) {   
         Session session = HibernateUtilST.getSessionFactory().openSession();
-        TerminalInfo e = (TerminalInfo) session.get(TerminalInfo.class, id);
+        TerminalVersion e = (TerminalVersion) session.get(TerminalVersion.class, id);
         session.close();
         return e;
     }
    
-   
     public void deleteAll() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("DELETE FROM TerminalInfo");
+        Query query = session.createQuery("DELETE FROM TerminalVersion");
         query.executeUpdate();
         session.getTransaction().commit();
         session.close();
-        System.out.println("Successfully deleted all TerminalInfo.");
+        System.out.println("Successfully deleted all TerminalVersion.");
 
     }
-    
-      
-}
 
+    public Double findLastVersionOfModel (String modelo, String tipoApp) {
+	    Session session = HibernateUtilST.getSessionFactory().openSession();
+	    Double tel = (Double) session.createQuery("SELECT MAX(t.version) FROM TerminalVersion as t WHERE t.tipo_aplicacion = '"+tipoApp+"' AND t.modelo = '"+modelo+"'").uniqueResult();
+  	    session.close();
+        return tel;
+    }
+}

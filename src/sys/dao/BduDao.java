@@ -10,5 +10,6 @@ public interface BduDao {
 	public void modifyBdu(Bdu e);
 	public void deleteBdu(Integer id);
 	public Bdu findByID(Integer id);
+	public Bdu findBduByFolio(String folio);
 	
 }
