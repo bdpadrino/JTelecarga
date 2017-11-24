@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +18,11 @@ public class Bdu implements Serializable {
 	private static final long serialVersionUID = -8439176865751764993L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="incrementoBdu")
+	@SequenceGenerator(
+	    name="incrementoBdu",
+		sequenceName="idBdu_seq",
+		allocationSize=1)
     @Column(name = "id")
 	private int 	id;		
 	@Column(name = "comAfiliación")
@@ -52,7 +60,6 @@ public class Bdu implements Serializable {
 	public Bdu() {
 
 	}
-	
 	
 	
 	public Bdu(int id, Integer membershipComm, String commerceName, Integer tcFolio, String terId, char operativeTer,

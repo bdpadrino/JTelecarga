@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "bitacora_errores")
+@Table(name = "BITACORA_ERRORES")
 public class BitacoraError {
 	
 	@Id
@@ -19,7 +19,7 @@ public class BitacoraError {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="incrementoBitacora")
 	@SequenceGenerator(
 	    name="incrementoBitacora",
-	    sequenceName="trans_seq",
+	    sequenceName="idBitacoraError_seq",
 	    allocationSize=1
 	)
 	private Integer id;  	

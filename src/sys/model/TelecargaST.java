@@ -6,13 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+//import javax.persistence.Transient;
 
 
 @Entity
-@Table(name = "Telecarga")
+@Table(name = "TELECARGA")
 public class TelecargaST {
 
 	@Id
@@ -21,7 +23,9 @@ public class TelecargaST {
 	    name="incrementoIdTelecargaST",
 		sequenceName="idTelecargaST_seq",
 		allocationSize=1)
-    @Column(name = "solCve")
+	@Column(name = "id")
+	private Integer id;
+	@Column(name = "solCve")
 	private Integer rqtKey;  				//Clave de solicitud, (no se usa)
 	@Column(name = "bcoCve")
 	private Integer bnkKey;					//Clave del banco
@@ -143,7 +147,9 @@ public class TelecargaST {
 	private Boolean updateApp;				//Bandera para saber si es necesario actualizar la app
 	
 	//NUEVOS
-	@Transient 
+	//@Transient 
+	@OneToOne
+    @JoinColumn(name = "fkBdu")
 	private Bdu bduParameters;	
 
 	public Bdu getBduParameters() {
@@ -153,6 +159,12 @@ public class TelecargaST {
 		this.bduParameters = bduParameters;
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Integer getRqtKey() {
 		return rqtKey;
 	}
@@ -515,13 +527,13 @@ public class TelecargaST {
 	}
 	@Override
 	public String toString() {
-		return "TelecargaST [rqtKey=" + rqtKey + ", bnkKey=" + bnkKey + ", bnkName=" + bnkName + ", terId=" + terId
-				+ ", appDesc=" + appDesc + ", planDesc=" + planDesc + ", operativeTer=" + operativeTer
-				+ ", forceSaleTer=" + forceSaleTer + ", membershipComm=" + membershipComm + ", commerceName="
-				+ commerceName + ", commerceAddres=" + commerceAddres + ", populaitonName=" + populaitonName
-				+ ", orderDate=" + orderDate + ", terminalMark=" + terminalMark + ", terminalModel=" + terminalModel
-				+ ", encrTermId=" + encrTermId + ", tcFolio=" + tcFolio + ", paperKey=" + paperKey + ", zipCode="
-				+ zipCode + ", allowPreGratif=" + allowPreGratif + ", allowPostGratif=" + allowPostGratif
+		return "TelecargaST [id=" + id + ", rqtKey=" + rqtKey + ", bnkKey=" + bnkKey + ", bnkName=" + bnkName
+				+ ", terId=" + terId + ", appDesc=" + appDesc + ", planDesc=" + planDesc + ", operativeTer="
+				+ operativeTer + ", forceSaleTer=" + forceSaleTer + ", membershipComm=" + membershipComm
+				+ ", commerceName=" + commerceName + ", commerceAddres=" + commerceAddres + ", populaitonName="
+				+ populaitonName + ", orderDate=" + orderDate + ", terminalMark=" + terminalMark + ", terminalModel="
+				+ terminalModel + ", encrTermId=" + encrTermId + ", tcFolio=" + tcFolio + ", paperKey=" + paperKey
+				+ ", zipCode=" + zipCode + ", allowPreGratif=" + allowPreGratif + ", allowPostGratif=" + allowPostGratif
 				+ ", allowCashback=" + allowCashback + ", returnLimit=" + returnLimit + ", registryVersion="
 				+ registryVersion + ", macFlag=" + macFlag + ", authPhoneNumber=" + authPhoneNumber
 				+ ", avantelPhoneNumber=" + avantelPhoneNumber + ", telmexPhoneNumber=" + telmexPhoneNumber
@@ -535,9 +547,7 @@ public class TelecargaST {
 				+ keybnk + ", esn=" + esn + ", ip=" + ip + ", port=" + port + ", servicommerceCount="
 				+ servicommerceCount + ", country=" + country + ", currency=" + currency + ", promotions=" + promotions
 				+ ", qpsMaxAmount=" + qpsMaxAmount + ", qpsPrintLegend=" + qpsPrintLegend + ", updateApp=" + updateApp
-				+ "]";
+				+ ", bduParameters=" + bduParameters + "]";
 	}
-
-	
 	
 }

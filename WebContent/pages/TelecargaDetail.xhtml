@@ -23,206 +23,245 @@
 
      	 <div class="box box-primary"> 
          	
-          <div class="box-body">                                   
-            <h:form id="form">
-	            <p:panelGrid columns="2">
-				    <f:facet name="header">
-				       TELECARGA1PQ98_U
-				    </f:facet>
-				 
-				    <h:outputText value="Id:" />
-					<h:outputText value="#{telecargaBean.telecarga.rqtKey}" />
-					
-					<h:outputText value="Clave del banco:" />
-					<h:outputText value="#{telecargaBean.telecarga.bnkKey}" />
-					
-					<h:outputText value="Nombre del banco:" />
-					<h:outputText value="#{telecargaBean.telecarga.bnkName}" />
-					
-					<h:outputText value="Tipo de Transaccion:" />
-					<h:outputText value="#{telecargaBean.telecarga.terId}" />
-					
-					<h:outputText value="Descripción de la aplicación:" />
-					<h:outputText value="#{telecargaBean.telecarga.appDesc}" />
-					
-					<h:outputText value="Descripción del plan:" />
-					<h:outputText value="#{telecargaBean.telecarga.planDesc}" />
-					
-					<h:outputText value="Terminal operativa:" />
-					<h:outputText value="#{telecargaBean.telecarga.operativeTer}" />
-					
-					<h:outputText value="Lleva venta forzada:" />
-					<h:outputText value="#{telecargaBean.telecarga.forceSaleTer}"/>
-					
-					<h:outputText value="Número de afiliación del comercio:" />
-					<h:outputText value="#{telecargaBean.telecarga.membershipComm}"/>
-					
-					<h:outputText value="Nombre del comercio:" />
-					<h:outputText value="#{telecargaBean.telecarga.commerceName}"/>
-					
-					<h:outputText value="Domicilio del comercio:" />
-					<h:outputText value="#{telecargaBean.telecarga.commerceAddres}"/>
-					
-					<h:outputText value="Población del comercio:" />
-					<h:outputText value="#{telecargaBean.telecarga.populaitonName}"/>
-					
-					<h:outputText value="Fecha de captura de la orden de trabajo:" />
-					<h:outputText value="#{telecargaBean.telecarga.orderDate}"/>
-					
-					<h:outputText value="Marca de terminal:" />
-					<h:outputText value="#{telecargaBean.telecarga.terminalMark}"/>
-					
-					<h:outputText value="Modelo de terminal:" />
-					<h:outputText value="#{telecargaBean.telecarga.terminalModel}"/>
-					
-					<h:outputText value="Valor del numero de terminal:" />
-					<h:outputText value="#{telecargaBean.telecarga.encrTermId}"/>
-					
-					<h:outputText value="Folio de telecarga:" />
-					<h:outputText value="#{telecargaBean.telecarga.tcFolio}"/>
-					
-					<h:outputText value="Clave de tramite:" />
-					<h:outputText value="#{telecargaBean.telecarga.paperKey}"/>
-					
-					<h:outputText value="Código postal:" />
-					<h:outputText value="#{telecargaBean.telecarga.zipCode}"/>
-					
-					<h:outputText value="Permite prepropina:" />
-					<h:outputText value="#{telecargaBean.telecarga.allowPreGratif}"/>
-					
-					<h:outputText value="Permite pospropina:" />
-					<h:outputText value="#{telecargaBean.telecarga.allowPostGratif}"/>
-					
-					<h:outputText value="Permite cash back:" />
-					<h:outputText value="#{telecargaBean.telecarga.allowCashback}"/>
-					
-					<h:outputText value="Indica el limite de devolución:" />
-					<h:outputText value="#{telecargaBean.telecarga.returnLimit}"/>
-					
-					<h:outputText value="Versión del registro:" />
-					<h:outputText value="#{telecargaBean.telecarga.registryVersion}"/>
-					
-					<h:outputText value="informativo:" />
-					<h:outputText value="#{telecargaBean.telecarga.macFlag}"/>
-					
-					<h:outputText value="Teléfono local:" />
-					<h:outputText value="#{telecargaBean.telecarga.authPhoneNumber}"/>
-					
-					<h:outputText value="Teléfono secundario:" />
-					<h:outputText value="#{telecargaBean.telecarga.avantelPhoneNumber}"/>
-					
-					<h:outputText value="Días para petición de telecarga:" />
-					<h:outputText value="#{telecargaBean.telecarga.tcDaysCount}"/>
-					
-					<h:outputText value="Comisión app gasolinera:" />
-					<h:outputText value="#{telecargaBean.telecarga.serviceCarCom}"/>
-					
-					<h:outputText value="Solo para app de gasolinera:" />
-					<h:outputText value="#{telecargaBean.telecarga.comIva}"/>
-					
-					<h:outputText value="Folio perteneciente:" />
-					<h:outputText value="#{telecargaBean.telecarga.comMultimerchant}"/>
-					
-					<h:outputText value="Clave de devolución:" />
-					<h:outputText value="#{telecargaBean.telecarga.returnKey}"/>
-					
-					<h:outputText value="Leyenda en pagare 2560:" />
-					<h:outputText value="#{telecargaBean.telecarga.girKey}"/>
-					
-					<h:outputText value="Leyenda en pagare 5969:" />
-					<h:outputText value="#{telecargaBean.telecarga.sicKey}"/>
-					
-					<h:outputText value="Aplicación exclusiva 1:" />
-					<h:outputText value="#{telecargaBean.telecarga.paysheetApp}"/>
-					
-					<h:outputText value="Aplicación exclusiva 2:" />
-					<h:outputText value="#{telecargaBean.telecarga.amexApp}"/>
-					
-					<h:outputText value="Aplicación exclusiva 3:" />
-					<h:outputText value="#{telecargaBean.telecarga.dinersApp}"/>
-					
-					<h:outputText value="Id de comercios con app de servicomercios:" />
-					<h:outputText value="#{telecargaBean.telecarga.servicomId}"/>
-					
-					<h:outputText value="Agencia de viajes:" />
-					<h:outputText value="#{telecargaBean.telecarga.travelAgent}"/>
-					
-					<h:outputText value="Id de comercios con indicadores:" />
-					<h:outputText value="#{telecargaBean.telecarga.eCommerceId}"/>
-					
-					<h:outputText value="ID catalogo BDU:" />
-					<h:outputText value="#{telecargaBean.telecarga.carrierKey}"/>
-					
-					<h:outputText value="Usuario del terminal:" />
-					<h:outputText value="#{telecargaBean.telecarga.terminalUser}"/>
-					
-					<h:outputText value="Solo aplica para la telefonía CDMA:" />
-					<h:outputText value="#{telecargaBean.telecarga.terminalId}"/>
-					
-					<h:outputText value="Tipo de servicio que presta cada proveedor:" />
-					<h:outputText value="#{telecargaBean.telecarga.serviceType}"/>
-					
-					<h:outputText value="Numero telefónico al cual la terminal realizara la llamada dependiendo del proveedor1:" />
-					<h:outputText value="#{telecargaBean.telecarga.phoneCarrier1}"/>
-					
-					<h:outputText value="Numero telefónico al cual la terminal realizara la llamada dependiendo del proveedor2:" />
-					<h:outputText value="#{telecargaBean.telecarga.phoneCarrier2}"/>
-					
-					<h:outputText value="Numero telefónico al cual la terminal realizara la llamada dependiendo del proveedor3:" />
-					<h:outputText value="#{telecargaBean.telecarga.phoneCarrier3}"/>
-					
-					<h:outputText value="Se asigna el APN:" />
-					<h:outputText value="#{telecargaBean.telecarga.keybnk}"/>
-					
-					<h:outputText value="Numero de serie:" />
-					<h:outputText value="#{telecargaBean.telecarga.esn}"/>
-					
-					<h:outputText value="Direccion ip:" />
-					<h:outputText value="#{telecargaBean.telecarga.ip}"/>
-					
-					<h:outputText value="Desarrollo: 1515:" />
-					<h:outputText value="#{telecargaBean.telecarga.port}"/>
-					
-					<h:outputText value="Comercios asociados:" />
-					<h:outputText value="#{telecargaBean.telecarga.servicommerceCount}"/>
-					
-					<h:outputText value="Pais residente de la terminal:" />
-					<h:outputText value="#{telecargaBean.telecarga.country}"/>
-					
-					<h:outputText value="Moneda:" />
-					<h:outputText value="#{telecargaBean.telecarga.currency}"/>
-					
-					<h:outputText value="Promociones validas:" />
-					<h:outputText value="#{telecargaBean.telecarga.promotions}"/>
-					
-					<h:outputText value="Monto maximo permitido para QPS:" />
-					<h:outputText value="#{telecargaBean.telecarga.qpsMaxAmount}"/>
-					
-					<h:outputText value="Leyenda de impresión para QPS:" />
-					<h:outputText value="#{telecargaBean.telecarga.qpsPrintLegend}"/>
-					      
-				</p:panelGrid>			
-				
-	  		</h:form> 
+          <div class="box-body">     
+           	<div class="col-md-6">                            
+	            <h:form id="form">
+	            
+		            <p:panelGrid columns="2">
+					    <f:facet name="header">
+					       TELECARGA1PQ98_U
+					    </f:facet>
+					 
+					    <h:outputText value="Id:" />
+						<h:outputText value="#{telecargaBean.telecarga.rqtKey}" />
+						
+						<h:outputText value="Clave del banco:" />
+						<h:outputText value="#{telecargaBean.telecarga.bnkKey}" />
+						
+						<h:outputText value="Nombre del banco:" />
+						<h:outputText value="#{telecargaBean.telecarga.bnkName}" />
+						
+						<h:outputText value="Tipo de Transaccion:" />
+						<h:outputText value="#{telecargaBean.telecarga.terId}" />
+						
+						<h:outputText value="Descripción de la aplicación:" />
+						<h:outputText value="#{telecargaBean.telecarga.appDesc}" />
+						
+						<h:outputText value="Descripción del plan:" />
+						<h:outputText value="#{telecargaBean.telecarga.planDesc}" />
+						
+						<h:outputText value="Terminal operativa:" />
+						<h:outputText value="#{telecargaBean.telecarga.operativeTer}" />
+						
+						<h:outputText value="Lleva venta forzada:" />
+						<h:outputText value="#{telecargaBean.telecarga.forceSaleTer}"/>
+						
+						<h:outputText value="Número de afiliación del comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.membershipComm}"/>
+						
+						<h:outputText value="Nombre del comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.commerceName}"/>
+						
+						<h:outputText value="Domicilio del comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.commerceAddres}"/>
+						
+						<h:outputText value="Población del comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.populaitonName}"/>
+						
+						<h:outputText value="Fecha de captura de la orden de trabajo:" />
+						<h:outputText value="#{telecargaBean.telecarga.orderDate}"/>
+						
+						<h:outputText value="Marca de terminal:" />
+						<h:outputText value="#{telecargaBean.telecarga.terminalMark}"/>
+						
+						<h:outputText value="Modelo de terminal:" />
+						<h:outputText value="#{telecargaBean.telecarga.terminalModel}"/>
+						
+						<h:outputText value="Valor del numero de terminal Id de Conexion a Base24:" />
+						<h:outputText value="#{telecargaBean.telecarga.encrTermId}"/>
+						
+						<h:outputText value="Folio de telecarga:" />
+						<h:outputText value="#{telecargaBean.telecarga.tcFolio}"/>
+						
+						<h:outputText value="Clave de tramite:" />
+						<h:outputText value="#{telecargaBean.telecarga.paperKey}"/>
+						
+						<h:outputText value="Código postal:" />
+						<h:outputText value="#{telecargaBean.telecarga.zipCode}"/>
+						
+						<h:outputText value="Permite prepropina:" />
+						<h:outputText value="#{telecargaBean.telecarga.allowPreGratif}"/>
+						
+						<h:outputText value="Permite pospropina:" />
+						<h:outputText value="#{telecargaBean.telecarga.allowPostGratif}"/>
+						
+						<h:outputText value="Permite cash back:" />
+						<h:outputText value="#{telecargaBean.telecarga.allowCashback}"/>
+						
+						<h:outputText value="Indica el limite de devolución:" />
+						<h:outputText value="#{telecargaBean.telecarga.returnLimit}"/>
+						
+						<h:outputText value="Versión del registro:" />
+						<h:outputText value="#{telecargaBean.telecarga.registryVersion}"/>
+						
+						<h:outputText value="informativo:" />
+						<h:outputText value="#{telecargaBean.telecarga.macFlag}"/>
+						
+						<h:outputText value="Teléfono local:" />
+						<h:outputText value="#{telecargaBean.telecarga.authPhoneNumber}"/>
+						
+						<h:outputText value="Teléfono secundario:" />
+						<h:outputText value="#{telecargaBean.telecarga.avantelPhoneNumber}"/>
+						
+						<h:outputText value="Días para petición de telecarga:" />
+						<h:outputText value="#{telecargaBean.telecarga.tcDaysCount}"/>
+						
+						<h:outputText value="Comisión app gasolinera:" />
+						<h:outputText value="#{telecargaBean.telecarga.serviceCarCom}"/>
+						
+						<h:outputText value="Solo para app de gasolinera:" />
+						<h:outputText value="#{telecargaBean.telecarga.comIva}"/>
+						
+						<h:outputText value="Folio perteneciente:" />
+						<h:outputText value="#{telecargaBean.telecarga.comMultimerchant}"/>
+						
+						<h:outputText value="Clave de devolución:" />
+						<h:outputText value="#{telecargaBean.telecarga.returnKey}"/>
+						
+						<h:outputText value="Leyenda en pagare 2560:" />
+						<h:outputText value="#{telecargaBean.telecarga.girKey}"/>
+						
+						<h:outputText value="Leyenda en pagare 5969:" />
+						<h:outputText value="#{telecargaBean.telecarga.sicKey}"/>
+						
+						<h:outputText value="Aplicación exclusiva 1:" />
+						<h:outputText value="#{telecargaBean.telecarga.paysheetApp}"/>
+						
+						<h:outputText value="Aplicación exclusiva 2:" />
+						<h:outputText value="#{telecargaBean.telecarga.amexApp}"/>
+						
+						<h:outputText value="Aplicación exclusiva 3:" />
+						<h:outputText value="#{telecargaBean.telecarga.dinersApp}"/>
+						
+						<h:outputText value="Id de comercios con app de servicomercios:" />
+						<h:outputText value="#{telecargaBean.telecarga.servicomId}"/>
+						
+						<h:outputText value="Agencia de viajes:" />
+						<h:outputText value="#{telecargaBean.telecarga.travelAgent}"/>
+						
+						<h:outputText value="Id de comercios con indicadores:" />
+						<h:outputText value="#{telecargaBean.telecarga.eCommerceId}"/>
+						
+						<h:outputText value="ID catalogo BDU:" />
+						<h:outputText value="#{telecargaBean.telecarga.carrierKey}"/>
+						
+						<h:outputText value="Usuario del terminal:" />
+						<h:outputText value="#{telecargaBean.telecarga.terminalUser}"/>
+						
+						<h:outputText value="Solo aplica para la telefonía CDMA:" />
+						<h:outputText value="#{telecargaBean.telecarga.terminalId}"/>
+						
+						<h:outputText value="Tipo de servicio que presta cada proveedor:" />
+						<h:outputText value="#{telecargaBean.telecarga.serviceType}"/>
+						
+						<h:outputText value="Numero telefónico al cual la terminal realizara la llamada dependiendo del proveedor1:" />
+						<h:outputText value="#{telecargaBean.telecarga.phoneCarrier1}"/>
+						
+						<h:outputText value="Numero telefónico al cual la terminal realizara la llamada dependiendo del proveedor2:" />
+						<h:outputText value="#{telecargaBean.telecarga.phoneCarrier2}"/>
+						
+						<h:outputText value="Numero telefónico al cual la terminal realizara la llamada dependiendo del proveedor3:" />
+						<h:outputText value="#{telecargaBean.telecarga.phoneCarrier3}"/>
+						
+						<h:outputText value="Se asigna el APN:" />
+						<h:outputText value="#{telecargaBean.telecarga.keybnk}"/>
+						
+						<h:outputText value="Numero de serie:" />
+						<h:outputText value="#{telecargaBean.telecarga.esn}"/>
+						
+						<h:outputText value="Direccion ip:" />
+						<h:outputText value="#{telecargaBean.telecarga.ip}"/>
+						
+						<h:outputText value="Desarrollo: 1515:" />
+						<h:outputText value="#{telecargaBean.telecarga.port}"/>
+						
+						<h:outputText value="Comercios asociados:" />
+						<h:outputText value="#{telecargaBean.telecarga.servicommerceCount}"/>
+						
+						<h:outputText value="Pais residente de la terminal:" />
+						<h:outputText value="#{telecargaBean.telecarga.country}"/>
+						
+						<h:outputText value="Moneda:" />
+						<h:outputText value="#{telecargaBean.telecarga.currency}"/>
+						
+						<h:outputText value="Promociones validas:" />
+						<h:outputText value="#{telecargaBean.telecarga.promotions}"/>
+						
+						<h:outputText value="Monto maximo permitido para QPS:" />
+						<h:outputText value="#{telecargaBean.telecarga.qpsMaxAmount}"/>
+						
+						<h:outputText value="Leyenda de impresión para QPS:" />
+						<h:outputText value="#{telecargaBean.telecarga.qpsPrintLegend}"/>
+						      
+					</p:panelGrid>			
+		  		</h:form> 
+	  		</div><!-- col-md6 -->  
 	  		
-	  		
-	  		<h:form id="bduForm"> 
-		  		<p:button  value="Ver BDU" action="#{telecargaBean.listBdus}">
-				</p:button>
-			
-  				<p:panelGrid columns="2">
-				    <f:facet name="header">
-				       BDU_MULT
-				    </f:facet>
-	  				
-					<h:outputText value="Nombre del Comercio:" />
-					<h:outputText value="#{telecargaBean.bdu.commerceName}"/>
-					
-					<h:outputText value="Nombre del Comercio:" />
-					<h:outputText value="#{productId}"/>
-					
-				</p:panelGrid>	
-			</h:form> 
+	  		<div class="col-md-6">   
+		  		<h:form id="bduForm"> 
+			  	 	<p:panelGrid columns="2">
+					    <f:facet name="header">
+					       BDU_MULT
+					    </f:facet>
+		  				
+	  					<h:outputText value="Número de afiliación del comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.membershipComm}"/>
+						
+		  				<h:outputText value="Nombre del Comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.commerceName}"/>
+						
+						<h:outputText value="Folio de telecarga:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.tcFolio}"/>
+						
+						<h:outputText value="Numero de la caja de la terminal:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.terId}"/>
+						
+						<h:outputText value="Terminal operativa:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.operativeTer}"/>
+						
+						<h:outputText value="Nombre del Comercio:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.commerceName}"/>
+						
+						<h:outputText value="Lleva venta forzada::" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.forceSaleTer}"/>
+						
+						<h:outputText value="Valor del numero de terminal Id de Conexion a Base24:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.encrTermId}"/>
+						
+						<h:outputText value="Permite prepropina:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.allowPreGratif}"/>
+						
+						<h:outputText value="Permite cashback:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.allowCashback}"/>
+						
+						<h:outputText value="Permite prepropina:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.allowPreGratif}"/>
+						
+						<h:outputText value="Informativo:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.macFlag}"/>
+						
+						<h:outputText value="Descripción de la aplicación:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.appDesc}"/>
+						
+						<h:outputText value="Valor de baja logica:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.bajaLogica}"/>
+						
+						<h:outputText value="Moneda:" />
+						<h:outputText value="#{telecargaBean.telecarga.bduParameters.currency}"/>
+						
+					</p:panelGrid>	
+				</h:form> 
+			</div> <!-- col-md6 -->  
 	  	  </div> <!-- box-body -->
 		</div>  <!-- box-primary -->
         	        

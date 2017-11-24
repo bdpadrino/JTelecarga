@@ -11,8 +11,6 @@ import sys.util.HibernateUtilST;
 
 public class BduDaoImp implements BduDao {
    
-    HibernateUtilST hu = new HibernateUtilST();
-
     @Override
     public Integer addBdu(Bdu e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();

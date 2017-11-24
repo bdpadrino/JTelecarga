@@ -4,16 +4,14 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import sys.dao.TerminalInfoDao;
-import sys.model.TerminalInfo;
+import sys.dao.SolicitudTelecargaDao;
+import sys.model.SolicitudTelecarga;
 import sys.util.HibernateUtilST;
 
-public class TerminalInfoDaoImp implements TerminalInfoDao{
+public class SolicitudTelecargaDaoImp implements SolicitudTelecargaDao {
    
-    HibernateUtilST hu = new HibernateUtilST();
-
-    @Override
-    public Integer addTerminalInfo(TerminalInfo e) {
+	@Override
+    public Integer addSolicitudTelecarga(SolicitudTelecarga e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(e); 
@@ -23,46 +21,45 @@ public class TerminalInfoDaoImp implements TerminalInfoDao{
         return e.getId();
     }
 
-    @Override
-    public  List<TerminalInfo> listTerminalInfos() {
+	@Override
+    public  List<SolicitudTelecarga> listSolicitudTelecargas() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
-        List<TerminalInfo> listaTerminalInfo = session.createQuery("FROM TerminalInfo").list();
+        List<SolicitudTelecarga> listaSolicitudTelecarga = session.createQuery("FROM SolicitudTelecarga").list();
         session.close();
-        System.out.println("Found " + listaTerminalInfo.size() + " TerminalInfo");
-        return listaTerminalInfo;
+        System.out.println("Found " + listaSolicitudTelecarga.size() + " SolicitudTelecarga");
+        return listaSolicitudTelecarga;
     }
     
-    @Override
-    public  TerminalInfo findTerminalInfoByFolio (Integer folio) {
+  @Override
+    public  SolicitudTelecarga findSolicitudTelecargaByFolio (Integer folio) {
 	    Session session = HibernateUtilST.getSessionFactory().openSession();
-	    TerminalInfo tel = (TerminalInfo) session.createQuery("FROM TerminalInfo as t WHERE t.numeroFolio = "+folio).uniqueResult();
-	    //TerminalInfo tel = (TerminalInfo) session.createQuery("FROM solicitud WHERE numeroFolio = 1011").uniqueResult();
-	    //TerminalInfo tel =  (TerminalInfo) session.createQuery("FROM TerminalInfo as t WHERE t.numeroFolio =:numeroFolio").setParameter("numeroFolio", folio).uniqueResult();
+	    SolicitudTelecarga tel = (SolicitudTelecarga) session.createQuery("FROM SolicitudTelecarga as t WHERE t.numeroFolio = "+folio).uniqueResult();
+	    //SolicitudTelecarga tel = (SolicitudTelecarga) session.createQuery("FROM solicitud WHERE numeroFolio = 1011").uniqueResult();
+	    //SolicitudTelecarga tel =  (SolicitudTelecarga) session.createQuery("FROM SolicitudTelecarga as t WHERE t.numeroFolio =:numeroFolio").setParameter("numeroFolio", folio).uniqueResult();
 	    session.close();
         return tel;
     }
     
     @Override
-    public void modifyTerminalInfo(TerminalInfo e) {
+    public void modifySolicitudTelecarga(SolicitudTelecarga e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
-        TerminalInfo nuevo = (TerminalInfo) session.get(TerminalInfo.class, e.getId());
+        SolicitudTelecarga nuevo = (SolicitudTelecarga) session.get(SolicitudTelecarga.class, e.getId());
         nuevo.setMarca(e.getMarca());
         nuevo.setModelo(e.getModelo());
         nuevo.setNumeroFolio(e.getNumeroFolio());
-        nuevo.setTerminal(e.getTerminal());
-        nuevo.setTipo_aplicacion(e.getTipo_aplicacion());
+        nuevo.setTipoAplicacion(e.getTipoAplicacion());
         session.getTransaction().commit();
         session.close();
         System.out.println("Successfully updated " + e.toString());
     }
 
     @Override
-    public void deleteTerminalInfo(Integer id) {
+    public void deleteSolicitudTelecarga(Integer id) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
-        TerminalInfo e = findByID(id);
+        SolicitudTelecarga e = findByID(id);
         session.delete(e);
         session.getTransaction().commit();
         session.close();
@@ -70,9 +67,9 @@ public class TerminalInfoDaoImp implements TerminalInfoDao{
     }
 
     @Override
-    public TerminalInfo findByID(Integer id) {   
+    public SolicitudTelecarga findByID(Integer id) {   
         Session session = HibernateUtilST.getSessionFactory().openSession();
-        TerminalInfo e = (TerminalInfo) session.get(TerminalInfo.class, id);
+        SolicitudTelecarga e = (SolicitudTelecarga) session.get(SolicitudTelecarga.class, id);
         session.close();
         return e;
     }
@@ -81,11 +78,11 @@ public class TerminalInfoDaoImp implements TerminalInfoDao{
     public void deleteAll() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("DELETE FROM TerminalInfo");
+        Query query = session.createQuery("DELETE FROM SolicitudTelecarga");
         query.executeUpdate();
         session.getTransaction().commit();
         session.close();
-        System.out.println("Successfully deleted all TerminalInfo.");
+        System.out.println("Successfully deleted all SolicitudTelecarga.");
 
     }
     

@@ -25,23 +25,14 @@
      	 <div class="box box-primary"> 
      	 <h:form>
          	<div class="box-header with-border">
-         	
-              	<p:commandButton action="#" ajax="false" icon="fa fa-plus"
-                   	            value="Agregar" styleClass="btn-primary"/>
-              	<p:spacer width="5"/>
-                <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
-                                 update="tableStateDT" actionListener="#{terminalInfoBean.eliminarTerminalInfo}"/>
-                <p:spacer width="5"/>                
-                <p:separator/>
-            
-          </div> <!--  box -header -->
-          <div class="box-body">                                   
+          	</div> <!--  box -header -->
+          	<div class="box-body">                                   
                
-   				<p:dataTable id="tableStateDT" var="tele" value="#{terminalInfoBean.listTerminalInfos}" widgetVar="teleTable" multiViewState="true"
+   				<p:dataTable id="tableStateDT" var="tele" value="#{solicitudTelecargaBean.listSolicitudTelecargas}" widgetVar="teleTable" multiViewState="true"
 	                 rows="10" paginator="true" paginatorPosition="bottom" 
 	                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 	                 rowsPerPageTemplate="5,10,15,20"
-	                 selectionMode="single" selection="#{terminalInfoBean.terminalInfo}" rowKey="#{tele.id}"
+	                 selectionMode="single" selection="#{solicitudTelecargaBean.solicitudTelecarga}" rowKey="#{tele.id}"
 	                 emptyMessage="No hay Solicitudes de Telecarga" >
 	                
 	 
@@ -57,35 +48,35 @@
 		  			<p:column headerText="Id" priority="1" width ="50" >
 			            <h:outputText value="#{tele.id}" />
 			        </p:column>
-			        
 			       			        
-			        <p:column headerText="Numero de folio" priority="1" filterBy="#{tele.numeroFolio}" sortBy="#{tele.numeroFolio}" filterMatchMode="contains">
+			        <p:column headerText="Numero de folio" priority="1" filterBy="#{tele.numeroFolio}"  filterMatchMode="contains">
 			            <h:outputText value="#{tele.numeroFolio}" />
 			        </p:column>
 				       
-			       <p:column headerText="Marca" priority="1" filterBy="#{tele.marca}" sortBy="#{tele.marca}" filterMatchMode="contains">
+			       <p:column headerText="Marca" priority="1" filterBy="#{tele.marca}"  filterMatchMode="contains">
 			            <h:outputText value="#{tele.marca}" />
 			        </p:column>
 			        
-			        <p:column headerText="Modelo" priority="1" filterBy="#{tele.modelo}" sortBy="#{tele.modelo}" filterMatchMode="contains">
+			        <p:column headerText="Modelo" priority="1" filterBy="#{tele.modelo}"  filterMatchMode="contains">
 			            <h:outputText value="#{tele.modelo}" />
 			        </p:column>
 			        
-			        <p:column headerText="Serial" priority="2" filterBy="#{tele.terminal}" sortBy="#{tele.terminal}" filterMatchMode="contains">
-			            <h:outputText value="#{tele.terminal}" />
-			        </p:column>
-			        
-			        <p:column headerText="version" priority="1" filterBy="#{tele.version}" sortBy="#{tele.version}" filterMatchMode="contains">
+			        <p:column headerText="Versión" priority="1" filterBy="#{tele.version}"  filterMatchMode="contains">
 			            <h:outputText value="#{tele.version}" />
 			        </p:column>
-			        <p:column headerText="Tipo de aplicacion" priority="2" filterBy="#{tele.tipo_aplicacion}" sortBy="#{tele.tipo_aplicacion}" filterMatchMode="contains">
-			            <h:outputText value="#{tele.tipo_aplicacion}" />
+			        
+			        <p:column headerText="Tipo de aplicacion" priority="2" filterBy="#{tele.tipoAplicacion}"  filterMatchMode="contains">
+			            <h:outputText value="#{tele.tipoAplicacion}" />
+			        </p:column>
+			        
+			         <p:column headerText="Fecha de Solicitud" priority="2" filterBy="#{tele.fechaSolicitud}"  filterMatchMode="contains">
+			            <h:outputText value="#{tele.fechaSolicitud}" />
 			        </p:column>
 				       
 				</p:dataTable>
 	 			
 	 			<p:contextMenu for="tableStateDT">
-			        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{terminalInfoBean.eliminarTerminalInfo}"/>
+			        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{solicitudTelecargaBean.eliminarSolicitudTelecarga}"/>
 			    </p:contextMenu>
  
 		 
