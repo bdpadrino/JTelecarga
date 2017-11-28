@@ -114,6 +114,19 @@
 			<version>1.8</version>
 		</dependency>
 		
+		<!-- JASPER REPORT -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.1.0</version>
+		</dependency>
+		
+		<!-- en prueba para jasper report (no es necesario) -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-fonts</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
 	</dependencies>
   
   

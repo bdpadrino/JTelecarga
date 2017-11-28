@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import sys.dao.BitacoraErrorDao;
 import sys.dao.imp.BitacoraErrorDaoImp;
 import sys.model.BitacoraError;
-import sys.util.Util;
 
 import java.io.Serializable;
 import java.util.List;
@@ -60,12 +59,6 @@ public class BitacoraErrorBean implements Serializable {
 		else {
 			cbe.deleteBitacoraError(bitacoraError.getId());
 		}		
-	}
-	
-	public void generaArchivo() {
-		System.out.println("ENTRO");
-		Util util =new Util();
-		util.writeFile("Err","error por x y z");
 	}
 	
 

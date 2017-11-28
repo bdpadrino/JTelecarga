@@ -18,21 +18,25 @@
     <ui:define name="body">
     	
 	 	<adm:breadcrumb title="Reportes"/>
-		<h:form id="form">
-			<div class="row">
+		
+			<h:form id="form">
 	            <div class="col-md-6">         
 	                <div class="box box-success">  
 	                    <div class="box-header with-border">
 	                        <h3 class="box-title">Selección de Reportes</h3>
 	                    </div>
-	                    <div class="box-body">                              
+	                    <div class="box-body">  
+	                    <p:messages id="messages" autoUpdate="true" closable="true" />                            
 	                            <div class="form-group">
 	                                <div class="col-md-12">  
-	                                    <label>Nombre del Reporte:</label> 
-	                                     <select name="reportName" class="form-control select" style="width: 100%;">
-	                                        <option value="Ausencia de Trabajadores_1.jasper">Transacciones por Lugar</option>
-	                                        <option value="Ausencias por Departamento.jasper">Transacciones 2</option> 
-	                                    </select>
+	                                    <p:outputLabel for="reportName" value="Nombre del Reporte:" />
+						               	<p:selectOneMenu id="reportName" value="#{reportBean.report.reportName}" required="true">
+								            <f:selectItem itemLabel="Select One" itemValue="" />
+								            <f:selectItem itemLabel="Historial de Transacciones" itemValue="Historial de Transacciones.jasper" />
+								            <f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar.jasper" />
+											<f:selectItem itemLabel="Transacciones por Persona" itemValue="Transacciones por Persona.jasper" />							  
+								        </p:selectOneMenu>
+	                                    
 	                                </div>
 	                            </div>   <!-- form-group --> 
 	                            
@@ -42,9 +46,10 @@
 	                                    <div class="input-group date">
 	                                        <div class="input-group-addon">
 	                                          <i class="fa fa-calendar"></i>
-	                                        </div>                                                                     
-	                                        <input type="text" id="datepicker3" name="fechaInicio"  class="form-control pull-right" value="${actual}" >
-	                                         </input>
+	                                        </div>  
+	                                         <p:calendar id="startDate" value="#{reportBean.report.startDate}" pattern="yyyy-MM-dd" required="true">
+								 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+								 			</p:calendar>
 	                                    </div><!-- /.input group date-->  
 	                                </div>
 	                                <div class="col-md-6">  
@@ -53,21 +58,22 @@
 	                                        <div class="input-group-addon">
 	                                            <i class="fa fa-calendar"></i>
 	                                        </div>                                                                     
-	                                        <input type="text" id="datepicker4" name="fechaFin"  class="form-control pull-right" value="${actual}" >
-	                                        </input>
+	                                         <p:calendar id="endDate" value="#{reportBean.report.endDate}" pattern="yyyy-MM-dd" required="true">
+								 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+								 			</p:calendar>
 	                                    </div><!-- /.input group date-->  
 	                                </div>
 	                            </div> <!-- form-group --> 
 	                        </div> <!-- /.box-body -->
 	                        <div class="box-footer">
 	                            <div class="col-md-6"> 
-	                                    <button type="submit" class="btn btn-success" form="reportForm" > 
-	                                <i class="fa fa-file-pdf-o"></i>  Aceptar</button>  
+	                            		<p:commandButton value="Descargar" actionListener="#{reportBean.downloadReport}" class="btn btn-success"  icon="fa fa-download" ajax ="false"/>
+	                            		<p:commandButton value="Ver PDF" actionListener="#{reportBean.generateReportPDF}" class="btn btn-success"  icon="fa fa-file-pdf-o" ajax ="false"/>
 	                            </div>    
 	                        </div> 	                  
 	                </div> <!-- /.box -->
 	            </div>  <!-- /.col-md-6 -->                
-	        </div>  <!-- /.row -->                    
+	                       
 		</h:form> 
     	    
     </ui:define>

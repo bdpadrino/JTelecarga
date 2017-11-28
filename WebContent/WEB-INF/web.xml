@@ -42,6 +42,7 @@
     <param-value>admin</param-value>
   </context-param>
   
+  <!-- USO DE CDI EN TOMCAT -->
   	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
@@ -50,5 +51,7 @@
 		<resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>
 	</resource-env-ref>
   
+  <!-- Jasper Resport -->
+ 
   
 </web-app>

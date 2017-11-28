@@ -1,9 +1,13 @@
 package sys.util;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 
 public class HibernateUtilST {
@@ -27,5 +31,9 @@ public class HibernateUtilST {
             return sessionFactory;
     }
         
+    public static Connection getConnectionHibernate() throws SQLException{
+        Connection c = getSessionFactory().getSessionFactoryOptions().getServiceRegistry().getService(ConnectionProvider.class).getConnection();
+        return c;    
+    } 
 }
 
