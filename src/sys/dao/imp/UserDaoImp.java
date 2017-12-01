@@ -12,8 +12,6 @@ import sys.util.HibernateUtilST;
 
 public class UserDaoImp implements UserDao {
    
-    HibernateUtilST hu = new HibernateUtilST();
-
     @Override
     public Integer addUser(User e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
@@ -79,13 +77,28 @@ public class UserDaoImp implements UserDao {
     }
     
     @Override   
-    public User findByUsername(String username) {   
+    public User findByUsername(String username) {  
         Session session = HibernateUtilST.getSessionFactory().openSession();
-        User e = (User) session.createQuery("FROM User where username = '"+username+"'").uniqueResult();
+        String query = "FROM User u WHERE u.username = '"+username+"'";
+        User user = (User) session.createQuery(query).uniqueResult();
         session.close();
-        return e;
+        return user;
     }
 
+    
+    @Override   
+    public User findByUsernameActive(String username) {  
+        Session session = HibernateUtilST.getSessionFactory().openSession();
+        String query = "FROM User u WHERE u.username = '"+username+"' AND u.estatus = 'Activo' ";
+        User user = (User) session.createQuery(query).uniqueResult();
+        /*Query query = session.createQuery("FROM User u WHERE u.username = ':usuario' AND u.status = ':estatus'");
+        query.setString("usuario", username);
+        query.setString("estatus", "Activo");        
+        User e = (User) query.uniqueResult();*/
+        session.close();
+       
+        return user;
+    }
 	
 }
 

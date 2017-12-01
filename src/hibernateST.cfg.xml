@@ -11,10 +11,10 @@
    <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
    <property name="hibernate.connection.username">brayan</property>
    <property name="hibernate.connection.password">4321</property>
-   <property name="show_sql">false</property>
+   <property name="show_sql">true</property>
    
-   <mapping class="sys.model.Transaction"/>
    <mapping class="sys.model.SolicitudTelecarga"/>
+   <mapping class="sys.model.Transaction"/>
    <mapping class="sys.model.TerminalVersion"/>
    <mapping class="sys.model.TelecargaST"/>
    <mapping class="sys.model.TelecargaACT"/>

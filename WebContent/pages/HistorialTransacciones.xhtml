@@ -118,7 +118,7 @@
 				 			<p:contextMenu for="tableStateDT">
 						        <p:menuitem value="Ver Detalle" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
 						        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{transactionBean.deleteTransaction}"/>
-						    	<p:menuitem value="Modificar" icon="ui-icon-pencil" oncomplete="PF('@modifyForm:modifyDialog').show()" />
+						    	<p:menuitem value="Modificar" icon="ui-icon-pencil" oncomplete="PF('@modifyForm:modifyDialog').show()"  />
 						    </p:contextMenu>
 			 
 							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
@@ -245,57 +245,74 @@
 					  </div><!-- tab-pane 2--> 
 					   <div class="tab-pane" id="tab_3">
 						  <h:form id="modifyForm">
-						  		<p:dialog header="Modificar Transacción " widgetVar="modifyDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
-						        <p:outputPanel id="modifyDetail">
-						            <p:panelGrid  columns="2" rendered="#{not empty transactionBean.listTransactions}">
-						             	<!-- <h:outputText value="Id:" />
-						                <h:outputText value=" #{transactionBean.transaction.systems_trace_number}" />  -->
-						               
-						                <h:outputText value="Tipo de Transaccion:" />
-						                <h:outputText value="#{transactionBean.transaction.transaction_type}" />
-						                
-						                <h:outputText value="Modo de Entrada:" />
-						                <h:outputText value="#{transactionBean.transaction.pos_entry_mode}" />
-						                
-						                <h:outputText value="Modelo del Terminal:" />
-						                <h:outputText value="#{transactionBean.transaction.model}" />
-						                
-						                <h:outputText value="Serial del Terminal:" />
-						                <h:outputText value="#{transactionBean.transaction.card_acceptor_terminal_id}" />			                
-						                
-				                      	<h:outputText value="Currency:"/>
-						                <h:outputText value="#{transactionBean.transaction.currency}" />
-						                
-						                <h:outputText value="Emisor:"/>
-						                <h:outputText value="#{transactionBean.transaction.issuer}" />			                
-						                
-						                <h:outputText value="Comercio:"/>
-						                <h:outputText value="#{transactionBean.transaction.card_acceptor_name}"/>
-						 
-						                <h:outputText value="Tarjetahabiente:" />
-						                <h:outputText value="#{transactionBean.transaction.card_holder}"/>
-						 
-						                <h:outputText value="Numero de Tarjeta:" />
-						                <h:outputText value="#{transactionBean.transaction.pan}" />			                
-						                
-						                <h:outputText value="Monto:" />
-						                <h:outputText value="#{transactionBean.transaction.amount_transaction}" />
-						                
-						               	<h:outputText value="Fecha:" />
-						                <h:outputText value="#{transactionBean.transaction.date_transaction}">
-							            	<f:convertDateTime pattern="dd/MM/yyyy" />
-							            </h:outputText>
-						           
-						                <h:outputText value="Fecha expiracion de la tarjeta" />
-						                <h:outputText value="#{transactionBean.transaction.date_expiration}">
-							            	<f:convertDateTime pattern="dd/MM/yyyy" />
-							            </h:outputText>
-						                
-						                <h:outputText value="Lugar" />
-						                <h:outputText value="#{transactionBean.transaction.place}" />	
-						            </p:panelGrid>
-						        </p:outputPanel>
-						    </p:dialog>
+					        <p:messages id="messagesModify" showDetail="true" autoUpdate="true" closable="true" />
+			            	<p:panelGrid id="panel" class="ui-noborder" columns="2" cellpadding="5"> 
+			              		
+			              		<p:outputLabel for="id" value="Codigo de Transacción:" />
+				                <p:inputText id="id" value="#{transactionBean.transaction.systems_trace_number}"  required="true"/>
+			              		
+			              		<p:outputLabel for="transaction_type" value="Tipo de Transaccion:" />
+				                <p:inputText id="transaction_type" value="#{transactionBean.transaction.transaction_type}"  required="true"/>
+			     	     		
+			     			    <p:outputLabel for="entry_mode" value="Modo de Entrada:" />
+				               	<p:selectOneMenu id="entry_mode" value="#{transactionBean.transaction.pos_entry_mode}" required="true">
+						            <f:selectItem itemLabel="Select One" itemValue="" />
+						            <f:selectItem itemLabel="Banda" itemValue="Banda" />
+						            <f:selectItem itemLabel="EMV" itemValue="EMV" />
+						            <f:selectItem itemLabel="Manual" itemValue="Manual" />		
+						            <f:selectItem itemLabel="Contacless" itemValue="Contacless" />							  
+						        </p:selectOneMenu>
+							
+				                <p:outputLabel for="model" value="Modelo del Terminal:" />
+				                <p:inputText id="model" value="#{transactionBean.transaction.model}" />
+			       		
+				                <p:outputLabel for="serial" value="Serial del Terminal:" />
+				                <p:inputText id="serial" value="#{transactionBean.transaction.card_acceptor_terminal_id}" />	
+				           		       
+				                <p:outputLabel for="currency" value="Currency:"/>
+				                <p:selectOneMenu id="currency" value="#{transactionBean.transaction.currency}" >
+						            <f:selectItem itemLabel="Select One" itemValue="" />
+						            <f:selectItem itemLabel="Dolar Americano" itemValue="USD" />
+						            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
+						            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
+						        </p:selectOneMenu>
+				            	
+				                <p:outputLabel for="issuer" value="Emisor:"/>
+				                <p:inputText id="issuer" value="#{transactionBean.transaction.issuer}" />			                
+				          		
+				                
+				                <p:outputLabel for="card_acceptor_name" value="Comercio:"/>
+				                <p:inputText id="card_acceptor_name" value="#{transactionBean.transaction.card_acceptor_name}" />
+						 		
+				                <p:outputLabel for="card_holder" value="Tarjetahabiente:" />
+				                <p:inputText id="card_holder" value="#{transactionBean.transaction.card_holder}" />
+				                
+				                <p:outputLabel for="pan" value="Numero de Tarjeta:" />
+				                <p:inputText id ="pan" value="#{transactionBean.transaction.pan}" />			                
+				         	
+				                
+				                <p:outputLabel for="amount_transaction" value="Monto:" />
+				                <p:inputText id="amount_transaction" value="#{transactionBean.transaction.amount_transaction}" />
+			              		
+				                <p:outputLabel  value="Fecha: " />
+								<p:calendar id="date_transaction" value="#{transactionBean.transaction.date_transaction}" pattern="yyyy-MM-dd" >
+					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+					 			</p:calendar>
+			                   
+					 			<p:outputLabel  for="date_expiration" value="Fecha expiración Tarjeta: " />
+					 			<p:calendar id="date_expiration" value="#{transactionBean.transaction.date_expiration}" pattern="yyyy-MM-dd" navigator="true">
+					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+					 			</p:calendar>
+					     		
+				 				<p:outputLabel for ="lugar" value="Lugar" />
+				                <p:inputText id ="lugar" value="#{transactionBean.transaction.place}" />
+			               		
+					       		<p:commandButton value="Modificar" actionListener="#{transactionBean.modifyTransaction}" class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+								<h:commandButton value="Reset p:ajax" class="btn btn-block btn-primary" >
+									<p:ajax update="modifyForm:panel" resetValues="true" />
+								</h:commandButton>		  
+		
+				   			</p:panelGrid>	
 						  </h:form>
 					  </div><!-- tab-pane 3--> 
 						  

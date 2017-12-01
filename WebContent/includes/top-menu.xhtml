@@ -30,7 +30,7 @@
 	                    <a href="#">
 	                      <div class="pull-left">
 	                        <!-- User Image -->
-	                        <p:graphicImage url="/resources/images/avatar3.png" class="user-image" alt="Falid to load Image"/>
+	                        <p:graphicImage url="/resources/images/avatar3.png" class="user-image" alt="Failed to load Image"/>
 	                      </div>
 	                      <!-- Message title and timestamp -->
 	                     
@@ -118,7 +118,7 @@
 	              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
 	              </img>-->
 	              <p:graphicImage url="/resources/images/avatar5.png" class="user-image" alt="Falid to load Image"/>
-	              <span class="hidden-xs">Username</span>
+	              <span class="hidden-xs"><h:outputText value="#{UserBean.user.username}" /></span>
 	            </a>
 	            <ul class="dropdown-menu">
 	              <!-- The user image in the menu -->
@@ -148,12 +148,14 @@
 	              </li>
 	              <!-- Menu Footer-->
 	              <li class="user-footer">
-	                <div class="pull-left">
-	                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-	                </div>
-	                <div class="pull-right">
-	                  <a href="pp/pages/Login.xhtml" class="btn btn-default btn-flat">Sign out</a>
-	                </div>
+	              <h:form>
+		                <div class="pull-left">
+		                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+		                </div>
+		                <div class="pull-right">
+		                 	 <p:commandLink action="#{UserBean.logout}" class="btn btn-default btn-flat" value="Sign out"/>
+		                </div>
+	                </h:form>
 	              </li>
 	            </ul>
 	          </li>

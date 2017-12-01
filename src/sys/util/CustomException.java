@@ -16,7 +16,9 @@ public class CustomException extends Exception{
     
     public static final long serialVersionUID = 700L;
     RespuestaException respuesta = new RespuestaException();
-   
+    private Throwable causa;
+    private String mensaje;
+    
     public CustomException(){       
     }
     
@@ -24,23 +26,29 @@ public class CustomException extends Exception{
         super(mensaje);
     }
 
-    /*public CustomException(String mensaje, JDBCException e) {
-    }
+    /*public CustomException (String mensaje, Throwable c){
+        super(mensaje)
+		causa = c;
+    }*/
     
-    public CustomException(String mensaje, NumberFormatException e) {
-    	
-    }
-    
-    public CustomException(String mensaje, ParseException e) {
-    	
-    }
-    
-	public CustomException(String mensaje, FileNotFoundException e) {
+    public Throwable getCausa() {
+		return causa;
+	}
+
+	public void setCausa(Throwable causa) {
+		this.causa = causa;
+	}
 	
-	}*/
-    
-    
-    public RespuestaException CustomException(String mensaje, JDBCException e) {
+
+	public RespuestaException getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(RespuestaException respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	public RespuestaException CustomException(String mensaje, JDBCException e) {
         System.err.println("Error JDBC" +e.getSQLException().getMessage().replace("ERROR:","") +""+ e.getSQLException().getSQLState());
         respuesta.setAccion(mensaje);
         respuesta.setExitoso(false);

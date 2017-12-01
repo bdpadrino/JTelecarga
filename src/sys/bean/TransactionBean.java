@@ -75,7 +75,14 @@ public class TransactionBean implements Serializable {
 	}
 	
 	public void modifyTransaction() {
-		
+		if (transaction != null) {
+			int id = transaction.getSystems_trace_number();
+			ct.modifyTransaction(transaction);
+			FacesContext.getCurrentInstance().addMessage("messagesModify", new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Modificada con Exito"," "));
+		}
+		else {
+			FacesContext.getCurrentInstance().addMessage("messagesModify", new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion nula"," "));
+		}
 	}
 	
 	

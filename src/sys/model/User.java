@@ -2,7 +2,10 @@ package sys.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -10,6 +13,11 @@ import javax.persistence.Table;
 public class User {
 	 
 		@Id
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="incrementIdUser")
+		@SequenceGenerator(
+		    name="incrementIdUser",
+			sequenceName="idUser_seq",
+			allocationSize=1)
     	@Column(name = "id")
 		private Integer id;
 		@Column(name = "username")
@@ -18,8 +26,6 @@ public class User {
 		private String password;  	    
 		@Column(name = "status")
 		private String status; 
-		
-		
 		    	    
 	    public Integer getId() {
 			return id;
@@ -55,9 +61,10 @@ public class User {
 
 		@Override
 		public String toString() {
-			
-			return "User"+this.getUsername();
+			return "User [id=" + id + ", username=" + username + ", password=" + password + ", status=" + status + "]";
 		}
+
+
 		
 		
 		

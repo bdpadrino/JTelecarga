@@ -2,7 +2,6 @@ package sys.bean;
 
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -15,6 +14,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperRunManager;
 import sys.model.Report;
+import sys.util.CustomException;
 import sys.util.HibernateUtilST;
 import sys.util.Util;
 
@@ -54,45 +54,39 @@ public class ReportBean implements Serializable {
 	}
 	
 	public void downloadReport() {
-		System.out.println("ENTRANDO A GENERAL REPORT");
-		if (report == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","reporte nulo"));
-		}
-		else {
-			
-			try 
-	        {   
-				System.out.println("hola reporte abrir "+report.getReportName());
-				Connection con = HibernateUtilST.getConnectionHibernate();
-	            Util util = new Util();
+		try 
+        {   
+			System.out.println("hola reporte abrir "+report.getReportName());
+			Connection con = HibernateUtilST.getConnectionHibernate();
+            Util util = new Util();
 
-	            Map<String,Object> parameter= new HashMap<String,Object>();
-	            parameter.put("reportName", report.getReportName());
-	            parameter.put("fechaInicio", util.addDateFormat(report.getStartDate()));
-	            parameter.put("fechaFin", util.addDateFormat(report.getEndDate()));
+            Map<String,Object> parameter= new HashMap<String,Object>();
+            parameter.put("reportName", report.getReportName());
+            parameter.put("fechaInicio", util.addDateFormat(report.getStartDate()));
+            parameter.put("fechaFin", util.addDateFormat(report.getEndDate()));
 
-	            File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/"+report.getReportName()));
-	            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parameter, con);
-	            
-	    		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-	    		response.addHeader("Content-disposition","attachment; filename="+report.getReportName().replace("jasper","")+".pdf");
-	    		ServletOutputStream stream = response.getOutputStream();
-	    		
-	    		JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-	    		
-	    		stream.flush();
-	    		stream.close();
+            File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/"+report.getReportName()));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parameter, con);
+            
+    		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+    		response.addHeader("Content-disposition","attachment; filename="+report.getReportName().replace(".jasper","")+".pdf");
+    		ServletOutputStream stream = response.getOutputStream();
+    		
+    		JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+    		
+    		stream.flush();
+    		stream.close();
 
-	    		FacesContext.getCurrentInstance().responseComplete();
-	            		
-	        }   
-	        catch (Exception e) {
-	            System.out.println("Error " +e.getMessage());
-	        }
-		}		
+    		FacesContext.getCurrentInstance().responseComplete();
+            		
+        }   
+        catch (Exception e) {
+            System.out.println("Error " +e.getMessage());
+        }
+				
 	}
 	
-	public void generateReportPDF(ActionEvent actionEvent) throws Exception{
+	public void generateReportPDF(ActionEvent actionEvent) throws CustomException{
 		try {
 			Connection con = HibernateUtilST.getConnectionHibernate();
 	        Util util = new Util();
@@ -117,6 +111,7 @@ public class ReportBean implements Serializable {
 
 		}
 		catch(FileNotFoundException e){
+			//throw new CustomException ("Archivo No Encontrado",e);
 		 System.out.println("archivo no encontrado" +e.getMessage());
 		}
 		catch(Exception e){
