@@ -42,7 +42,6 @@
 				                 rowsPerPageTemplate="5,10,15,20"
 				                 selectionMode="single" selection="#{transactionBean.transaction}" rowKey="#{car.systems_trace_number}"
 				                 emptyMessage="No hay transacciones" >
-				                
 				 
 						        <f:facet name="header">
 						            <p:outputPanel>
@@ -118,7 +117,7 @@
 				 			<p:contextMenu for="tableStateDT">
 						        <p:menuitem value="Ver Detalle" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
 						        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{transactionBean.deleteTransaction}"/>
-						    	<p:menuitem value="Modificar" icon="ui-icon-pencil" oncomplete="PF('@modifyForm:modifyDialog').show()"  />
+						    	<p:menuitem value="Modificar" icon="ui-icon-pencil" oncomplete="PF('tab_3').show()"  />
 						    </p:contextMenu>
 			 
 							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
@@ -170,32 +169,45 @@
 						                <h:outputText value="Lugar" />
 						                <h:outputText value="#{transactionBean.transaction.place}" />	
 						            </p:panelGrid>
+						            
 						        </p:outputPanel>
 						    </p:dialog>
 					  	</h:form>
 					  </div> <!-- tab-pane 1--> 
+					  
+					  													<!-- PESTANA DE AGREGAR-->
 					  <div class="tab-pane" id="tab_2">
 						  <h:form id="addForm">
-			            	<p:messages id="messages1" showDetail="true" autoUpdate="true" closable="true" />
-			            	<p:panelGrid id="panel" class="ui-noborder" columns="2" cellpadding="5"> 
+			            	<script type="text/javascript">
+							function limpiarForm()
+							{    document.getElementById("addForm").reset();
+							}
+							</script>
+			            	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
 			              		
-			              		<p:outputLabel for="transaction_type" value="Tipo de Transaccion:" />
-				                <p:inputText id="transaction_type" value="#{transactionBean.transaction.transaction_type}"  required="true"/>
+			              		<p:outputLabel for="transaction_type" value="Tipo de Transaccion: (*)" />
+				                <p:inputText id="transaction_type" value="#{transactionBean.transaction.transaction_type}"  required="true" minlength="4" maxlength="20" requiredMessage="Campo Requerido">
+			     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+			     	     		</p:inputText>
+			     	     		<p:message for="transaction_type" display="text" />
 			     	     		
 			     			    <p:outputLabel for="entry_mode" value="Modo de Entrada:" />
-				               	<p:selectOneMenu id="entry_mode" value="#{transactionBean.transaction.pos_entry_mode}" required="true">
+				               	<p:selectOneMenu id="entry_mode" value="#{transactionBean.transaction.pos_entry_mode}" required="true" requiredMessage="Campo Requerido">
 						            <f:selectItem itemLabel="Select One" itemValue="" />
 						            <f:selectItem itemLabel="Banda" itemValue="Banda" />
 						            <f:selectItem itemLabel="EMV" itemValue="EMV" />
 						            <f:selectItem itemLabel="Manual" itemValue="Manual" />		
 						            <f:selectItem itemLabel="Contacless" itemValue="Contacless" />							  
 						        </p:selectOneMenu>
+						        <p:message for="entry_mode" display="text" />
 							
 				                <p:outputLabel for="model" value="Modelo del Terminal:" />
-				                <p:inputText id="model" value="#{transactionBean.transaction.model}" />
+				                <p:inputText id="model" value="#{transactionBean.transaction.model}" maxlength="10"/>
+				                <p:message for="model" display="text" />
 			       		
 				                <p:outputLabel for="serial" value="Serial del Terminal:" />
-				                <p:inputText id="serial" value="#{transactionBean.transaction.card_acceptor_terminal_id}" />	
+				                <p:inputText id="serial" value="#{transactionBean.transaction.card_acceptor_terminal_id}" maxlength="40"/>	
+				                <p:message for="serial" display="text" />
 				           		       
 				                <p:outputLabel for="currency" value="Currency:"/>
 				                <p:selectOneMenu id="currency" value="#{transactionBean.transaction.currency}" >
@@ -204,53 +216,71 @@
 						            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
 						            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
 						        </p:selectOneMenu>
+						        <p:message for="currency" display="text" />
 				            	
 				                <p:outputLabel for="issuer" value="Emisor:"/>
-				                <p:inputText id="issuer" value="#{transactionBean.transaction.issuer}" />			                
-				          		
+				                <p:inputText id="issuer" value="#{transactionBean.transaction.issuer}" maxlength="25"/>
+				                <p:message for="issuer" display="text" />			                
 				                
 				                <p:outputLabel for="card_acceptor_name" value="Comercio:"/>
-				                <p:inputText id="card_acceptor_name" value="#{transactionBean.transaction.card_acceptor_name}" />
+				                <p:inputText id="card_acceptor_name" value="#{transactionBean.transaction.card_acceptor_name}" maxlength="60"/>
+				                <p:message for="card_acceptor_name" display="text" />
 						 		
 				                <p:outputLabel for="card_holder" value="Tarjetahabiente:" />
-				                <p:inputText id="card_holder" value="#{transactionBean.transaction.card_holder}" />
+				                <p:inputText id="card_holder" value="#{transactionBean.transaction.card_holder}" >
+				                	<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+			     	     		</p:inputText>
+			     	     		<p:message for="card_holder" display="text" />
 				                
 				                <p:outputLabel for="pan" value="Numero de Tarjeta:" />
-				                <p:inputText id ="pan" value="#{transactionBean.transaction.pan}" />			                
+				                <p:inputText id ="pan" value="#{transactionBean.transaction.pan}" maxlength="20">	
+				                	<p:keyFilter regEx="/[1234567890]/i"/>
+			     	     		</p:inputText>	
+			     	     		<p:message for="pan" display="text" />	                
 				         	
-				                
 				                <p:outputLabel for="amount_transaction" value="Monto:" />
-				                <p:inputText id="amount_transaction" value="#{transactionBean.transaction.amount_transaction}" />
+				                <p:inputText id="amount_transaction" value="#{transactionBean.transaction.amount_transaction}" maxlength="20"/>
+			              		<p:message for="amount_transaction" display="text" />
 			              		
 				                <p:outputLabel  value="Fecha: " />
-								<p:calendar id="date_transaction" value="#{transactionBean.transaction.date_transaction}" pattern="yyyy-MM-dd" >
+								<p:calendar id="date_transaction" value="#{transactionBean.transaction.date_transaction}" pattern="yyyy-MM-dd" maxlength="10">
 					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
 					 			</p:calendar>
+					 			<p:message for="date_transaction" display="text" />
 			                   
 					 			<p:outputLabel  for="date_expiration" value="Fecha expiración Tarjeta: " />
-					 			<p:calendar id="date_expiration" value="#{transactionBean.transaction.date_expiration}" pattern="yyyy-MM-dd" navigator="true">
+					 			<p:calendar id="date_expiration" value="#{transactionBean.transaction.date_expiration}" pattern="yyyy-MM-dd" navigator="true" maxlength="10">
 					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
 					 			</p:calendar>
+					     		<p:message for="date_expiration" display="text" />
 					     		
 				 				<p:outputLabel for ="lugar" value="Lugar" />
-				                <p:inputText id ="lugar" value="#{transactionBean.transaction.place}" />
+				                <p:inputText id ="lugar" value="#{transactionBean.transaction.place}" maxlength="35"/>
+			               		<p:message for="lugar" display="text" />
 			               		
-					       		<p:commandButton value="Agregar" actionListener="#{transactionBean.addTransaction}" class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
-								<h:commandButton value="Reset p:ajax" class="btn btn-block btn-primary" >
-									<p:ajax update="addForm:panel" resetValues="true" />
-								</h:commandButton>		  
+					       		<p:commandButton value="Agregar" actionListener="#{transactionBean.addTransaction}" resetValues="true" oncomplete="limpiarForm()" process="@this" update="searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+									
+								<p:commandButton value="Reset" class="btn btn-block btn-primary" >
+									<p:ajax update="addPanel" resetValues="true" />
+								</p:commandButton>	
+								<p:commandButton value="Reset Tag" update="addPanel" process="@this" style="margin-right:20px;" >
+						                <p:resetInput target="model" />
+						            </p:commandButton>	  
 		
-				   			</p:panelGrid>	
+				   			</p:panelGrid>
+				   			 <p:keyFilter for="amount_transaction" mask="num" /> 
+				   			 
 					   	  </h:form>
 					  </div><!-- tab-pane 2--> 
+					  
+					 												 <!-- PESTANA DE MODIFICAR-->
 					   <div class="tab-pane" id="tab_3">
 						  <h:form id="modifyForm">
 					        <p:messages id="messagesModify" showDetail="true" autoUpdate="true" closable="true" />
-			            	<p:panelGrid id="panel" class="ui-noborder" columns="2" cellpadding="5"> 
-			              		
-			              		<p:outputLabel for="id" value="Codigo de Transacción:" />
-				                <p:inputText id="id" value="#{transactionBean.transaction.systems_trace_number}"  required="true"/>
-			              		
+					        <p:outputLabel value="Codigo de Transacción:" />
+				            <p:outputLabel value="#{transactionBean.transaction.systems_trace_number}" />
+			            	<p:panelGrid id="modifyPanel" class="ui-noborder" columns="3" cellpadding="5"> 
+
 			              		<p:outputLabel for="transaction_type" value="Tipo de Transaccion:" />
 				                <p:inputText id="transaction_type" value="#{transactionBean.transaction.transaction_type}"  required="true"/>
 			     	     		
@@ -307,9 +337,9 @@
 				 				<p:outputLabel for ="lugar" value="Lugar" />
 				                <p:inputText id ="lugar" value="#{transactionBean.transaction.place}" />
 			               		
-					       		<p:commandButton value="Modificar" actionListener="#{transactionBean.modifyTransaction}" class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+					       		<p:commandButton value="Modificar" actionListener="#{transactionBean.modifyTransaction}" update="searchForm:tableStateDT" class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
 								<h:commandButton value="Reset p:ajax" class="btn btn-block btn-primary" >
-									<p:ajax update="modifyForm:panel" resetValues="true" />
+									<p:ajax update="modifyForm:modifyPanel" resetValues="true" />
 								</h:commandButton>		  
 		
 				   			</p:panelGrid>	

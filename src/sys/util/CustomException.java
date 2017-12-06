@@ -17,7 +17,6 @@ public class CustomException extends Exception{
     public static final long serialVersionUID = 700L;
     RespuestaException respuesta = new RespuestaException();
     private Throwable causa;
-    private String mensaje;
     
     public CustomException(){       
     }

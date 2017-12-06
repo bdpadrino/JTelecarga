@@ -7,6 +7,10 @@
     <welcome-file>LoginPrueba.jsf</welcome-file>
   </welcome-file-list>
   
+  <session-config>
+	 <session-timeout>45</session-timeout>
+  </session-config>
+  
   <!-- Change to "Production" when you are ready to deploy -->
   <context-param>
     <param-name>javax.faces.PROJECT_STAGE</param-name>
