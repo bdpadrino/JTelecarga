@@ -12,250 +12,72 @@
 </h:head>
 <body>
 	
-	<div class="nav-tabs-custom">
-	          <ul class="nav nav-tabs">
-	            <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
-	            <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
-	            <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-pencil-square-o"></i> Modificar</a></li>
-	            <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-credit-card"></i></a></li>
-	          </ul>
-	          <div class="tab-content">
-	            <div class="tab-pane active" id="tab_1">
-	           <h:form id="searchForm">
-	  				<p:dataTable id="tableStateDT" var="car" value="#{transactionBean.listTransactions}" widgetVar="carsTable" multiViewState="true"
-	                 rows="10" paginator="true" paginatorPosition="bottom" 
-	                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-	                 rowsPerPageTemplate="5,10,15,20"
-	                 selectionMode="single" selection="#{transactionBean.transaction}" rowKey="#{car.systems_trace_number}"
-	                 emptyMessage="No hay transacciones" >
-	 
-			        <f:facet name="header">
-			            <p:outputPanel>
-			            	<div align="right">
-				                <h:outputText value="Search all fields: " />
-				                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-		           		</div>
-		            </p:outputPanel>
-	        	</f:facet>
-	 
-		        <p:column headerText="Id" priority="1" filterBy="#{car.systems_trace_number}" sortBy="#{car.systems_trace_number}" filterMatchMode="contains">
-		            <h:outputText value="#{car.systems_trace_number}" />
-		        </p:column>
-	 
-		        <p:column headerText="Tipo de Transaccion" priority="3" filterBy="#{car.transaction_type}" sortBy="#{car.transaction_type}" filterMatchMode="contains">
-		            <h:outputText value="#{car.transaction_type}" />
-		        </p:column>
-		 <!-- 
-		        <p:column headerText="Modo de Entrada" priority="3" filterBy="#{car.pos_entry_mode}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">			 
-		            <h:outputText value="#{car.pos_entry_mode}" />
-		        </p:column>
-	 
-		        <p:column headerText="Modelo" priority="2" filterBy="#{car.model}" sortBy="#{car.model}" filterMatchMode="contains">
-		            <h:outputText value="#{car.model}" />
-		        </p:column>
-		 
-		        <p:column headerText="Serial" priority="2" filterBy="#{car.card_acceptor_terminal_id}" sortBy="#{car.card_acceptor_terminal_id}" filterMatchMode="contains">
-		            <h:outputText value="#{car.card_acceptor_terminal_id}" />
-		        </p:column>
-		        
-		        <p:column headerText="N Tarjeta" priority="2" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
-		            <h:outputText value="#{car.pan}" />
-		        </p:column>
-		        
-		        <p:column headerText="Emisor" priority="3" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
-		            <h:outputText value="#{car.issuer}" />
-		        </p:column>
-		   -->      
-		        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.pos_entry_mode}" filterMatchMode="contains">
-		            <h:outputText value="#{car.card_holder}" />
-		        </p:column>
-		  	
-	  			<p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
-		            <h:outputText value="#{car.card_acceptor_name}" />
-		        </p:column>	 
-		        			 
-		 		<p:column headerText="Fecha" priority="1" filterBy="#{car.date_transaction}" sortBy="#{car.date_transaction}" filterMatchMode="contains">
-		            <h:outputText value="#{car.date_transaction}">
-		            	<f:convertDateTime pattern="dd/MM/yyyy" />
-		            </h:outputText>
-		        </p:column>
-		     
-		     <!--    
-		        <p:column headerText="Hora" priority="1" filterBy="#{car.time_transaction}" sortBy="#{car.time_transaction}" filterMatchMode="contains">
-		            <h:outputText value="#{car.time_transaction}">
-		           	 	<f:convertDateTime pattern="HH:mm" />
-		           	 </h:outputText>
-		        </p:column>
-	  		-->
-	  		
-		       <p:column headerText="Monto" priority="1" filterBy="#{car.amount_transaction}" sortBy="#{car.amount_transaction}" filterMatchMode="contains">
-		            <h:outputText value="#{car.amount_transaction}">
-		             	<f:convertNumber  type="currency"/>
-		            </h:outputText>
-		        </p:column>
-		        
-		        <p:column headerText="Moneda" priority="1" filterBy="#{car.currency}" sortBy="#{car.currency}" filterMatchMode="contains">
-		             <h:outputText value="#{car.currency}"/>
-		        </p:column>
-		        
-				</p:dataTable>
-				
-				<p:contextMenu for="tableStateDT">
-		        <p:menuitem value="Ver Detalle" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
-		        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{transactionBean.deleteTransaction}"/>
-		    	<p:menuitem value="Modificar" icon="ui-icon-pencil" oncomplete="PF('tab_3').show()"  />
-		    </p:contextMenu>
-	
-			<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
-		        <p:outputPanel id="carDetail">
-		            <p:panelGrid  columns="2" rendered="#{not empty transactionBean.listTransactions}">
-		             	<h:outputText value="Id:" />
-		                <h:outputText value=" #{transactionBean.transaction.systems_trace_number}" />
-		               
-		                <h:outputText value="Tipo de Transaccion:" />
-		                <h:outputText value="#{transactionBean.transaction.transaction_type}" />
-		                
-		                <h:outputText value="Modo de Entrada:" />
-		                <h:outputText value="#{transactionBean.transaction.pos_entry_mode}" />
-		                
-		                <h:outputText value="Modelo del Terminal:" />
-		                <h:outputText value="#{transactionBean.transaction.model}" />
-		                
-		                <h:outputText value="Serial del Terminal:" />
-		                <h:outputText value="#{transactionBean.transaction.card_acceptor_terminal_id}" />			                
-		                
-	                     	<h:outputText value="Currency:"/>
-		                <h:outputText value="#{transactionBean.transaction.currency}" />
-		                
-		                <h:outputText value="Emisor:"/>
-		                <h:outputText value="#{transactionBean.transaction.issuer}" />			                
-		                
-		                <h:outputText value="Comercio:"/>
-		                <h:outputText value="#{transactionBean.transaction.card_acceptor_name}"/>
-		 
-		                <h:outputText value="Tarjetahabiente:" />
-		                <h:outputText value="#{transactionBean.transaction.card_holder}"/>
-		 
-		                <h:outputText value="Numero de Tarjeta:" />
-		                <h:outputText value="#{transactionBean.transaction.pan}" />			                
-		                
-		                <h:outputText value="Monto:" />
-		                <h:outputText value="#{transactionBean.transaction.amount_transaction}" />
-		                
-		               	<h:outputText value="Fecha:" />
-		                <h:outputText value="#{transactionBean.transaction.date_transaction}">
-			            	<f:convertDateTime pattern="dd/MM/yyyy" />
-			            </h:outputText>
-		           
-		                <h:outputText value="Fecha expiracion de la tarjeta" />
-		                <h:outputText value="#{transactionBean.transaction.date_expiration}">
-			            	<f:convertDateTime pattern="dd/MM/yyyy" />
-			            </h:outputText>
-		                
-		                <h:outputText value="Lugar" />
-		                <h:outputText value="#{transactionBean.transaction.place}" />	
-		            </p:panelGrid>
-		            
-		        </p:outputPanel>
-		    </p:dialog>
-	  	</h:form>
-	  </div> <!-- tab-pane 1--> 
-	  
-	  													<!-- PESTANA DE AGREGAR-->
-	  <div class="tab-pane" id="tab_2">
-		  <h:form id="addForm">
-	          	<script type="text/javascript">
-			function limpiarForm()
-			{    document.getElementById("addForm").reset();
-			}
-			</script>
-	          	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
-	            		
-	            		<p:outputLabel for="transaction_type" value="Tipo de Transaccion: (*)" />
-	               <p:inputText id="transaction_type" value="#{transactionBean.transaction.transaction_type}"  required="true" minlength="4" maxlength="20" requiredMessage="Campo Requerido">
-	   	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
-	   	     		</p:inputText>
-	   	     		<p:message for="transaction_type" display="text" />
-	   	     		
-	   			    <p:outputLabel for="entry_mode" value="Modo de Entrada:" />
-	              	<p:selectOneMenu id="entry_mode" value="#{transactionBean.transaction.pos_entry_mode}" required="true" requiredMessage="Campo Requerido">
-		            <f:selectItem itemLabel="Select One" itemValue="" />
-		            <f:selectItem itemLabel="Banda" itemValue="Banda" />
-		            <f:selectItem itemLabel="EMV" itemValue="EMV" />
-		            <f:selectItem itemLabel="Manual" itemValue="Manual" />		
-		            <f:selectItem itemLabel="Contacless" itemValue="Contacless" />							  
-		        </p:selectOneMenu>
-		        <p:message for="entry_mode" display="text" />
-			
-	               <p:outputLabel for="model" value="Modelo del Terminal:" />
-	               <p:inputText id="model" value="#{transactionBean.transaction.model}" maxlength="10"/>
-	               <p:message for="model" display="text" />
-	     		
-	               <p:outputLabel for="serial" value="Serial del Terminal:" />
-	               <p:inputText id="serial" value="#{transactionBean.transaction.card_acceptor_terminal_id}" maxlength="40"/>	
-	               <p:message for="serial" display="text" />
-	          		       
-	               <p:outputLabel for="currency" value="Currency:"/>
-	               <p:selectOneMenu id="currency" value="#{transactionBean.transaction.currency}" >
-		            <f:selectItem itemLabel="Select One" itemValue="" />
-		            <f:selectItem itemLabel="Dolar Americano" itemValue="USD" />
-		            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
-		            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
-		        </p:selectOneMenu>
-		        <p:message for="currency" display="text" />
-	           	
-	               <p:outputLabel for="issuer" value="Emisor:"/>
-	               <p:inputText id="issuer" value="#{transactionBean.transaction.issuer}" maxlength="25"/>
-	               <p:message for="issuer" display="text" />			                
-	               
-	               <p:outputLabel for="card_acceptor_name" value="Comercio:"/>
-	               <p:inputText id="card_acceptor_name" value="#{transactionBean.transaction.card_acceptor_name}" maxlength="60"/>
-	               <p:message for="card_acceptor_name" display="text" />
-		 		
-	               <p:outputLabel for="card_holder" value="Tarjetahabiente:" />
-	               <p:inputText id="card_holder" value="#{transactionBean.transaction.card_holder}" >
-	               	<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
-	   	     		</p:inputText>
-	   	     		<p:message for="card_holder" display="text" />
-	               
-	               <p:outputLabel for="pan" value="Numero de Tarjeta:" />
-	               <p:inputText id ="pan" value="#{transactionBean.transaction.pan}" maxlength="20">	
-	               	<p:keyFilter regEx="/[1234567890]/i"/>
-	   	     		</p:inputText>	
-	   	     		<p:message for="pan" display="text" />	                
-	        	
-	               <p:outputLabel for="amount_transaction" value="Monto:" />
-	               <p:inputText id="amount_transaction" value="#{transactionBean.transaction.amount_transaction}" maxlength="20"/>
-	            		<p:message for="amount_transaction" display="text" />
-	            		
-	               <p:outputLabel  value="Fecha: " />
-				<p:calendar id="date_transaction" value="#{transactionBean.transaction.date_transaction}" pattern="yyyy-MM-dd" maxlength="10">
-	 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
-	 			</p:calendar>
-	 			<p:message for="date_transaction" display="text" />
-	                 
-	 			<p:outputLabel  for="date_expiration" value="Fecha expiración Tarjeta: " />
-	 			<p:calendar id="date_expiration" value="#{transactionBean.transaction.date_expiration}" pattern="yyyy-MM-dd" navigator="true" maxlength="10">
-	 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
-	 			</p:calendar>
-	     		<p:message for="date_expiration" display="text" />
-	     		
-					<p:outputLabel for ="lugar" value="Lugar" />
-	               <p:inputText id ="lugar" value="#{transactionBean.transaction.place}" maxlength="35"/>
-	             		<p:message for="lugar" display="text" />
-	             		
-	       		<p:commandButton value="Agregar" actionListener="#{transactionBean.addTransaction}" update="addPanel" update="searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
-					
-				<p:commandButton value="Reset" class="btn btn-block btn-primary" >
-					<p:ajax update="addPanel" resetValues="true" />
-				</p:commandButton>	
-			
-	
-	  			</p:panelGrid>
-	  			 <p:keyFilter for="amount_transaction" mask="num" /> 
-	  			 
-	   	  </h:form>
-	  </div><!-- tab-pane 2--> 
+
+
+<h:form id="form">
+    	<p:messages id="msgs" autoUpdate="true" />
+		<p:dataTable id="userDT" var="us" value="#{UserBean.listUsers}" widgetVar="usersTable" multiViewState="true"
+        rows="10" 
+        paginator="true" 
+        paginatorPosition="bottom"
+        paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="5,10,15,20"
+         selectionMode="single"
+         selection="#{UserBean.userInTable}"
+         rowKey="#{us.id}"
+        editable="true" 
+        emptyMessage="No users found"
+        style="margin-bottom:20px">		                
+
+      	<p:ajax event="rowEdit" listener="#{UserBean.onRowEdit}" update=":form:msgs" />
+  					<p:ajax event="rowEditCancel" listener="#{UserBean.onRowCancel}" update=":form:msgs" />
+		<p:ajax event="sort" skipChildren="false" />
+		
+       <f:facet name="header">
+           <p:outputPanel>
+           	<div align="right">
+                <h:outputText value="Search all fields:" />
+                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+          		</div>
+           </p:outputPanel>
+      	</f:facet>
+
+       <p:column headerText="Id" sortBy="#{us.id}" filterBy="#{us.id}">
+           <h:outputText value="#{us.id}" />
+		</p:column>
+
+       <p:column headerText="Usuario" sortBy="#{us.username}" filterBy="#{us.username}">
+            	<p:cellEditor>  
+               <f:facet name="output">  
+                 	<h:outputText value="#{us.username}" />
+               </f:facet>  
+               <f:facet name="input">  
+                   <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
+               </f:facet>  
+          	</p:cellEditor>  
+       </p:column>
+
+		<p:column headerText="Status" sortBy="#{us.status}" filterBy="#{us.status}">
+        	<p:cellEditor>  
+               <f:facet name="output">  
+                 	<h:outputText value="#{us.status}" />
+               </f:facet>  
+               <f:facet name="input">  
+                   <p:selectOneMenu value="#{us.status}" style="width:96%">
+                      <f:selectItem itemLabel="Activo" itemValue="Activo" />
+                      <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+                  </p:selectOneMenu>
+			</f:facet>  
+          	</p:cellEditor>  						
+       </p:column>
+       
+        <p:column style="width:32px">
+          <p:rowEditor />
+      </p:column>
+      
+	  </p:dataTable>
+<br/>
+</h:form>
    	 
 </body>
 </html>

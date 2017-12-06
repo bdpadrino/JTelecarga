@@ -258,7 +258,7 @@
 				                <p:inputText id ="lugar" value="#{transactionBean.transaction.place}" maxlength="35"/>
 			               		<p:message for="lugar" display="text" />
 			               		
-					       		<p:commandButton value="Agregar" actionListener="#{transactionBean.addTransaction}" resetValues="true" oncomplete="limpiarForm()" process="@this" update="searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+					       		<p:commandButton value="Agregar" actionListener="#{transactionBean.addTransaction}" resetValues="true" oncomplete="limpiarForm()" update="addPanel"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
 									
 								<p:commandButton value="Reset" class="btn btn-block btn-primary" >
 									<p:ajax update="addPanel" resetValues="true" />

@@ -1,6 +1,7 @@
 package sys.bean;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +9,7 @@ import javax.faces.application.FacesMessage;
 //import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+//import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,7 @@ import sys.dao.imp.UserDaoImp;
 import sys.dao.UserDao;
 import sys.model.User;
 import sys.util.SessionUtils;
+import sys.util.Util;
  
 @ManagedBean(name="UserBean")
 @SessionScoped
@@ -31,6 +33,7 @@ public class UserBean implements Serializable{
 	private User userR;
 	private User userInTable;
 	private User newUser;
+	Util util = new Util();
 
 	UserDao cu = new UserDaoImp();
 	private List<User> listUsers;
@@ -119,36 +122,47 @@ public class UserBean implements Serializable{
     }
 
 	public String iniciarSesion(){
-		if (user!= null) {
-			User userBD = cu.findByUsername(user.getUsername());
-			if (userBD != null) {
-				if (user.getPassword().equals(userBD.getPassword())){
-					System.out.println("clave correcta user" +user.getUsername() + "password " + user.getPassword());
-					HttpSession session = SessionUtils.getSession();
-					session.setAttribute("username", user);
-					return "/Home.xhtml?faces-redirect=true";
+		try {
+			if (user!= null) {
+				User userBD = cu.findByUsername(user.getUsername());
+				if (userBD != null) {
+					System.out.println("MD5 del que ingrese "+util.encriptaEnMD5((user.getPassword())));
+					if (util.encriptaEnMD5((user.getPassword())).equals(userBD.getPassword())){
+						System.out.println("clave correcta user" +user.getUsername() + "password " + user.getPassword());
+						HttpSession session = SessionUtils.getSession();
+						session.setAttribute("username", user);
+						return "/Home.xhtml?faces-redirect=true";
+					}
+					else {
+						System.out.println("clave incorrecta user" +user.getUsername() + "password " + user.getPassword());
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Credenciales Erroneas",""));
+						return "";
+					}
 				}
 				else {
-					System.out.println("clave incorrecta user" +user.getUsername() + "password " + user.getPassword());
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Credenciales Erroneas",""));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario no registrado",""));
 					return "";
 				}
-			}
-			else {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario no registrado",""));
+			}else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Valor de usuario es nulo",""));
 				return "";
 			}
-		}else {
+		}
+		catch(NoSuchAlgorithmException e) {
+			System.out.println("Mensaje: "+e.getMessage());
+			System.out.println("Causa: "+e.getCause());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"NULO",""));
 			return "";
 		}
-		
+			
 	}
 	
 	public void addUser() {
 		System.out.println("hola registrando "+user.toString());
+		
 		try{
 			userR.setStatus("Inactivo");
+			userR.setPassword(util.encriptaEnMD5(user.getPassword()));
 			cu.addUser(userR);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro Exitoso",""));
 		}catch(JDBCException e) {
