@@ -11,4 +11,5 @@ public interface UserDao {
 	public User findByUsername(String username);
 	public User findByID(Integer id);
 	public User findByUsernameActive(String username);
+	public void modifyUserStatus(User e);
 }

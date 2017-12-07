@@ -33,89 +33,72 @@
 	            </ul>
 	            <div class="tab-content">
 	              <div class="tab-pane active" id="tab_1">
-	              <h:form id="form1">
 	              	
-	         	  
-	              	<p:commandButton action="#" ajax="false" icon="fa fa-plus"
-	                   	            value="Agregar" styleClass="btn-primary"/>
-	              	<p:spacer width="5"/>
-	                <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
-	                                 update=":form:userDT" actionListener="#{UserBean.deleteUser}"/>
-	                <p:spacer width="5"/>
-	                
-	                <p:separator/>
-	         	</h:form>
 	              	
-	              	<h:form id="form">
-	              	
-	              		<p:messages id="msgs" autoUpdate="true" />
-     				  <p:dataTable id="userDT" var="us" value="#{UserBean.listUsers}" widgetVar="usersTable" multiViewState="true"
-		                 rows="10" 
-		                 paginator="true" 
-		                 paginatorPosition="bottom"
-		                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
-		                 rowsPerPageTemplate="5,10,15,20"
-		                  selectionMode="single"
-		                  selection="#{UserBean.userInTable}"
-		                  rowKey="#{us.id}"
-		                 editable="true" 
-		                 emptyMessage="No users found"
-		                 style="margin-bottom:20px">		                
-		 
-				       	<p:ajax event="rowEdit" listener="#{UserBean.onRowEdit}" update=":form:msgs" />
-       					<p:ajax event="rowEditCancel" listener="#{UserBean.onRowCancel}" update=":form:msgs" />
-		 				<p:ajax event="sort" skipChildren="false" />
-		 				
-				        <f:facet name="header">
-				            <p:outputPanel>
-				            	<div align="right">
-					                <h:outputText value="Search all fields:" />
-					                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-				           		</div>
-				            </p:outputPanel>
-			        	</f:facet>
-			 
-				        <p:column headerText="Id" sortBy="#{us.id}" filterBy="#{us.id}">
-				            <h:outputText value="#{us.id}" />
-			 			</p:column>
-			 
-				        <p:column headerText="Usuario" sortBy="#{us.username}" filterBy="#{us.username}">
-			              	<p:cellEditor>  
-				                <f:facet name="output">  
-				                  	<h:outputText value="#{us.username}" />
-				                </f:facet>  
-				                <f:facet name="input">  
-				                    <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
-				                </f:facet>  
-			            	</p:cellEditor>  
-				        </p:column>
-				 
-				 		<p:column headerText="Status" sortBy="#{us.status}" filterBy="#{us.status}">
-				         	<p:cellEditor>  
-				                <f:facet name="output">  
-				                  	<h:outputText value="#{us.status}" />
-				                </f:facet>  
-				                <f:facet name="input">  
-				                    <p:selectOneMenu value="#{us.status}" style="width:96%">
-				                       <f:selectItem itemLabel="Activo" itemValue="Activo" />
-				                       <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
-				                   </p:selectOneMenu>
-								</f:facet>  
-			            	</p:cellEditor>  						
-				        </p:column>
-				        
-				         <p:column style="width:32px">
-				           <p:rowEditor />
-				       </p:column>
-				       
-		 			  </p:dataTable>
-		 			  <br/>
-			        </h:form>
-	              </div>
-	              <!-- /.tab-pane -->
-	              <div class="tab-pane" id="tab_2">
-	                
 	              </div> <!-- /.tab-pane -->
+	              <div class="tab-pane" id="tab_2">
+		              <h:form id="roleForm">
+		                <p:messages id="msgs" autoUpdate="true" />
+		                  <p:commandButton value="Modificar" icon="fa fa-edit" styleClass="btn-primary" oncomplete="PF('carDialog').show()" />
+	     				  <p:spacer width="5"/>
+		                  <p:separator/>
+	     				  <p:dataTable id="userDT" var="user" value="#{userTableBean.listUsers}" widgetVar="usersTable" multiViewState="true"
+			                 rows="10" 
+			                 paginator="true" 
+			                 paginatorPosition="bottom"
+			                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+			                 rowsPerPageTemplate="5,10,15,20"
+			                 selectionMode="single"
+			                 selection="#{userTableBean.user}"
+			                 rowKey="#{user.id}"
+			                 emptyMessage="No users found"
+			                 style="margin-bottom:20px">		                
+			 	      		 				
+					        <f:facet name="header">
+					            <p:outputPanel>
+					            	<div align="right">
+						                <h:outputText value="Search all fields:" />
+						                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+					           		</div>
+					            </p:outputPanel>
+				        	</f:facet>
+				 
+					        <p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}">
+					            <h:outputText value="#{user.id}" />
+				 			</p:column>
+				 
+					        <p:column headerText="Usuario" sortBy="#{user.username}" filterBy="#{user.username}">
+				            	<h:outputText value="#{user.username}" />
+					        </p:column>
+					 
+					 		<p:column headerText="Estatus" sortBy="#{user.status}" filterBy="#{user.status}">
+				                  	<h:outputText value="#{user.status}" />
+					        </p:column>
+					      </p:dataTable>
+					      
+					      <p:dialog header="Modificar " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" var="user"> <!-- height="500" -->
+						        <p:outputPanel id="carDetail">
+						            <p:panelGrid  columns="2" rendered="#{not empty userTableBean.listUsers}" styleClass= "ui-noborder">
+						             	<h:outputLabel for="id" value="Id:" />
+							            <h:outputText id="id" value="#{userTableBean.user.id}" required="true" label="id" placeholder="#{userTableBean.user.id}"/>
+
+							 			<h:outputLabel for="username" value="Username:" />
+							            <p:inputText id="username" value="#{userTableBean.user.username}" required="true" label="id" placeholder="#{userTableBean.user.username}"/>
+							 
+							            <h:outputLabel for="estatus" value="Estatus:" />
+							            <p:inputText id="estatus" value="#{userTableBean.user.status}" required="true" label="estatus" placeholder="#{userTableBean.user.status}"/>
+						                
+						                <p:spacer height="10"/> 
+						                
+						                <f:facet name="footer">
+							                <p:commandButton value="Modificar" class="btn btn-success" actionListener="#{userTableBean.modificarB}"/>
+							            </f:facet>  
+						              </p:panelGrid>
+
+				                 </p:outputPanel>
+						    </p:dialog>
+					  </h:form>  
+	              </div> <!-- /.tab-pane2 -->
 	            </div> <!-- /.tab-content -->
 	          </div> <!-- nav-tabs-custom -->
 	        </div><!-- /.col -->

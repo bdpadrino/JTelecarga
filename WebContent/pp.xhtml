@@ -1,83 +1,90 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">     
-       
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Sistema Telecarga</title>
-
-</h:head>
-<body>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/plantilla.xhtml">
 	
+	    
+    <ui:define name="title">
+       Configuracion APP
+    </ui:define>
 
-
-<h:form id="form">
-    	<p:messages id="msgs" autoUpdate="true" />
-		<p:dataTable id="userDT" var="us" value="#{UserBean.listUsers}" widgetVar="usersTable" multiViewState="true"
-        rows="10" 
-        paginator="true" 
-        paginatorPosition="bottom"
-        paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="5,10,15,20"
-         selectionMode="single"
-         selection="#{UserBean.userInTable}"
-         rowKey="#{us.id}"
-        editable="true" 
-        emptyMessage="No users found"
-        style="margin-bottom:20px">		                
-
-      	<p:ajax event="rowEdit" listener="#{UserBean.onRowEdit}" update=":form:msgs" />
-  					<p:ajax event="rowEditCancel" listener="#{UserBean.onRowCancel}" update=":form:msgs" />
-		<p:ajax event="sort" skipChildren="false" />
-		
-       <f:facet name="header">
-           <p:outputPanel>
-           	<div align="right">
-                <h:outputText value="Search all fields:" />
-                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-          		</div>
-           </p:outputPanel>
-      	</f:facet>
-
-       <p:column headerText="Id" sortBy="#{us.id}" filterBy="#{us.id}">
-           <h:outputText value="#{us.id}" />
-		</p:column>
-
-       <p:column headerText="Usuario" sortBy="#{us.username}" filterBy="#{us.username}">
-            	<p:cellEditor>  
-               <f:facet name="output">  
-                 	<h:outputText value="#{us.username}" />
-               </f:facet>  
-               <f:facet name="input">  
-                   <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
-               </f:facet>  
-          	</p:cellEditor>  
-       </p:column>
-
-		<p:column headerText="Status" sortBy="#{us.status}" filterBy="#{us.status}">
-        	<p:cellEditor>  
-               <f:facet name="output">  
-                 	<h:outputText value="#{us.status}" />
-               </f:facet>  
-               <f:facet name="input">  
-                   <p:selectOneMenu value="#{us.status}" style="width:96%">
-                      <f:selectItem itemLabel="Activo" itemValue="Activo" />
-                      <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
-                  </p:selectOneMenu>
-			</f:facet>  
-          	</p:cellEditor>  						
-       </p:column>
+    <ui:define name="description">
        
-        <p:column style="width:32px">
-          <p:rowEditor />
-      </p:column>
-      
-	  </p:dataTable>
-<br/>
-</h:form>
-   	 
-</body>
-</html>
+    </ui:define>
+    
+  
+
+    <ui:define name="body">
+   	<adm:breadcrumb title="Configuracion APP"/>    
+   	<div class="box box-primary"> 
+      	<div class="box-header with-border">
+      	 
+       	</div> <!--  box -header -->
+       	<div class="box-body">             	
+    	<h:form id="searchForm">
+   				<p:dataTable id="tableStateDT" var="us" value="#{userBean.listUsers}" widgetVar="usersTable" multiViewState="true"
+	                 rows="10" paginator="true" paginatorPosition="bottom" 
+	                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                 rowsPerPageTemplate="5,10,15,20"
+	                 selectionMode="single" selection="#{userBean.user}" rowKey="#{us.id}"
+	                 emptyMessage="No hay transacciones" >
+	 
+			        <f:facet name="header">
+			            <p:outputPanel>
+			            	<div align="right">
+				                <h:outputText value="Search all fields: " />
+				                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+			           		</div>
+			            </p:outputPanel>
+		        	</f:facet>
+		 
+			        <p:column headerText="Id" priority="1" filterBy="#{us.id}" sortBy="#{us.id}" filterMatchMode="contains">
+			            <h:outputText value="#{us.id}" />
+			        </p:column>
+		 
+			        <p:column headerText="Username" priority="1" filterBy="#{us.username}" sortBy="#{us.username}" filterMatchMode="contains">
+			            <h:outputText value="#{us.username}" />
+			        </p:column>
+			        <p:column headerText="Estatus" priority="2" filterBy="#{us.status}" sortBy="#{us.status}" filterMatchMode="contains">
+			            <h:outputText value="#{us.status}" />
+			        </p:column>
+			  	
+		  			
+			        
+	 			</p:dataTable>
+	 			
+	 			<p:contextMenu for="tableStateDT">
+			        <p:menuitem value="Ver Detalle" update="usDetail" icon="ui-icon-search" oncomplete="PF('usDialog').show()"/>
+			        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{userBean.deleteUser}"/>
+			    	<p:menuitem value="Modifius" icon="ui-icon-pencil" oncomplete="PF('tab_3').show()"  />
+			    </p:contextMenu>
+ 
+				<p:dialog header="Detalle Transacción " widgetVar="usDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
+			        <p:outputPanel id="usDetail">
+			            <p:panelGrid  columns="2" rendered="#{not empty userBean.listUsers}">
+			             	<h:outputText value="Id:" />
+			                <h:outputText value=" #{userBean.user.id}" />
+			               
+			                <h:outputText value="Tipo de Transaccion:" />
+			                <h:outputText value="#{userBean.user.username}" />
+			                
+			                <h:outputText value="Modo de Entrada:" />
+			                <h:outputText value="#{userBean.user.status}" />
+			                
+			               
+			            </p:panelGrid>
+			            
+			        </p:outputPanel>
+			    </p:dialog>
+		  	</h:form>                                        
+      	</div>
+      </div>
+          
+  	
+		       	        
+    </ui:define>
+</ui:composition>

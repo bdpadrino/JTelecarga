@@ -44,6 +44,17 @@ public class UserDaoImp implements UserDao {
         session.close();
         System.out.println("Successfully updated " + e.toString());
     }
+    
+    @Override
+    public void modifyUserStatus(User e) {
+        Session session = HibernateUtilST.getSessionFactory().openSession();
+        session.beginTransaction();
+        User nuevo = (User) session.get(User.class, e.getId());
+        nuevo.setStatus(e.getStatus());
+        session.getTransaction().commit();
+        session.close();
+        System.out.println("Successfully updated " + e.toString());
+    }
 
     @Override
     public void deleteUser(Integer id) {

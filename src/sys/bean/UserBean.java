@@ -66,10 +66,6 @@ public class UserBean implements Serializable{
 		this.userR = userR;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public List<User> getListUsers() {
 		listUsers = cu.listUsers();
 		return listUsers;
@@ -126,32 +122,32 @@ public class UserBean implements Serializable{
 			if (user!= null) {
 				User userBD = cu.findByUsername(user.getUsername());
 				if (userBD != null) {
-					System.out.println("MD5 del que ingrese "+util.encriptaEnMD5((user.getPassword())));
-					if (util.encriptaEnMD5((user.getPassword())).equals(userBD.getPassword())){
+					System.out.println("MD5 del que ingrese "+util.encriptaEnMD5((user.getPassword().trim())));
+					if (util.encriptaEnMD5((user.getPassword().trim())).equals(userBD.getPassword())){
 						System.out.println("clave correcta user" +user.getUsername() + "password " + user.getPassword());
 						HttpSession session = SessionUtils.getSession();
 						session.setAttribute("username", user);
 						return "/Home.xhtml?faces-redirect=true";
 					}
 					else {
-						System.out.println("clave incorrecta user" +user.getUsername() + "password " + user.getPassword());
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Credenciales Erroneas",""));
+						System.out.println("clave incorrecta user " +user.getUsername() + "password " + user.getPassword());
+						FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_WARN,"Credenciales Erroneas",""));
 						return "";
 					}
 				}
 				else {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario no registrado",""));
+					FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario no registrado",""));
 					return "";
 				}
 			}else {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Valor de usuario es nulo",""));
+				FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Valor de usuario es nulo",""));
 				return "";
 			}
 		}
 		catch(NoSuchAlgorithmException e) {
 			System.out.println("Mensaje: "+e.getMessage());
 			System.out.println("Causa: "+e.getCause());
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"NULO",""));
+			FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),""));
 			return "";
 		}
 			
@@ -162,22 +158,58 @@ public class UserBean implements Serializable{
 		
 		try{
 			userR.setStatus("Inactivo");
-			userR.setPassword(util.encriptaEnMD5(user.getPassword()));
+			userR.setPassword(util.encriptaEnMD5(userR.getPassword()));
 			cu.addUser(userR);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro Exitoso",""));
+			FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro Exitoso",""));
+			userR.setUsername("");
 		}catch(JDBCException e) {
 			System.out.println("eror code "+e.getSQLException().getSQLState());
 			if (e.getSQLException().getSQLState().equals("23000")) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuario ya registrado",e.getMessage()));
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
 				
 			}
 		}
 		catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
 			System.out.println("Mensaje "+e.getMessage());
 			System.out.println("Causa "+e.getCause());
 		}
 	}
+	
+	public void modifyUser() {
+		System.out.println("ENTRO A ESTA MIERDA");
+		System.out.println("userInTable "+userInTable.toString());
+	}
+	
+	
+	/*public void modifyUser() {
+		try {
+			System.out.println("new user"+userInTable.toString());
+			if (userInTable.getUsername() == cu.findByID(userInTable.getId()).getUsername()) {
+				System.out.println("Modificando solo nombre de usuario");
+				cu.modifyUserStatus(userInTable);
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Modificado Estatus Exitosamente",""));
+				
+			}
+			else {
+				//MODIFICADO USERNAME Y ESTATUS
+				cu.modifyUser(userInTable);
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Modificado Exitosamente",""));
+			}
+			
+		}catch(JDBCException e) {
+			System.out.println("eror code "+e.getSQLException().getSQLState());
+			if (e.getSQLException().getSQLState().equals("23000")) {
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
+				
+			}
+		}
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
+			System.out.println("Mensaje "+e.getMessage());
+			System.out.println("Causa "+e.getCause());
+		}
+	}*/
 
 	public void deleteUser() {
 		System.out.println(userInTable.toString());

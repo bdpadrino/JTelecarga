@@ -41,10 +41,10 @@
 	                       <fieldset>
 	                       		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 					    	  	<div class="form-group">
-					    		    <p:inputText value="#{UserBean.user.username}" placeholder="Usuario" class="form-control" required="true" label="Usuario" requiredMessage="Usuario Requerido"/>
+					    		    <p:inputText id="usernameLogin" value="#{UserBean.user.username}" placeholder="Usuario" class="form-control" required="true" label="Usuario" requiredMessage="Usuario Requerido"/>
 					    		</div>
 					    		<div class="form-group">
-					    			 <p:password id="Password" value="#{UserBean.user.password}" placeholder="Password" class="form-control" required="true" label="Password" requiredMessage="Password Requerido"/>
+					    			 <p:password id="PasswordLogin" value="#{UserBean.user.password}" placeholder="Password" class="form-control" required="true" label="Password" requiredMessage="Password Requerido"/>
 					    		</div>
 					    		<div class="checkbox">
 					    	    	<label>
@@ -61,28 +61,28 @@
 		</div>
 		
 		<h:form id="formSingUp">
-			<p:dialog header="Registro de Usuario" widgetVar="modal" modal="true" >
-			   	<p:messages id="messages2" showDetail="false" autoUpdate="true" closable="true" />
-	           	<p:panelGrid id="panel" class="ui-noborder" columns="3" cellpadding="5"> 
-				    <p:outputLabel for="UsuarioR"  value="Usuario:" />
-				    <p:inputText id="UsuarioR" value="#{UserBean.userR.username}" required="true" label="UsuarioR" requiredMessage="Usuario Requerido">
+			<p:dialog header="Registro de Usuario" widgetVar="modal" modal="true" resizable="false" >
+			   	<p:messages id="messages2" showDetail="false" autoUpdate="true" closable="true" severity="warn, info"/>
+	           	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
+				    <p:outputLabel for="addUser"  value="Usuario:" />
+				    <p:inputText id="addUser" value="#{UserBean.userR.username}" required="true" label="UsuarioR" requiredMessage="Usuario Requerido" validatorMessage="Minimo 4 Caracteres">
 					    <f:validateLength minimum="4" />
 					    <p:ajax update="msgUsuarioR" event="keyup" />
 				    </p:inputText>
-                	<p:message for="UsuarioR" id="msgUsuarioR" display="icon" />
+                	<p:message for="addUser" id="msgUsuarioR" display="text" />
                 	
-				    <p:outputLabel for="PasswordR" value="Password:" />
-				    <p:password id="PasswordR" value="#{UserBean.userR.password}" required="true" label="PasswordR" requiredMessage="Password Requerido">
+				    <p:outputLabel for="addPassword" value="Password:" />
+				    <p:password id="addPassword" value="#{UserBean.userR.password}" required="true" label="PasswordR" requiredMessage="Password Requerido" validatorMessage="Minimo 4 Caracteres">
 				  		<f:validateLength minimum="4" />
 					    <p:ajax update="msgPasswordR" event="keyup" />
 					</p:password>   
-					<p:message for="PasswordR" id="msgPasswordR" display="icon" />
+					<p:message for="addPassword" id="msgPasswordR" display="text" />
 			  	</p:panelGrid>  
 			    <p:separator />
-			    <p:commandButton value="Registrar" class="btn-success"   actionListener= "#{UserBean.addUser}" update="messages2"  ></p:commandButton>
+			    <p:commandButton value="Registrar" class="btn-success"   actionListener= "#{UserBean.addUser}" update="addPanel"  ></p:commandButton>
 			</p:dialog> 
 		</h:form>
-	</div>
-   	 
+	
+   	</div> 
 </body>
 </html>

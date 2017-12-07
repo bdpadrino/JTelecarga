@@ -18,9 +18,9 @@ import sys.dao.imp.UserDaoImp;
 import sys.dao.UserDao;
 import sys.model.User;
 
-@ManagedBean(name="userTableBean")
+@ManagedBean(name="userBean")
 @ViewScoped
-public class UserBean2 implements Serializable{
+public class UserBean3 implements Serializable{
 
 	private static final long serialVersionUID = -480409353442786930L;
 
@@ -29,7 +29,7 @@ public class UserBean2 implements Serializable{
 	UserDao cu = new UserDaoImp();
 	private List<User> listUsers;
 		
-	public UserBean2() {
+	public UserBean3() {
 		
 	}
 	
@@ -64,7 +64,7 @@ public class UserBean2 implements Serializable{
 		User u = new User();
 		u =	((User) event.getObject());
 		System.out.println("nuevos valores" +u.toString());
-		//cu.modifyUser(userInTable);
+		//cu.modifyUser(user);
         FacesMessage msg = new FacesMessage("Usuario "+user.getUsername() +" Modificado", ""+((User) event.getObject()).getId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -91,5 +91,14 @@ public class UserBean2 implements Serializable{
         }
     }
 
+    public void deleteUser() {
+		System.out.println(user.toString());
+		if (user == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
+		}
+		else {
+			cu.deleteUser(user.getId());
+		}
+	}
     
 }
