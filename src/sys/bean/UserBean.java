@@ -71,7 +71,6 @@ public class UserBean implements Serializable{
 		return listUsers;
 	}
 
-
 	public void setListUsers(List<User> listUsers) {
 		this.listUsers = listUsers;
 	}
@@ -90,17 +89,13 @@ public class UserBean implements Serializable{
 		User u = new User();
 		u =	((User) event.getObject());
 		System.out.println("nuevos valores" +u.toString());
-		System.out.println("new user"+newUser.toString());
-		
-		//System.out.println("nuevos valores1" +event.getNewValue()); 
-		//cu.modifyUser(userInTable);
-        FacesMessage msg = new FacesMessage("Usuario "+userInTable.getUsername() +" Modificado", ""+((User) event.getObject()).getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getApplication().evaluateExpressionGet(context, "#{user}", User.class);
+        //FacesMessage msg = new FacesMessage("Usuario "+userInTable.getUsername() +" Modificado", ""+((User) event.getObject()).getId());
+        //FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
-	public void modificar(User newUser) {
-		System.out.println("new user"+newUser.toString());
-	}
+	
 	
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ""+((User) event.getObject()).getId());
@@ -110,13 +105,18 @@ public class UserBean implements Serializable{
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
-         System.out.println("soi pasa por aca");
+         System.out.println("old" +oldValue.toString() + " nuevo "+newValue.toString());
         if(newValue != null && !newValue.equals(oldValue)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
+    
+    public void modificar(User newUser) {
+		System.out.println("new user"+newUser.toString());
+	}
+    
 	public String iniciarSesion(){
 		try {
 			if (user!= null) {
@@ -177,7 +177,7 @@ public class UserBean implements Serializable{
 	}
 	
 	public void modifyUser() {
-		System.out.println("ENTRO A ESTA MIERDA");
+		System.out.println("ENTRO AAQUI");
 		System.out.println("userInTable "+userInTable.toString());
 	}
 	

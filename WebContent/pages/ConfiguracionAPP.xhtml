@@ -9,11 +9,11 @@
 	
 	    
     <ui:define name="title">
-       Configuracion APP
+       Versiones
     </ui:define>
 
     <ui:define name="description">
-       
+       disponibles para dispositivos POS
     </ui:define>
     
   
@@ -48,11 +48,11 @@
 			                 paginatorPosition="bottom"
 			                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
 			                 rowsPerPageTemplate="5,10,15,20"
-			                 selectionMode="single"
-			                 selection="#{userTableBean.user}"
-			                 rowKey="#{user.id}"
+			                 selectionMode="single" selection="#{userTableBean.user}" rowKey="#{user.id}"
 			                 emptyMessage="No users found"
-			                 style="margin-bottom:20px">		                
+			                 style="margin-bottom:5px"
+			                 editable="true" 
+			                 editMode="cell">		                
 			 	      		 				
 					        <f:facet name="header">
 					            <p:outputPanel>
@@ -62,41 +62,53 @@
 					           		</div>
 					            </p:outputPanel>
 				        	</f:facet>
+				 			
+				 			<p:ajax event="cellEdit" process="@this" update=":list:userDT" listener="#{UserBean.onCellEdit}" />
+				 			<p:ajax event="rowEdit" listener="#{UserBean.onRowEdit}" update=":form:msgs" />
+	       					<p:ajax event="rowEditCancel" listener="#{UserBean.onRowCancel}" update=":form:msgs" />
+			 
+					        <f:facet name="header">
+					            <p:outputPanel>
+					            	<div align="right">
+						                <h:outputText value="Search all fields:" />
+						                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+					           		</div>
+					            </p:outputPanel>
+				        	</f:facet>
 				 
-					        <p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}">
-					            <h:outputText value="#{user.id}" />
+					        <p:column headerText="Id" sortBy="#{us.id}" filterBy="#{us.id}">
+					            <h:outputText value="#{us.id}" />
 				 			</p:column>
 				 
-					        <p:column headerText="Usuario" sortBy="#{user.username}" filterBy="#{user.username}">
-				            	<h:outputText value="#{user.username}" />
+					        <p:column headerText="Usuario" sortBy="#{us.username}" >
+				              	<p:cellEditor>  
+					                <f:facet name="output">  
+					                  	<h:outputText value="#{us.username}" />
+					                </f:facet>  
+					                <f:facet name="input">  
+					                    <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
+					                </f:facet>  
+				            	</p:cellEditor>  
 					        </p:column>
 					 
-					 		<p:column headerText="Estatus" sortBy="#{user.status}" filterBy="#{user.status}">
-				                  	<h:outputText value="#{user.status}" />
+					 		<p:column headerText="Estatus" sortBy="#{us.status}" >
+					         	<p:cellEditor>  
+					                <f:facet name="output">  
+					                  	<h:outputText value="#{us.status}" />
+					                </f:facet>  
+					                <f:facet name="input">  
+					                    <p:selectOneMenu value="#{us.status}" style="width:96%">
+					                       <f:selectItem itemLabel="Activo" itemValue="Activo" />
+					                       <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+					                   </p:selectOneMenu>
+									</f:facet>  
+				            	</p:cellEditor>  						
 					        </p:column>
-					      </p:dataTable>
-					      
-					      <p:dialog header="Modificar " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" var="user"> <!-- height="500" -->
-						        <p:outputPanel id="carDetail">
-						            <p:panelGrid  columns="2" rendered="#{not empty userTableBean.listUsers}" styleClass= "ui-noborder">
-						             	<h:outputLabel for="id" value="Id:" />
-							            <h:outputText id="id" value="#{userTableBean.user.id}" required="true" label="id" placeholder="#{userTableBean.user.id}"/>
-
-							 			<h:outputLabel for="username" value="Username:" />
-							            <p:inputText id="username" value="#{userTableBean.user.username}" required="true" label="id" placeholder="#{userTableBean.user.username}"/>
-							 
-							            <h:outputLabel for="estatus" value="Estatus:" />
-							            <p:inputText id="estatus" value="#{userTableBean.user.status}" required="true" label="estatus" placeholder="#{userTableBean.user.status}"/>
-						                
-						                <p:spacer height="10"/> 
-						                
-						                <f:facet name="footer">
-							                <p:commandButton value="Modificar" class="btn btn-success" actionListener="#{userTableBean.modificarB}"/>
-							            </f:facet>  
-						              </p:panelGrid>
-
-				                 </p:outputPanel>
-						    </p:dialog>
+					        
+					         <p:column style="width:32px">
+					           <p:rowEditor />
+					       </p:column>
+					     </p:dataTable>  
 					  </h:form>  
 	              </div> <!-- /.tab-pane2 -->
 	            </div> <!-- /.tab-content -->

@@ -25,8 +25,12 @@
       	 
        	</div> <!--  box -header -->
        	<div class="box-body">             	
-    	<h:form id="searchForm">
-   				<p:dataTable id="tableStateDT" var="us" value="#{userBean.listUsers}" widgetVar="usersTable" multiViewState="true"
+	    	<h:form id="searchForm">
+	    		<p:messages id="msgs" autoUpdate="true" />
+	            <p:commandButton value="Modificar" icon="fa fa-edit" styleClass="btn-primary" oncomplete="PF('usDialog2').show()" />
+			  	<p:spacer width="5"/>
+	            <p:separator/>
+	  				<p:dataTable id="tableStateDT" var="us" value="#{userBean.listUsers}" widgetVar="usersTable" multiViewState="true"
 	                 rows="10" paginator="true" paginatorPosition="bottom" 
 	                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 	                 rowsPerPageTemplate="5,10,15,20"
@@ -62,24 +66,31 @@
 			        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{userBean.deleteUser}"/>
 			    	<p:menuitem value="Modifius" icon="ui-icon-pencil" oncomplete="PF('tab_3').show()"  />
 			    </p:contextMenu>
- 
+	
 				<p:dialog header="Detalle Transacción " widgetVar="usDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
 			        <p:outputPanel id="usDetail">
-			            <p:panelGrid  columns="2" rendered="#{not empty userBean.listUsers}">
+			            <p:panelGrid  columns="2" rendered="#{not empty userBean.listUsers}" styleClass= "ui-noborder">
 			             	<h:outputText value="Id:" />
 			                <h:outputText value=" #{userBean.user.id}" />
 			               
-			                <h:outputText value="Tipo de Transaccion:" />
+			                <h:outputText value="Username:" />
 			                <h:outputText value="#{userBean.user.username}" />
 			                
-			                <h:outputText value="Modo de Entrada:" />
+			                <h:outputText value="Estatus:" />
 			                <h:outputText value="#{userBean.user.status}" />
 			                
+			                <p:spacer height="5"/> 
+			                
+			                <f:facet name="footer">
+							    <p:commandButton value="Modificar" class="btn btn-success" actionListener="#{userBean.modificar}"/>
+							</f:facet>  
 			               
 			            </p:panelGrid>
 			            
 			        </p:outputPanel>
 			    </p:dialog>
+			    
+			    
 		  	</h:form>                                        
       	</div>
       </div>

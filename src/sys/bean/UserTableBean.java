@@ -4,32 +4,41 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+//import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-
+//import javax.faces.bean.ManagedProperty;
+//import javax.faces.bean.RequestScoped;
+//import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 import sys.dao.imp.UserDaoImp;
 import sys.dao.UserDao;
 import sys.model.User;
 
 @ManagedBean(name="userBean")
+//@RequestScoped
+//@SessionScoped
 @ViewScoped
-public class UserBean3 implements Serializable{
+public class UserTableBean implements Serializable{
 
 	private static final long serialVersionUID = -480409353442786930L;
 
-	private User user;
-	
+	//@ManagedProperty("#{carService}")
+	private User user;	
+	private User newUser;	
+
 	UserDao cu = new UserDaoImp();
+	
 	private List<User> listUsers;
 		
-	public UserBean3() {
+	public UserTableBean() {
 		
 	}
 	
@@ -37,6 +46,7 @@ public class UserBean3 implements Serializable{
     public void init() {
 		System.out.println("instancia");
 		this.user = new User();
+		this.newUser = new User();
 	}
 
 	public User getUser() {
@@ -47,10 +57,15 @@ public class UserBean3 implements Serializable{
 		this.user = user;
 	}
 
+	public User getNewUser() {
+		return newUser;
+	}
+
+	public void setNewUser(User newUser) {
+		this.newUser = newUser;
+	}
 	public List<User> getListUsers() {
-		System.out.println("buscando");
 		listUsers = cu.listUsers();
-		System.out.println("listUsers"+listUsers.size());
 		return listUsers;
 	}
 
@@ -58,18 +73,25 @@ public class UserBean3 implements Serializable{
 		this.listUsers = listUsers;
 	}
 	
+	 public void onRowSelect(SelectEvent event) {
+		 	System.out.println("event "+((User)event.getObject()).toString());
+	        FacesMessage msg = new FacesMessage("Car Selected", ((User)event.getObject()).toString());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+	
 	public void onRowEdit(RowEditEvent event) {
-		System.out.println("EDITANDO FILA");
-		System.out.println(user.toString());
-		User u = new User();
-		u =	((User) event.getObject());
+		System.out.println("EDITANDO FILA REQUEST SCOPE");
+		System.out.println("OBJETO user"+user.toString());
+		System.out.println("OBJETO newUser"+newUser.toString());
+		User u = ((User) event.getObject()); 
+		System.out.println("event "+((User)event.getObject()).toString());
 		System.out.println("nuevos valores" +u.toString());
 		//cu.modifyUser(user);
-        FacesMessage msg = new FacesMessage("Usuario "+user.getUsername() +" Modificado", ""+((User) event.getObject()).getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("Usuario "+u.getUsername() +" Modificado " +u.getId(),"");
+        FacesContext.getCurrentInstance().addMessage(":form:userDT", msg);
     }
      
-	public void modificarB() {
+	public void modifyUser() {
 		System.out.println("new user"+user.toString());
 		/*User u = new User();
 		u =	((User) event.getObject());

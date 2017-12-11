@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/plantilla.xhtml">
+	
+	    
+    <ui:define name="title">
+       Control de Versiones
+    </ui:define>
+
+    <ui:define name="description">
+        según modelo y tipo de aplicación en dispositivos POS
+    </ui:define>
+
+    <ui:define name="body">
+    	<f:metadata>
+        </f:metadata>
+   		 <adm:breadcrumb title="Historial de Transacciones"/>
+
+     	 <div class="box box-primary"> 
+         	<div class="box-header with-border">
+         	 
+          	</div> <!--  box -header -->
+	         <div class="box-body">                                   
+	            <div class="nav-tabs-custom">
+		            <ul class="nav nav-tabs">
+		              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
+		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
+		              <li><a href="#tab_3" data-toggle="tab"><i class="fa fa-pencil-square-o"></i> Modificar</a></li>
+		              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-credit-card"></i></a></li>
+		            </ul>
+		            <div class="tab-content">
+		              <div class="tab-pane active" id="tab_1">
+			            <h:form id="searchForm">
+			   				<p:dataTable id="tableStateDT" var="car" value="#{versionBean.listVersions}" widgetVar="carsTable" multiViewState="true"
+				                 rows="10" paginator="true" paginatorPosition="bottom" 
+				                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				                 rowsPerPageTemplate="5,10,15,20"
+				                 selectionMode="single" selection="#{versionBean.version}" rowKey="#{car.id}"
+				                 emptyMessage="No hay transacciones" >
+				 
+						        <f:facet name="header">
+						            <p:outputPanel>
+						            	<div align="right">
+							                <h:outputText value="Search all fields: " />
+							                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+						           		</div>
+						            </p:outputPanel>
+					        	</f:facet>
+					 
+						        <p:column headerText="Id" priority="1" filterBy="#{car.id}" sortBy="#{car.id}" filterMatchMode="contains">
+						            <h:outputText value="#{car.id}" />
+						        </p:column>
+					 
+						        <p:column headerText="Tipo de Aplicacion" priority="3" filterBy="#{car.tipoAplicacion}" sortBy="#{car.tipoAplicacion}" filterMatchMode="contains">
+						            <h:outputText value="#{car.tipoAplicacion}" />
+						        </p:column>
+					   
+						        <p:column headerText="Modelo" priority="1" filterBy="#{car.modelo}" sortBy="#{car.modelo}" filterMatchMode="contains">
+						            <h:outputText value="#{car.modelo}" />
+						        </p:column>
+						  	
+						  		<p:column headerText="Version" priority="1" filterBy="#{car.version}" sortBy="#{car.version}" filterMatchMode="contains">
+						            <h:outputText value="#{car.version}" />
+						        </p:column>
+					  			
+				 			</p:dataTable>
+				 			
+				 			<p:contextMenu for="tableStateDT">
+						        <p:menuitem value="Ver Detalle" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
+						        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{versionBean.deleteVersion}"/>
+						    </p:contextMenu>
+			 
+							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
+						        <p:outputPanel id="carDetail">
+						            <p:panelGrid  columns="2" rendered="#{not empty versionBean.listVersions}">
+						             	<h:outputText value="Id:" />
+						                <h:outputText value=" #{versionBean.version.id}" />
+						               
+						                <h:outputText value="Tipo de Transaccion:" />
+						                <h:outputText value="#{versionBean.version.tipoAplicacion}" />
+						                
+						                <h:outputText value="Modo de Entrada:" />
+						                <h:outputText value="#{versionBean.version.modelo}" />
+						                
+						                <h:outputText value="Modelo del Terminal:" />
+						                <h:outputText value="#{versionBean.version.version}" />
+						                
+						               
+						            </p:panelGrid>
+						            
+						        </p:outputPanel>
+						    </p:dialog>
+					  	</h:form>
+					  </div> <!-- tab-pane 1--> 
+					  
+					  													<!-- PESTANA DE AGREGAR-->
+					  <div class="tab-pane" id="tab_2">
+						  <h:form id="addForm">
+			            	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
+			              		
+			              		<p:outputLabel for="version_type" value="Tipo de Aplicacion:" />
+				                <p:inputText id="version_type" value="#{versionBean.version.tipoAplicacion}"  required="true" minlength="4" maxlength="20" requiredMessage="Campo Requerido">
+			     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+			     	     		</p:inputText>
+			     	     		<p:message for="version_type" display="text" />
+			     	     		
+				                <p:outputLabel for="model" value="Modelo del Terminal:" />
+				                <p:inputText id="model" value="#{versionBean.version.modelo}" maxlength="10"/>
+				                <p:message for="model" display="text" />
+			       					                
+				                <p:outputLabel for="version" value="Version:" />
+				                <p:inputText id ="version" value="#{versionBean.version.version}" maxlength="20"/>	
+				                <p:message for="version" display="text" />	                
+				   			
+				   			</p:panelGrid>
+				   			 <p:keyFilter for="version" mask="num" /> 
+				   			 
+					   	  </h:form>
+					  </div><!-- tab-pane 2--> 
+					  
+						  
+				    </div> <!-- tab-content -->
+				</div><!-- nav-tabs-custom -->
+	   	  	</div> <!-- box-body -->	   	  
+		</div>  <!-- box-primary -->
+        	        
+    </ui:define>
+
+</ui:composition>

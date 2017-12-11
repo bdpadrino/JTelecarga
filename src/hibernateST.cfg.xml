@@ -22,6 +22,7 @@
    <mapping class="sys.model.User"/>
    <mapping class="sys.model.BitacoraError"/>
    <mapping class="sys.model.TeleReport"/>
+   <mapping class="sys.model.Version"/>
 
  </session-factory>
 </hibernate-configuration>
