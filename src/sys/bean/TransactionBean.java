@@ -37,6 +37,7 @@ public class TransactionBean implements Serializable {
     public void init() {
 		this.transaction = new Transaction();
 		this.transactionToAdd = new Transaction();
+		listTransactions = ct.listTransactions();	
     }
 	
 	public Transaction getTransaction() {
@@ -56,7 +57,6 @@ public class TransactionBean implements Serializable {
 	}
 	
 	public List<Transaction> getListTransactions() {
-		listTransactions = ct.listTransactions();		
 		return listTransactions;
 	}
 	
@@ -81,13 +81,6 @@ public class TransactionBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
 			RequestContext.getCurrentInstance().reset("addForm:addPanel");
 			transactionToAdd = new Transaction();
-			/*transaction.setCurrency(null);
-			transaction.setAmount_transaction(null);
-			transaction.setCard_acceptor_name(null);
-			transaction.setCard_acceptor_terminal_id(null);
-			transaction.setCard_holder(null);
-			transaction.setCurrency(null);
-			transaction.setPan("");*/
 		} 
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error",e.getMessage()));
@@ -101,7 +94,6 @@ public class TransactionBean implements Serializable {
 			int id = transaction.getSystems_trace_number();
 			ct.modifyTransaction(transaction);
 			FacesContext.getCurrentInstance().addMessage("messagesModify", new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Modificada con Exito"," "));
-			
 		}
 		else {
 			FacesContext.getCurrentInstance().addMessage("messagesModify", new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion nula"," "));

@@ -25,7 +25,7 @@ public class Version {
 		@Column(name = "modelo")
 		private String modelo;  	    
 		@Column(name = "versión")
-		private Integer version; 
+		private Double version; 
 		    	    
 	    public Integer getId() {
 			return id;
@@ -51,11 +51,11 @@ public class Version {
 			this.modelo = modelo;
 		}
 
-		public Integer getVersion() {
+		public Double getVersion() {
 			return version;
 		}
 
-		public void setVersion(Integer version) {
+		public void setVersion(Double version) {
 			this.version = version;
 		}
 

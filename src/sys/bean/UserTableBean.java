@@ -4,16 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-//import javax.annotation.PostConstruct;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-//import javax.faces.bean.ManagedProperty;
-//import javax.faces.bean.RequestScoped;
-//import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-
+import org.hibernate.JDBCException;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -21,10 +18,9 @@ import org.primefaces.event.SelectEvent;
 import sys.dao.imp.UserDaoImp;
 import sys.dao.UserDao;
 import sys.model.User;
+import sys.util.Util;
 
 @ManagedBean(name="userBean")
-//@RequestScoped
-//@SessionScoped
 @ViewScoped
 public class UserTableBean implements Serializable{
 
@@ -32,7 +28,9 @@ public class UserTableBean implements Serializable{
 
 	//@ManagedProperty("#{carService}")
 	private User user;	
-	private User newUser;	
+	private User userToAdd;	
+	
+	Util util = new Util();
 
 	UserDao cu = new UserDaoImp();
 	
@@ -44,9 +42,9 @@ public class UserTableBean implements Serializable{
 	
 	@PostConstruct
     public void init() {
-		System.out.println("instancia");
 		this.user = new User();
-		this.newUser = new User();
+		this.userToAdd = new User();
+		this.listUsers = cu.listUsers();
 	}
 
 	public User getUser() {
@@ -57,15 +55,14 @@ public class UserTableBean implements Serializable{
 		this.user = user;
 	}
 
-	public User getNewUser() {
-		return newUser;
+	public User getuUerToAdd() {
+		return userToAdd;
 	}
 
-	public void setNewUser(User newUser) {
-		this.newUser = newUser;
+	public void setUserToAdd(User userToAdd) {
+		this.userToAdd = userToAdd;
 	}
 	public List<User> getListUsers() {
-		listUsers = cu.listUsers();
 		return listUsers;
 	}
 
@@ -74,30 +71,34 @@ public class UserTableBean implements Serializable{
 	}
 	
 	 public void onRowSelect(SelectEvent event) {
-		 	System.out.println("event "+((User)event.getObject()).toString());
-	        FacesMessage msg = new FacesMessage("Car Selected", ((User)event.getObject()).toString());
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	    }
+	 	System.out.println("event "+((User)event.getObject()).toString());
+        FacesMessage msg = new FacesMessage("Car Selected", ((User)event.getObject()).toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 	
 	public void onRowEdit(RowEditEvent event) {
-		System.out.println("EDITANDO FILA REQUEST SCOPE");
-		System.out.println("OBJETO user"+user.toString());
-		System.out.println("OBJETO newUser"+newUser.toString());
-		User u = ((User) event.getObject()); 
-		System.out.println("event "+((User)event.getObject()).toString());
-		System.out.println("nuevos valores" +u.toString());
-		//cu.modifyUser(user);
-        FacesMessage msg = new FacesMessage("Usuario "+u.getUsername() +" Modificado " +u.getId(),"");
-        FacesContext.getCurrentInstance().addMessage(":form:userDT", msg);
+		try {
+			System.out.println("OBJETO user"+user.toString());
+			User u = ((User) event.getObject()); 
+			System.out.println("nuevos valores" +u.toString());
+			cu.modifyUser(u);
+	        FacesMessage msg = new FacesMessage("Usuario "+u.getUsername() +" Modificado " +u.getId(),"");
+	        FacesContext.getCurrentInstance().addMessage(":form:userDT", msg);
+		}
+		catch(JDBCException e) {
+			System.out.println("eror code "+e.getSQLException().getSQLState());
+			if (e.getSQLException().getSQLState().equals("23000")) {
+				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de Usuario ya registrado",e.getMessage()));
+				
+			}
+		}
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
+			System.out.println("Mensaje "+e.getMessage());
+			System.out.println("Causa "+e.getCause());
+		}
     }
-     
-	public void modifyUser() {
-		System.out.println("new user"+user.toString());
-		/*User u = new User();
-		u =	((User) event.getObject());
-		System.out.println("nuevos valores" +u.toString());*/
-	}
-	
+    
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ""+((User) event.getObject()).getId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -113,7 +114,58 @@ public class UserTableBean implements Serializable{
         }
     }
 
-    public void deleteUser() {
+  
+    public void addUser() {
+		try{
+			userToAdd.setPassword(util.encriptaEnMD5(userToAdd.getPassword()));
+			cu.addUser(userToAdd);
+			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro Exitoso",""));
+			userToAdd = new User();
+		}catch(JDBCException e) {
+			System.out.println("eror code "+e.getSQLException().getSQLState());
+			if (e.getSQLException().getSQLState().equals("23000")) {
+				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
+				
+			}
+		}
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
+			System.out.println("Mensaje "+e.getMessage());
+			System.out.println("Causa "+e.getCause());
+		}
+	}
+	
+
+	public void modifyUser() {
+		try 
+		{
+			if (user.getUsername() == cu.findByID(user.getId()).getUsername()) {
+				System.out.println("Modificando solo nombre de usuario");
+				cu.modifyUserStatus(user);
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Modificado Estatus Exitosamente",""));
+				
+			}
+			else {
+				//MODIFICADO USERNAME Y ESTATUS
+				cu.modifyUser(user);
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Modificado Exitosamente",""));
+			}
+			
+		}catch(JDBCException e) {
+			System.out.println("eror code "+e.getSQLException().getSQLState());
+			if (e.getSQLException().getSQLState().equals("23000")) {
+				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
+				
+			}
+		}
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
+			System.out.println("Mensaje "+e.getMessage());
+			System.out.println("Causa "+e.getCause());
+		}
+	}
+
+	public void deleteUser() {
 		System.out.println(user.toString());
 		if (user == null) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));

@@ -62,7 +62,7 @@
 		
 		<h:form id="formSingUp">
 			<p:dialog header="Registro de Usuario" widgetVar="modal" modal="true" resizable="false" >
-			   	<p:messages id="messages2" showDetail="false" autoUpdate="true" closable="true" severity="warn, info"/>
+			   	<p:messages for="addPanel" id="messages2" showDetail="false" autoUpdate="true" closable="true" severity="warn, info"/>
 	           	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
 				    <p:outputLabel for="addUser"  value="Usuario:" />
 				    <p:inputText id="addUser" value="#{UserBean.userR.username}" required="true" label="UsuarioR" requiredMessage="Usuario Requerido" validatorMessage="Minimo 4 Caracteres">

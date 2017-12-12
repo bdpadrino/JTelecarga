@@ -9,113 +9,72 @@
 	
 	    
     <ui:define name="title">
-       Versiones
+       Configuración APP
     </ui:define>
-
+		
     <ui:define name="description">
-       disponibles para dispositivos POS
+      pp
     </ui:define>
-    
-  
 
     <ui:define name="body">
-   	<adm:breadcrumb title="Configuracion APP"/>              	
-                                            
-      
-          <div class="row">
-	        <div class="col-md-12">
-	          <!-- Custom Tabs -->
-	          <div class="nav-tabs-custom">
-	            <ul class="nav nav-tabs">
-	              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-users"></i> Usuarios</a></li>
-	              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-list"></i> Roles</a></li>
-	              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
-	            </ul>
-	            <div class="tab-content">
-	              <div class="tab-pane active" id="tab_1">
-	              	
-	              	
-	              </div> <!-- /.tab-pane -->
-	              <div class="tab-pane" id="tab_2">
-		              <h:form id="roleForm">
-		                <p:messages id="msgs" autoUpdate="true" />
-		                  <p:commandButton value="Modificar" icon="fa fa-edit" styleClass="btn-primary" oncomplete="PF('carDialog').show()" />
-	     				  <p:spacer width="5"/>
-		                  <p:separator/>
-	     				  <p:dataTable id="userDT" var="user" value="#{userTableBean.listUsers}" widgetVar="usersTable" multiViewState="true"
-			                 rows="10" 
-			                 paginator="true" 
-			                 paginatorPosition="bottom"
-			                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
-			                 rowsPerPageTemplate="5,10,15,20"
-			                 selectionMode="single" selection="#{userTableBean.user}" rowKey="#{user.id}"
-			                 emptyMessage="No users found"
-			                 style="margin-bottom:5px"
-			                 editable="true" 
-			                 editMode="cell">		                
-			 	      		 				
-					        <f:facet name="header">
-					            <p:outputPanel>
-					            	<div align="right">
-						                <h:outputText value="Search all fields:" />
-						                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-					           		</div>
-					            </p:outputPanel>
-				        	</f:facet>
-				 			
-				 			<p:ajax event="cellEdit" process="@this" update=":list:userDT" listener="#{UserBean.onCellEdit}" />
-				 			<p:ajax event="rowEdit" listener="#{UserBean.onRowEdit}" update=":form:msgs" />
-	       					<p:ajax event="rowEditCancel" listener="#{UserBean.onRowCancel}" update=":form:msgs" />
+   		<adm:breadcrumb title="Configuracion APP"/>              	
+        <p:tabView dynamic="true" cache="true">
+	        <p:tab title="Usuarios">
+	           	<h:form id="form">
+	               <p:commandButton action="#" ajax="false" icon="fa fa-plus"  value="Agregar" styleClass="btn-primary"/>
+	               <p:spacer width="5"/>
+	               <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger" update="userDT" actionListener="#{userBean.deleteUser}"/>
+	               <p:spacer width="5"/>
+	               <p:commandButton value="Modificar" icon="fa fa-edit" styleClass="btn-primary" update="userDT" actionListener="#{userBean.modifyUser}"/>
+	               <p:spacer width="5"/>
+	               <p:separator/>
+	        		
+	        		
+	            
+		   			<p:dataTable id="userDT" var="us" value="#{userBean.listUsers}" 
+		                 editable="true" 
+		                 emptyMessage="No users found" >		                
+		 
+			       		<p:ajax event="rowEdit" listener="#{userBean.onRowEdit}" update="userDT" />
+	      				<p:ajax event="rowEditCancel" listener="#{userBean.onRowCancel}" />
+		 				<p:ajax event="rowSelect" listener="#{userBean.onRowSelect}"  />
 			 
-					        <f:facet name="header">
-					            <p:outputPanel>
-					            	<div align="right">
-						                <h:outputText value="Search all fields:" />
-						                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-					           		</div>
-					            </p:outputPanel>
-				        	</f:facet>
+				        <p:column headerText="Id">
+				            <h:outputText value="#{us.id}" />
+			 			</p:column>
+			 
+				        <p:column headerText="Usuario" >
+			              	<p:cellEditor>  
+				                <f:facet name="output">  
+				                  	<h:outputText value="#{us.username}" />
+				                </f:facet>  
+				                <f:facet name="input">  
+				                    <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
+				                </f:facet>  
+			            	</p:cellEditor>  
+				        </p:column>
 				 
-					        <p:column headerText="Id" sortBy="#{us.id}" filterBy="#{us.id}">
-					            <h:outputText value="#{us.id}" />
-				 			</p:column>
-				 
-					        <p:column headerText="Usuario" sortBy="#{us.username}" >
-				              	<p:cellEditor>  
-					                <f:facet name="output">  
-					                  	<h:outputText value="#{us.username}" />
-					                </f:facet>  
-					                <f:facet name="input">  
-					                    <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
-					                </f:facet>  
-				            	</p:cellEditor>  
-					        </p:column>
-					 
-					 		<p:column headerText="Estatus" sortBy="#{us.status}" >
-					         	<p:cellEditor>  
-					                <f:facet name="output">  
-					                  	<h:outputText value="#{us.status}" />
-					                </f:facet>  
-					                <f:facet name="input">  
-					                    <p:selectOneMenu value="#{us.status}" style="width:96%">
-					                       <f:selectItem itemLabel="Activo" itemValue="Activo" />
-					                       <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
-					                   </p:selectOneMenu>
-									</f:facet>  
-				            	</p:cellEditor>  						
-					        </p:column>
-					        
-					         <p:column style="width:32px">
-					           <p:rowEditor />
-					       </p:column>
-					     </p:dataTable>  
-					  </h:form>  
-	              </div> <!-- /.tab-pane2 -->
-	            </div> <!-- /.tab-content -->
-	          </div> <!-- nav-tabs-custom -->
-	        </div><!-- /.col -->
-	      </div>  <!-- /.row -->
-  	
-		       	        
+				 		<p:column headerText="Estatus">
+				         	<p:cellEditor>  
+				                <f:facet name="output">  
+				                  	<h:outputText value="#{us.status}" />
+				                </f:facet>  
+				                <f:facet name="input">  
+				                    <p:selectOneMenu value="#{us.status}" style="width:96%">
+				                       <f:selectItem itemLabel="Activo" itemValue="Activo" />
+				                       <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+				                   </p:selectOneMenu>
+								</f:facet>  
+			            	</p:cellEditor>  						
+				        </p:column>
+				        
+				         <p:column style="width:32px">
+				           <p:rowEditor />
+				        </p:column>
+					       
+		 			  </p:dataTable>
+		       </h:form>          
+	        </p:tab>                          
+      	</p:tabView>     	        
     </ui:define>
 </ui:composition>

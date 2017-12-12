@@ -100,7 +100,7 @@ public class UserDaoImp implements UserDao {
     @Override   
     public User findByUsernameActive(String username) {  
         Session session = HibernateUtilST.getSessionFactory().openSession();
-        String query = "FROM User u WHERE u.username = '"+username+"' AND u.estatus = 'Activo' ";
+        String query = "FROM User u WHERE u.username = '"+username+"' AND u.status = 'Activo' ";
         User user = (User) session.createQuery(query).uniqueResult();
         /*Query query = session.createQuery("FROM User u WHERE u.username = ':usuario' AND u.status = ':estatus'");
         query.setString("usuario", username);

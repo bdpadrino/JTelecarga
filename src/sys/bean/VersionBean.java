@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.context.RequestContext;
+//import org.primefaces.context.RequestContext;
 
 import sys.dao.VersionDao;
 import sys.dao.imp.VersionDaoImp;
@@ -36,6 +36,7 @@ public class VersionBean implements Serializable {
 	@PostConstruct
     public void init() {
 		this.version = new Version();
+		this.listVersions = ct.listVersions();	
     }
 	
 	public Version getVersion() {
@@ -47,7 +48,7 @@ public class VersionBean implements Serializable {
 	}
 	
 	public List<Version> getListVersions() {
-		listVersions = ct.listVersions();		
+			
 		return listVersions;
 	}
 	
@@ -67,7 +68,7 @@ public class VersionBean implements Serializable {
 		try {
 			int id = ct.addVersion(version);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Versión Id "+id+" Guardada con Exito"," "));
-			RequestContext.getCurrentInstance().reset("addForm:addPanel");
+			version = new Version();
 		} 
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error",e.getMessage()));

@@ -4,8 +4,12 @@ package sys.bean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import sys.dao.TelecargaSTDao;
 import sys.dao.imp.TelecargaSTDaoImp;
 import sys.model.Bdu;
@@ -16,16 +20,17 @@ import java.util.List;
 
 @ManagedBean(name="telecargaBean")
 @SessionScoped
+//@ViewScoped
+//@RequestScoped
 public class TelecargaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	TelecargaSTDao ct = new TelecargaSTDaoImp();  
 	private TelecargaST telecargaST;  
 	private List<TelecargaST> listTelecargas;
-	//BduDao cb = new BduDaoImp();
-	//private List<Bdu> listBdus;
-	private Bdu bdu; 
+	
+	TelecargaSTDao ct = new TelecargaSTDaoImp();  
+
 	FacesContext context;
 	
 	public TelecargaBean() {
@@ -35,19 +40,18 @@ public class TelecargaBean implements Serializable {
 	@PostConstruct
     public void init() {
 		this.telecargaST = new TelecargaST();
-		this.bdu = new Bdu();
+		this.listTelecargas = ct.listTelecargas();
     }
 	
-	public TelecargaST getTelecarga() {
+	public TelecargaST getTelecargaST() {
 		return telecargaST;
 	}
-	
-	public void setTelecarga(TelecargaST telecargaST) {
+
+	public void setTelecargaST(TelecargaST telecargaST) {
 		this.telecargaST = telecargaST;
 	}
-	
+
 	public List<TelecargaST> getListTelecargas() {
-		listTelecargas = ct.listTelecargas();
 		return listTelecargas;
 	}
 	
@@ -65,26 +69,22 @@ public class TelecargaBean implements Serializable {
 		
 	}
 	
-	public Bdu getBdu() {
-		return bdu;
+	public void getParamters() {
+		try {
+			System.out.println("recibida" +telecargaST.toString());
+		
+			HttpServletRequest mirequest= (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			mirequest.setAttribute("claveTelecarga", telecargaST);
+			
+			System.out.println("exploto");
+		}catch(Exception e)
+		{
+			System.out.println("Error Mensaje "+e.getMessage());
+			System.out.println("Error Causa "+e.getCause());
+		}
 	}
 	
-	public void setBdu(Bdu bdu) {
-		this.bdu = bdu;
-	}
-	/*public List<Bdu> getlistBdus() {
-		listBdus = cb.listBdus();		
-		return listBdus;
-	}
-	public List<Bdu> getBduByFolio() {
-		System.out.println("buscando listBdus");
-		listBdus = cb.listBdus();		
-		return listBdus;
-	}
-	
-	public void setListBdus(List<Bdu> listBdus) {
-		this.listBdus = listBdus;
-	} 
+	/*
 	public void getParamtersFromMaster() {
 		try {
 			//System.out.println("Obteniendo parametos");

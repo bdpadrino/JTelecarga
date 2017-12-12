@@ -33,6 +33,7 @@ public class BitacoraErrorBean implements Serializable {
 	@PostConstruct
     public void init() {
 		this.bitacoraError = new BitacoraError();
+		this.listBitacoraErrors = cbe.listBitacoraErrors();
     }
 	
 	public BitacoraError getBitacoraError() {
@@ -44,7 +45,6 @@ public class BitacoraErrorBean implements Serializable {
 	}
 
 	public List<BitacoraError> getListBitacoraErrors() {
-		listBitacoraErrors = cbe.listBitacoraErrors();
 		return listBitacoraErrors;
 	}
 	

@@ -33,6 +33,7 @@ public class SolicitudTelecargaBean implements Serializable {
 	@PostConstruct
     public void init() {
 		this.solicitudTelecarga = new SolicitudTelecarga();
+		this.listSolicitudTelecargas = cti.listSolicitudTelecargas();
     }
 	
 	public SolicitudTelecarga getSolicitudTelecarga() {
@@ -44,8 +45,6 @@ public class SolicitudTelecargaBean implements Serializable {
 	}
 	
 	public List<SolicitudTelecarga> getListSolicitudTelecargas() {
-		System.out.println("buscando SolicitudTelecargas");
-		listSolicitudTelecargas = cti.listSolicitudTelecargas();		
 		return listSolicitudTelecargas;
 	}
 	

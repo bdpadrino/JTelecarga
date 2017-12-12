@@ -36,6 +36,13 @@
 		            <div class="tab-content">
 		              <div class="tab-pane active" id="tab_1">
 			            <h:form id="searchForm">
+			            	
+			                <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" actionListener="#{versionBean.deleteVersion}"/>
+			                <p:spacer width="5"/>
+			                <p:commandButton value="Modificar" icon="fa fa-edit" styleClass="btn-primary" update="tableStateDT" actionListener="#{versionBean.modifyVersion}"/>
+			               	<p:spacer width="5"/>
+			                <p:separator/>
+			            
 			   				<p:dataTable id="tableStateDT" var="car" value="#{versionBean.listVersions}" widgetVar="carsTable" multiViewState="true"
 				                 rows="10" paginator="true" paginatorPosition="bottom" 
 				                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -114,11 +121,17 @@
 				                <p:message for="model" display="text" />
 			       					                
 				                <p:outputLabel for="version" value="Version:" />
-				                <p:inputText id ="version" value="#{versionBean.version.version}" maxlength="20"/>	
-				                <p:message for="version" display="text" />	                
+				                <p:inputText id ="version" value="#{versionBean.version.version}" maxlength="4">	
+				                	<p:keyFilter regEx="/[1234567890.,]/i"/>
+			     	     		</p:inputText>
+				                <p:message for="version" display="text" />	   
+				                
+				                <p:commandButton value="Agregar" actionListener="#{versionBean.addVersion}" update=":addForm:addPanel :searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+				 
+			              		<p:spacer width="5"/>             
 				   			
 				   			</p:panelGrid>
-				   			 <p:keyFilter for="version" mask="num" /> 
+				   			 
 				   			 
 					   	  </h:form>
 					  </div><!-- tab-pane 2--> 
