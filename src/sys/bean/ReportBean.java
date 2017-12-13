@@ -35,7 +35,8 @@ public class ReportBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Report report;
-
+	private String search;
+	private String searchBy;
 	public ReportBean() {
 		
 	}
@@ -80,8 +81,13 @@ public class ReportBean implements Serializable {
     		FacesContext.getCurrentInstance().responseComplete();
             		
         }   
+		catch(FileNotFoundException e) {
+			System.out.println("Error FileNotFound" +e.getMessage());
+			System.out.println("Causa FileNotFound" +e.getCause());
+		}
         catch (Exception e) {
-            System.out.println("Error " +e.getMessage());
+            System.out.println("Error Exception " +e.getMessage());
+            System.out.println("Causa Exception" +e.getCause());
         }
 				
 	}
@@ -91,10 +97,19 @@ public class ReportBean implements Serializable {
 			Connection con = HibernateUtilST.getConnectionHibernate();
 	        Util util = new Util();
 	        
+	        System.out.println("fecha i recibida "+report.getStartDate());
+	        System.out.println("fecha f recibida "+report.getEndDate());
+	        System.out.println("fecha f recibida "+util.addDateFormat(util.sumarDiasFecha(report.getEndDate(), 1)));
+	        
 	        Map<String,Object> parameter= new HashMap<String,Object>();
             parameter.put("reportName", report.getReportName());
-            parameter.put("fechaInicio", util.addDateFormat(report.getStartDate()));
-            parameter.put("fechaFin", util.addDateFormat(report.getEndDate()));
+            parameter.put("fechaInicio", util.addDateFormat(util.sumarDiasFecha(report.getStartDate(), 1)));
+            parameter.put("fechaFin", util.addDateFormat(util.sumarDiasFecha(report.getEndDate(), 1)));
+            
+            if (search != null) {
+            	System.out.println("llenando la busuqeda"+search);
+            	 parameter.put("searchBy", search);
+            }
 			
 			File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/"+report.getReportName()));		
 			
@@ -118,6 +133,22 @@ public class ReportBean implements Serializable {
 			 System.out.println("Error" +e.getMessage());
 		}
 		
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public String getSearchBy() {
+		return searchBy;
+	}
+
+	public void setSearchBy(String searchBy) {
+		this.searchBy = searchBy;
 	}
 	
 

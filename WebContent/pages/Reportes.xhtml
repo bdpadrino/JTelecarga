@@ -28,48 +28,53 @@
 	                    <div class="box-body">  
 	                    <p:messages id="messages" autoUpdate="true" closable="true" />                            
 	                            <div class="form-group">
-	                                <div class="col-md-12">  
+	                                 <p:panelGrid  id="addPanel" class="ui-noborder" columns="2" cellpadding="5">  
 	                                    <p:outputLabel for="reportName" value="Nombre del Reporte:" />
-						               	<p:selectOneMenu id="reportName" value="#{reportBean.report.reportName}" required="true">
-								            <f:selectItem itemLabel="Select One" itemValue="" />
-								            <f:selectItem itemLabel="Historial de Transacciones" itemValue="Historial de Transacciones.jasper" />
-								            <f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar.jasper" />
-											<f:selectItem itemLabel="Transacciones por Persona" itemValue="Transacciones por Persona.jasper" />							  
-								        </p:selectOneMenu>
+							               	<p:selectOneMenu id="reportName" value="#{reportBean.report.reportName}" required="true" requiredMessage="Nombre de reporte requerido">
+									            <f:selectItem itemLabel="Select One" itemValue="" />
+									            <f:selectItem itemLabel="Historial de Transacciones" itemValue="Historial de Transacciones.jasper" />
+									            <f:selectItem itemLabel="Histórico de Transacciones" itemValue="Histórico de Transacciones.jasper" />
+									            
+									            <f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar.jasper" />
+												<f:selectItem itemLabel="Transacciones por Persona" itemValue="Transacciones por Persona.jasper" />							  
+									        </p:selectOneMenu>
 	                                    
-	                                </div>
-	                            </div>   <!-- form-group --> 
+	                                
+	                           
+                                    	<p:outputLabel for="startDate" value="Desde:" />
+                                   
+                                         <p:calendar id="startDate" value="#{reportBean.report.startDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="Fecha de Inicio es requerida">
+							 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+							 			</p:calendar>
+                                  
+                                         <p:outputLabel for="endDate" value="Hasta:" />                                                     
+                                         <p:calendar id="endDate" value="#{reportBean.report.endDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="Fecha final es requerida">
+							 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+							 			</p:calendar>
 	                            
-	                            <div class="form-group">
-	                                <div class="col-md-6">  
-	                                    <label>Desde:</label> 
-	                                    <div class="input-group date">
-	                                        <div class="input-group-addon">
-	                                          <i class="fa fa-calendar"></i>
-	                                        </div>  
-	                                         <p:calendar id="startDate" value="#{reportBean.report.startDate}" pattern="yyyy-MM-dd" required="true">
-								 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
-								 			</p:calendar>
-	                                    </div><!-- /.input group date-->  
-	                                </div>
-	                                <div class="col-md-6">  
-	                                    <label>Hasta:</label> 
-	                                    <div class="input-group date">
-	                                        <div class="input-group-addon">
-	                                            <i class="fa fa-calendar"></i>
-	                                        </div>                                                                     
-	                                         <p:calendar id="endDate" value="#{reportBean.report.endDate}" pattern="yyyy-MM-dd" required="true">
-								 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
-								 			</p:calendar>
-	                                    </div><!-- /.input group date-->  
-	                                </div>
+	                                  
+	                                   
+                                    <p:outputLabel for="Busqueda" value="Busqueda Por:" />
+                                    <p:selectOneMenu id="Busqueda" value="#{reportBean.searchBy}">
+								            <f:selectItem itemLabel="Select One" itemValue="" />
+								            <f:selectItem itemLabel="Lugar" itemValue="Lugar" />
+								            <f:selectItem itemLabel="Tarjetahabiente" itemValue="Tarjetahabiente" />
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="Buscar" value="Buscar:" />
+                                    <p:inputText id="Buscar" value="#{reportBean.search}" maxlength="20"/>
+			                		<p:message for="Buscar" display="text" />
+	                                    
+	                               </p:panelGrid>
 	                            </div> <!-- form-group --> 
+	                            
+	                            
 	                        </div> <!-- /.box-body -->
 	                        <div class="box-footer">
-	                            <div class="col-md-6"> 
-	                            		<p:commandButton value="Descargar" actionListener="#{reportBean.downloadReport}" class="btn btn-success"  icon="fa fa-download" ajax ="false"/>
-	                            		<p:commandButton value="Ver PDF" actionListener="#{reportBean.generateReportPDF}" class="btn btn-success"  icon="fa fa-file-pdf-o" ajax ="false"/>
-	                            </div>    
+	                            <p:panelGrid  columns="2"  layout="grid">  
+                            		<p:commandButton value="Descargar" actionListener="#{reportBean.downloadReport}" class="btn btn-success"  icon="fa fa-download" ajax ="false" update=":form:addPanel"/> 
+                            		<p:commandButton value="Ver en PDF" actionListener="#{reportBean.generateReportPDF}" class="btn btn-success"  icon="fa fa-file-pdf-o" ajax ="false" update=":form:addPanel"/>
+                            		<p:spacer width="5"/>
+	                            </p:panelGrid>  
 	                        </div> 	                  
 	                </div> <!-- /.box -->
 	            </div>  <!-- /.col-md-6 -->                

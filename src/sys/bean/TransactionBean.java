@@ -78,6 +78,7 @@ public class TransactionBean implements Serializable {
 
 	public void addTransaction() {
 		try {
+			System.out.println(" fecha transa recibida"+transactionToAdd.getDate_transaction());
 			
 			int id = ct.addTransaction(transactionToAdd);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
