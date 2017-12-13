@@ -55,7 +55,7 @@ public class UserTableBean implements Serializable{
 		this.user = user;
 	}
 
-	public User getuUerToAdd() {
+	public User getUserToAdd() {
 		return userToAdd;
 	}
 
@@ -71,6 +71,8 @@ public class UserTableBean implements Serializable{
 	}
 	
 	 public void onRowSelect(SelectEvent event) {
+		System.out.println("Fila seleccionada");
+		this.userToAdd =  ((User) event.getObject());
 	 	System.out.println("event "+((User)event.getObject()).toString());
         FacesMessage msg = new FacesMessage("Car Selected", ((User)event.getObject()).toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -78,18 +80,15 @@ public class UserTableBean implements Serializable{
 	
 	public void onRowEdit(RowEditEvent event) {
 		try {
-			System.out.println("OBJETO user"+user.toString());
 			User u = ((User) event.getObject()); 
 			System.out.println("nuevos valores" +u.toString());
 			cu.modifyUser(u);
-	        FacesMessage msg = new FacesMessage("Usuario "+u.getUsername() +" Modificado " +u.getId(),"");
-	        FacesContext.getCurrentInstance().addMessage(":form:userDT", msg);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+u.getUsername() +" Modificado Exitosamente",""));
 		}
 		catch(JDBCException e) {
 			System.out.println("eror code "+e.getSQLException().getSQLState());
 			if (e.getSQLException().getSQLState().equals("23000")) {
 				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de Usuario ya registrado",e.getMessage()));
-				
 			}
 		}
 		catch(Exception e) {
@@ -166,13 +165,46 @@ public class UserTableBean implements Serializable{
 	}
 
 	public void deleteUser() {
-		System.out.println(user.toString());
-		if (user == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
+		try {
+			//User u = ((User) event.getObject()); 
+			System.out.println("Entrando a eliminar"+userToAdd.toString());
+			
+			if (userToAdd == null) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aviso","Debe Seleccionar una fila"));
+			}
+			else {
+				String username = userToAdd.getUsername();
+				cu.deleteUser(userToAdd.getId());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario "+username+" Eliminado con exito",""));
+			}
 		}
-		else {
-			cu.deleteUser(user.getId());
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Eliminar",e.getMessage()));
+			System.out.println("Mensaje "+e.getMessage());
+			System.out.println("Causa "+e.getCause());
 		}
+	}
+	
+	public void deleteUser(User userReceived) {
+		try {
+			System.err.println("Entrando");
+			System.out.println("Entrando a eliminar"+userReceived.toString());
+			
+			
+				String username = userReceived.getUsername();
+				cu.deleteUser(userReceived.getId());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario "+username+" Eliminado con exito",""));
+				refresh();
+		}
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Eliminar",e.getMessage()));
+			System.out.println("Mensaje "+e.getMessage());
+			System.out.println("Causa "+e.getCause());
+		}
+	}
+	
+	public void refresh() {
+		this.listUsers = cu.listUsers();
 	}
     
 }

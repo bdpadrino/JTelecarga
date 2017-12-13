@@ -13,31 +13,37 @@
     </ui:define>
 		
     <ui:define name="description">
-      pp
+    
     </ui:define>
 
     <ui:define name="body">
    		<adm:breadcrumb title="Configuracion APP"/>              	
-        <p:tabView dynamic="true" cache="true">
-	        <p:tab title="Usuarios">
+        <p:tabView dynamic="true" cache="false">
+	        <p:tab >
+		        <f:facet name="title">
+			         <i class="fa fa-list"> </i>
+			         Username
+			     </f:facet>
 	           	<h:form id="form">
-	               <p:commandButton action="#" ajax="false" icon="fa fa-plus"  value="Agregar" styleClass="btn-primary"/>
-	               <p:spacer width="5"/>
-	               <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger" update="userDT" actionListener="#{userBean.deleteUser}"/>
-	               <p:spacer width="5"/>
-	               <p:commandButton value="Modificar" icon="fa fa-edit" styleClass="btn-primary" update="userDT" actionListener="#{userBean.modifyUser}"/>
-	               <p:spacer width="5"/>
+	           	
+	           	 
 	               <p:separator/>
 	        		
-	        		
-	            
-		   			<p:dataTable id="userDT" var="us" value="#{userBean.listUsers}" 
-		                 editable="true" 
-		                 emptyMessage="No users found" >		                
+		   			<p:dataTable id="userDT" var="us" value="#{userBean.listUsers}"  widgetVar="usersTable" multiViewState="true"
+			                 rows="10" 
+			                 paginator="true" 
+			                 paginatorPosition="bottom"
+			                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+			                 rowsPerPageTemplate="5,10,15,20"
+			                 selectionMode="single" selection="#{userBean.userToAdd}" rowKey="#{us.id}"
+			                 style="margin-bottom:5px"
+			                 editable="true" 	  
+			                 emptyMessage="No users found" >		                
 		 
+		 				<!--  <p:ajax event="rowEdit" listener="#{userBean.deleteUser}" update="userDT" />  -->
 			       		<p:ajax event="rowEdit" listener="#{userBean.onRowEdit}" update="userDT" />
-	      				<p:ajax event="rowEditCancel" listener="#{userBean.onRowCancel}" />
-		 				<p:ajax event="rowSelect" listener="#{userBean.onRowSelect}"  />
+	      				<p:ajax event="rowEditCancel" listener="#{userBean.onRowCancel}" update="userDT"/>
+		 				<!--  <p:ajax event="rowSelect" listener="#{userBean.onRowSelect}" update="userDT" />  -->
 			 
 				        <p:column headerText="Id">
 				            <h:outputText value="#{us.id}" />
@@ -71,6 +77,10 @@
 				         <p:column style="width:32px">
 				           <p:rowEditor />
 				        </p:column>
+				        
+				        <p:column style="width:60px;text-align: center">
+				           <p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="userDT" actionListener="#{userBean.deleteUser(us)}"/>
+						</p:column>
 					       
 		 			  </p:dataTable>
 		       </h:form>          

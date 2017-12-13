@@ -28,7 +28,7 @@ public class BitacoraErrorDaoImp implements BitacoraErrorDao {
     public  List<BitacoraError> listBitacoraErrors() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
-        List<BitacoraError> listaBitacoraError = session.createQuery("FROM BitacoraError").list();
+        List<BitacoraError> listaBitacoraError = session.createQuery("FROM BitacoraError as be ORDER BY be.id ").list();
         session.close();
         System.out.println("Found " + listaBitacoraError.size() + " BitacoraError");
         return listaBitacoraError;

@@ -41,6 +41,7 @@ public class UserBean implements Serializable{
 		this.user = new User();
 		this.userR = new User();
 		this.listUsers = cu.listUsers();
+		
 	}
 
 	public User getUser() {

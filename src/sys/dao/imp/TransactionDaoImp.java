@@ -11,8 +11,7 @@ import sys.util.HibernateUtilST;
 
 public class TransactionDaoImp implements TransactionDao {
    
-    //HibernateUtilST hu = new HibernateUtilST();
-
+    
     @Override
     public Integer addTransaction(Transaction e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
@@ -28,10 +27,10 @@ public class TransactionDaoImp implements TransactionDao {
     public  List<Transaction> listTransactions() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
-        List<Transaction> listaTransaction = session.createQuery("FROM Transaction").list();
+        List<Transaction> listTransaction = session.createQuery("FROM Transaction").list();
         session.close();
-        System.out.println("Found " + listaTransaction.size() + " Transaction");
-        return listaTransaction;
+        System.out.println("Found " + listTransaction.size() + " Transaction");
+        return listTransaction;
     }
     
     @Override
