@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/plantilla.xhtml">
+	
+	    
+    <ui:define name="title">
+       Monitor de Transacciones
+    </ui:define>
+
+    <ui:define name="description">
+        Efectuadas en dispositivos POS
+    </ui:define>
+
+    <ui:define name="body">
+    	
+     	 <div class="box box-primary"> 
+         	<div class="box-header with-border">
+         	 
+          	</div> <!--  box -header -->
+	         <div class="box-body">                                   
+	            <div class="nav-tabs-custom">
+		            <ul class="nav nav-tabs">
+		              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
+		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
+		              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-credit-card"></i></a></li>
+		            </ul>
+		            <div class="tab-content">
+		              <div class="tab-pane active" id="tab_1">
+			            <h:form id="searchForm">
+			                <p:separator/>
+			            
+			   				<p:dataTable id="tableStateDT" var="car" value="#{cardInfoBean.listCardInfos}"  multiViewState="true"
+				                 rows="10" paginator="true" paginatorPosition="bottom" 
+				                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				                 rowsPerPageTemplate="5,10,15,20"
+				                 emptyMessage="No hay transacciones" >
+				 
+						        <f:facet name="header">
+						            <p:outputPanel>
+						            	<div align="right">
+							                <h:outputText value="Search all fields: " />
+							                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+						           		</div>
+						            </p:outputPanel>
+					        	</f:facet>
+					 
+						        <p:column headerText="Id" priority="1" sortBy="#{car.id}" filterMatchMode="contains" width ="50">
+						            <h:outputText value="#{car.id}" />
+						        </p:column>
+					 					       
+						        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.card_holder}" filterMatchMode="contains">
+						            <h:outputText value="#{car.card_holder}" />
+						        </p:column>
+						        
+						        <p:column headerText="Numero de Tarjeta" priority="2" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
+						            <h:outputText value="#{car.pan}" />
+						        </p:column>
+						        
+				                <p:column headerText="Emisor:" priority="2" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
+						            <h:outputText value="#{car.issuer}" />
+						        </p:column>
+						        
+						        <p:column headerText="Fecha expiracion de la tarjeta:" priority="2" filterBy="#{car.date_expiration}" sortBy="#{car.date_expiration}" filterMatchMode="contains">
+						            <h:outputText value="#{car.date_expiration}" />
+						        </p:column>
+				        
+				              	   
+						        <p:column style="width:50px;text-align: center">
+						             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="Ver">
+						                <f:setPropertyActionListener value="#{car}" target="#{cardInfoBean.selectedCardInfo}" />
+						            </p:commandButton>
+						        </p:column>
+						        
+						       
+       							<p:column style="width:50px;text-align: center">
+						         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" actionListener="#{cardInfoBean.deleteCardInfo(car)}"/>
+						        </p:column>
+						        
+				 			</p:dataTable>
+				 			
+				 			<p:contextMenu for="tableStateDT">
+						        <p:menuitem value="Ver Detalle" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
+						        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{cardInfoBean.deleteCardInfo}"/>
+						    </p:contextMenu>
+			 
+							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
+						        <p:outputPanel id="carDetail">
+						            <p:panelGrid  columns="2" rendered="#{not empty cardInfoBean.listCardInfos}">
+						             	<h:outputText value="Id:" />
+						                <h:outputText value=" #{cardInfoBean.selectedCardInfo.id}" />
+						               
+						                <h:outputText value="Tarjetahabiente:" />
+						                <h:outputText value="#{cardInfoBean.selectedCardInfo.card_holder}"/>
+						 
+						                <h:outputText value="Numero de Tarjeta:" />
+						                <h:outputText value="#{cardInfoBean.selectedCardInfo.pan}" />
+						                
+						                <h:outputText value="Emisor:"/>
+						                <h:outputText value="#{cardInfoBean.selectedCardInfo.issuer}" />	
+						                
+						                 <h:outputText value="Fecha expiracion de la tarjeta" />
+						                <h:outputText value="#{cardInfoBean.selectedCardInfo.date_expiration}">
+							            	<f:convertDateTime pattern="dd/MM/yyyy" />
+							            </h:outputText>			                
+						                
+						            </p:panelGrid>
+						            
+						        </p:outputPanel>
+						    </p:dialog>
+						    
+						   
+						    
+					  	</h:form>
+					  
+					  </div> <!-- tab-pane 1--> 
+					  
+					  													<!-- PESTANA DE AGREGAR-->
+					  <div class="tab-pane" id="tab_2">
+						  <h:form id="addForm">
+			         		 <p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
+			              		
+			               		<p:outputLabel for="card_holder" value="Tarjetahabiente:" />
+				                <p:inputText id="card_holder" value="#{cardInfoBean.cardInfoToAdd.card_holder}" >
+				                	<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+			     	     		</p:inputText>
+			     	     		<p:message for="card_holder" display="text" />
+				                
+				                <p:outputLabel for="pan" value="Numero de Tarjeta:" />
+				                <p:inputText id ="pan" value="#{cardInfoBean.cardInfoToAdd.pan}" maxlength="20">	
+				                	<p:keyFilter regEx="/[1234567890]/i"/>
+			     	     		</p:inputText>	
+			     	     		<p:message for="pan" display="text" />	  
+			     	     		
+			     	     		<p:outputLabel for="issuer" value="Emisor:"/>
+				                <p:inputText id="issuer" value="#{cardInfoBean.cardInfoToAdd.issuer}" maxlength="25"/>
+				                <p:message for="issuer" display="text" />	 
+			                   
+					 			<p:outputLabel  for="date_expiration" value="Fecha expiración" />
+					 			<p:calendar id="date_expiration" value="#{cardInfoBean.cardInfoToAdd.date_expiration}" pattern="yyyy-MM-dd" navigator="true" maxlength="10">
+					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+					 			</p:calendar>
+					     		<p:message for="date_expiration" display="text" />
+			               		
+					       		<p:commandButton value="Agregar" actionListener="#{cardInfoBean.addCardInfo}" resetValues="true"  update=":addForm:addPanel :searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+				   			</p:panelGrid>
+				   			 
+				   			 
+					   	  </h:form>
+					  </div><!-- tab-pane 2--> 
+					  
+					 	
+						  
+				    </div> <!-- tab-content -->
+				</div><!-- nav-tabs-custom -->
+	   	  	</div> <!-- box-body -->	   	  
+		</div>  <!-- box-primary -->
+        	        
+    </ui:define>
+
+</ui:composition>

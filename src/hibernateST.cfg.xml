@@ -24,5 +24,10 @@
    <mapping class="sys.model.TeleReport"/>
    <mapping class="sys.model.Version"/>
 
+
+	<mapping class="sys.model.Transaction2"/>
+	<mapping class="sys.model.CardInfo"/>
+	
+	
  </session-factory>
 </hibernate-configuration>
