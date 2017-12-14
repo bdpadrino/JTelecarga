@@ -29,7 +29,7 @@
 	            <div class="nav-tabs-custom">
 		            <ul class="nav nav-tabs">
 		              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
-		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
+		              <!--  <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li> -->
 		              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-credit-card"></i></a></li>
 		            </ul>
 		            <div class="tab-content">
@@ -198,80 +198,9 @@
 						        </p:outputPanel>
 						    </p:dialog>
 					  	</h:form>
-					  </div> <!-- tab-pane 1--> 
+					 </div> <!-- tab-pane 1--> 
 					  
-					  													<!-- PESTANA DE AGREGAR-->
-					  <div class="tab-pane" id="tab_2">
-						  <h:form id="addForm">
-			         		 <p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
-			              		
-			              		<p:outputLabel for="transaction_type" value="Tipo de Transaccion:" />
-				                <p:inputText id="transaction_type" value="#{transactionBean2.transactionToAdd.transaction_type}"  required="true" label="Tipo de Transaccion" minlength="4" maxlength="20" requiredMessage="Campo Requerido">
-			     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
-			     	     		</p:inputText>
-			     	     		<p:message for="transaction_type" display="text" />
-			     	     		
-			     			    <p:outputLabel for="entry_mode" value="Modo de Entrada:" />
-				               	<p:selectOneMenu id="entry_mode" value="#{transactionBean2.transactionToAdd.pos_entry_mode}" required="true" requiredMessage="Campo Requerido">
-						            <f:selectItem itemLabel="Select One" itemValue="" />
-						            <f:selectItem itemLabel="Banda" itemValue="Banda" />
-						            <f:selectItem itemLabel="EMV" itemValue="EMV" />
-						            <f:selectItem itemLabel="Manual" itemValue="Manual" />		
-						            <f:selectItem itemLabel="Contacless" itemValue="Contacless" />							  
-						        </p:selectOneMenu>
-						        <p:message for="entry_mode" display="text" />
-							
-				                <p:outputLabel for="model" value="Modelo del Terminal:" />
-				                <p:inputText id="model" value="#{transactionBean2.transactionToAdd.model}" maxlength="10"/>
-				                <p:message for="model" display="text" />
-			       		
-				                <p:outputLabel for="serial" value="Serial del Terminal:" />
-				                <p:inputText id="serial" value="#{transactionBean2.transactionToAdd.card_acceptor_terminal_id}" maxlength="40"/>	
-				                <p:message for="serial" display="text" />
-				           		       
-				                <p:outputLabel for="currency" value="Currency:"/>
-				                <p:selectOneMenu id="currency" value="#{transactionBean2.transactionToAdd.currency}" >
-						            <f:selectItem itemLabel="Select One" itemValue="" />
-						            <f:selectItem itemLabel="Dolar Americano" itemValue="USD" />
-						            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
-						            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
-						        </p:selectOneMenu>
-						        <p:message for="currency" display="text" />
-				            	
-				                
-				                <p:outputLabel for="card_acceptor_name" value="Comercio:"/>
-				                <p:inputText id="card_acceptor_name" value="#{transactionBean2.transactionToAdd.card_acceptor_name}" maxlength="60"/>
-				                <p:message for="card_acceptor_name" display="text" />
-						 		
-				         	
-				                <p:outputLabel for="amount_transactionToAdd" value="Monto:" />
-				                <p:inputText id="amount_transactionToAdd" value="#{transactionBean2.transactionToAdd.amount_transaction}" maxlength="20"/>
-			              		<p:message for="amount_transactionToAdd" display="text" />
-			              		
-				                <p:outputLabel  value="Fecha: " />
-								<p:calendar id="date_transaction" value="#{transactionBean2.transactionToAdd.date_transaction}" pattern="yyyy-MM-dd" maxlength="10">
-					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
-					 			</p:calendar>
-					 			<p:message for="date_transaction" display="text" />
-					 			
-				 				<p:outputLabel for ="lugar" value="Lugar" />
-				                <p:inputText id ="lugar" value="#{transactionBean2.transactionToAdd.place}" maxlength="35"/>
-			               		<p:message for="lugar" display="text" />
-			               		
-			               		<p:outputLabel for="Tarjetahabiente" value="Tarjetahabiente:"/>
-				                <p:selectOneMenu id="Tarjetahabiente" value="#{transactionBean2.cardInfo}" >
-						            <f:selectItem itemLabel="Select One" itemValue="" />
-						            <f:selectItems value="#{cardInfoBean.listCardInfos}" var="c" itemLabel="#{c.card_holder} #{c.pan}" itemValue="#{c}" />
-						        </p:selectOneMenu>
-						        <p:message for="Tarjetahabiente" display="text" />
-			               		
-					       		<p:commandButton value="Agregar" actionListener="#{transactionBean2.addTransaction}" resetValues="true"  update=":addForm:addPanel :searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
-				   			</p:panelGrid>
-				   			 <p:keyFilter for="amount_transactionToAdd" mask="num" /> 
-				   			 
-					   	  </h:form>
-					  </div><!-- tab-pane 2--> 
-					  
+					
 					 	
 						  
 				    </div> <!-- tab-content -->

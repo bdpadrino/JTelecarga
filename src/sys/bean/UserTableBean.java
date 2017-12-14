@@ -112,7 +112,6 @@ public class UserTableBean implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-
   
     public void addUser() {
 		try{
@@ -134,67 +133,12 @@ public class UserTableBean implements Serializable{
 		}
 	}
 	
-
-	public void modifyUser() {
-		try 
-		{
-			if (user.getUsername() == cu.findByID(user.getId()).getUsername()) {
-				System.out.println("Modificando solo nombre de usuario");
-				cu.modifyUserStatus(user);
-				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Modificado Estatus Exitosamente",""));
-				
-			}
-			else {
-				//MODIFICADO USERNAME Y ESTATUS
-				cu.modifyUser(user);
-				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_INFO,"Modificado Exitosamente",""));
-			}
-			
-		}catch(JDBCException e) {
-			System.out.println("eror code "+e.getSQLException().getSQLState());
-			if (e.getSQLException().getSQLState().equals("23000")) {
-				FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
-				
-			}
-		}
-		catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage("messages2", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
-			System.out.println("Mensaje "+e.getMessage());
-			System.out.println("Causa "+e.getCause());
-		}
-	}
-
-	public void deleteUser() {
-		try {
-			//User u = ((User) event.getObject()); 
-			System.out.println("Entrando a eliminar"+userToAdd.toString());
-			
-			if (userToAdd == null) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aviso","Debe Seleccionar una fila"));
-			}
-			else {
-				String username = userToAdd.getUsername();
-				cu.deleteUser(userToAdd.getId());
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario "+username+" Eliminado con exito",""));
-			}
-		}
-		catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Eliminar",e.getMessage()));
-			System.out.println("Mensaje "+e.getMessage());
-			System.out.println("Causa "+e.getCause());
-		}
-	}
-	
 	public void deleteUser(User userReceived) {
 		try {
-			System.err.println("Entrando");
-			System.out.println("Entrando a eliminar"+userReceived.toString());
-			
-			
-				String username = userReceived.getUsername();
-				cu.deleteUser(userReceived.getId());
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario "+username+" Eliminado con exito",""));
-				refresh();
+			String username = userReceived.getUsername();
+			cu.deleteUser(userReceived.getId());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+username+" Eliminado con exito",""));
+			refresh();
 		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Eliminar",e.getMessage()));

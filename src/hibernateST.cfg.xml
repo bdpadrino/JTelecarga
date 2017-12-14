@@ -19,7 +19,7 @@
    <mapping class="sys.model.TelecargaST"/>
    <mapping class="sys.model.TelecargaACT"/>
    <mapping class="sys.model.Bdu"/>   
-   <mapping class="sys.model.User"/>
+
    <mapping class="sys.model.BitacoraError"/>
    <mapping class="sys.model.TeleReport"/>
    <mapping class="sys.model.Version"/>
@@ -27,6 +27,7 @@
 
 	<mapping class="sys.model.Transaction2"/>
 	<mapping class="sys.model.CardInfo"/>
+	<mapping class="sys.model.User"/>
 	
 	
  </session-factory>

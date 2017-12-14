@@ -62,7 +62,7 @@
 						            		<h:outputText value="#{car.card_holder}" />
 						            	</f:facet>
 						            	 <f:facet name="input">  
-						                    <p:inputText id="card_holder" value="#{car.card_holder}" style="width:96%"/>  
+						                    <p:inputText id="card_holder" value="#{car.card_holder}" style="width:96%" required="true" requiredMessage="Campo Requerido"/>  
 						                </f:facet>  			            	
 						            </p:cellEditor>
 						        </p:column>
@@ -73,7 +73,7 @@
 						            		<h:outputText value="#{car.pan}" />
 						            	</f:facet>
 						            	 <f:facet name="input">  
-						                    <p:inputText id="pan" value="#{car.pan}" style="width:96%"/>  
+						                    <p:inputText id="pan" value="#{car.pan}" style="width:96%"  required="true" requiredMessage="Campo Requerido"/>  
 						                </f:facet>  			            	
 						            </p:cellEditor>
 						        </p:column>
@@ -90,9 +90,18 @@
 						        </p:column>
 						        
 						        <p:column headerText="Fecha expiración" priority="3" filterBy="#{car.date_expiration}" sortBy="#{car.date_expiration}" filterMatchMode="contains">
-						            <h:outputText value="#{car.date_expiration}" >
-						            	<f:convertDateTime pattern="dd/MM/yyyy" />
-						            </h:outputText>
+						            <p:cellEditor>  
+				                		<f:facet name="output">  
+						           			<h:outputText value="#{car.date_expiration}" >
+						            			<f:convertDateTime pattern="dd/MM/yyyy" />
+						            		</h:outputText>
+						            	</f:facet>
+						            	 <f:facet name="input"> 
+									        <p:calendar id="date_expiration1" value="#{car.date_expiration}" pattern="yyyy-MM-dd" navigator="true" maxlength="10" required="true" requiredMessage="Campo Requerido">
+								 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
+								 			</p:calendar>
+						            	</f:facet>
+						            </p:cellEditor>
 						        </p:column>
 						        
 						        <p:column style="width:50px; text-align: center">
@@ -112,7 +121,7 @@
 				 			</p:dataTable>
 				 			
 				 			
-							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
+							<p:dialog header="Detalle Tarjetahabiente " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
 						        <p:outputPanel id="carDetail">
 						            <p:panelGrid  columns="2" rendered="#{not empty cardInfoBean.listCardInfos}">
 						             	<h:outputText value="Id:" />
@@ -149,13 +158,13 @@
 			         		 <p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
 			              		
 			               		<p:outputLabel for="card_holder" value="Tarjetahabiente:" />
-				                <p:inputText id="card_holder" value="#{cardInfoBean.cardInfoToAdd.card_holder}" >
+				                <p:inputText id="card_holder" value="#{cardInfoBean.cardInfoToAdd.card_holder}"  maxlength="20" required="true" requiredMessage="Campo Requerido">
 				                	<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
 			     	     		</p:inputText>
 			     	     		<p:message for="card_holder" display="text" />
 				                
 				                <p:outputLabel for="pan" value="Numero de Tarjeta:" />
-				                <p:inputText id ="pan" value="#{cardInfoBean.cardInfoToAdd.pan}" maxlength="20">	
+				                <p:inputText id ="pan" value="#{cardInfoBean.cardInfoToAdd.pan}" maxlength="20"  required="true" requiredMessage="Campo Requerido" >	
 				                	<p:keyFilter regEx="/[1234567890]/i"/>
 			     	     		</p:inputText>	
 			     	     		<p:message for="pan" display="text" />	  
@@ -165,7 +174,7 @@
 				                <p:message for="issuer" display="text" />	 
 			                   
 					 			<p:outputLabel  for="date_expiration" value="Fecha expiración" />
-					 			<p:calendar id="date_expiration" value="#{cardInfoBean.cardInfoToAdd.date_expiration}" pattern="yyyy-MM-dd" navigator="true" maxlength="10">
+					 			<p:calendar id="date_expiration" value="#{cardInfoBean.cardInfoToAdd.date_expiration}" pattern="yyyy-MM-dd" navigator="true" maxlength="10" required="true" requiredMessage="Campo Requerido">
 					 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
 					 			</p:calendar>
 					     		<p:message for="date_expiration" display="text" />
