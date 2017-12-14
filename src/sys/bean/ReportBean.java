@@ -108,7 +108,7 @@ public class ReportBean implements Serializable {
             
             if (search != null) {
             	System.out.println("llenando la busuqeda"+search);
-            	 parameter.put("searchBy", search);
+            	 parameter.put("search", search);
             }
 			
 			File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/"+report.getReportName()));		
@@ -131,6 +131,7 @@ public class ReportBean implements Serializable {
 		}
 		catch(Exception e){
 			 System.out.println("Error" +e.getMessage());
+			 System.out.println("Error" +e.getCause());
 		}
 		
 	}

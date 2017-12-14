@@ -32,17 +32,11 @@
 	                                    <p:outputLabel for="reportName" value="Nombre del Reporte:" />
 							               	<p:selectOneMenu id="reportName" value="#{reportBean.report.reportName}" required="true" requiredMessage="Nombre de reporte requerido">
 									            <f:selectItem itemLabel="Select One" itemValue="" />
-									            <f:selectItem itemLabel="Historial de Transacciones" itemValue="Historial de Transacciones.jasper" />
-									            <f:selectItem itemLabel="Histórico de Transacciones" itemValue="Histórico de Transacciones.jasper" />
-									            
-									            <f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar.jasper" />
-												<f:selectItem itemLabel="Transacciones por Persona" itemValue="Transacciones por Persona.jasper" />							  
+									            <f:selectItem itemLabel="Histórico de Transacciones" itemValue="Histórico de Transacciones2.jasper" />
+												<f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar2.jasper" />							  
 									        </p:selectOneMenu>
-	                                    
-	                                
-	                           
-                                    	<p:outputLabel for="startDate" value="Desde:" />
-                                   
+                                    	
+                                    	<p:outputLabel for="startDate" value="Desde:" />                                   
                                          <p:calendar id="startDate" value="#{reportBean.report.startDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="Fecha de Inicio es requerida">
 							 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
 							 			</p:calendar>
@@ -51,18 +45,10 @@
                                          <p:calendar id="endDate" value="#{reportBean.report.endDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="Fecha final es requerida">
 							 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
 							 			</p:calendar>
-	                            
-	                                  
 	                                   
-                                    <p:outputLabel for="Busqueda" value="Busqueda Por:" />
-                                    <p:selectOneMenu id="Busqueda" value="#{reportBean.searchBy}">
-								            <f:selectItem itemLabel="Select One" itemValue="" />
-								            <f:selectItem itemLabel="Lugar" itemValue="Lugar" />
-								            <f:selectItem itemLabel="Tarjetahabiente" itemValue="Tarjetahabiente" />
-                                    </p:selectOneMenu>
-                                    <p:outputLabel for="Buscar" value="Buscar:" />
-                                    <p:inputText id="Buscar" value="#{reportBean.search}" maxlength="20"/>
-			                		<p:message for="Buscar" display="text" />
+	                                    <p:outputLabel for="Buscar" value="Buscar:" />
+	                                    <p:inputText id="Buscar" value="#{reportBean.search}" maxlength="20"/>
+				                		<p:message for="Buscar" display="text" />
 	                                    
 	                               </p:panelGrid>
 	                            </div> <!-- form-group --> 

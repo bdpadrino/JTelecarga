@@ -33,6 +33,7 @@ public class CardInfoBean implements Serializable {
 	private CardInfo selectedCardInfo; 
 	private List<CardInfo> listCardInfos;
 	//private List<String> listFKCardInfos;
+	private Integer entero;
 		
 	public CardInfoBean() {
 		
@@ -150,6 +151,14 @@ public class CardInfoBean implements Serializable {
 	
 	public void refresh() {
 		this.listCardInfos = ct.listCardInfos();
+	}
+
+	public Integer getEntero() {
+		return entero;
+	}
+
+	public void setEntero(Integer entero) {
+		this.entero = entero;
 	}
 	
 	

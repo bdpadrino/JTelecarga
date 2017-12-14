@@ -14,6 +14,7 @@ import org.primefaces.event.RowEditEvent;
 
 import sys.dao.TransactionDao2;
 import sys.dao.imp.TransactionDaoImp2;
+import sys.model.CardInfo;
 import sys.model.Transaction2;
 import java.io.Serializable;
 import java.util.List;
@@ -33,6 +34,7 @@ public class TransactionBean2 implements Serializable {
 	private Transaction2 transactionToAdd; 
 	private Transaction2 selectedTransaction; 
 	private List<Transaction2> listTransactions;
+	private CardInfo cardInfo;
 	
 		
 	public TransactionBean2() {
@@ -43,6 +45,7 @@ public class TransactionBean2 implements Serializable {
     public void init() {
 		this.transaction = new Transaction2();
 		this.transactionToAdd = new Transaction2();
+		this.cardInfo = new CardInfo();
 		listTransactions = ct.listTransactions();	
     }
 	
@@ -116,7 +119,8 @@ public class TransactionBean2 implements Serializable {
 	public void addTransaction() {
 		try {
 			System.out.println(" fecha transa recibida"+transactionToAdd.getDate_transaction());
-			
+			System.out.println(" card infoa"+cardInfo.toString());
+			transactionToAdd.setCard_info(cardInfo);
 			int id = ct.addTransaction(transactionToAdd);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
 			transactionToAdd = new Transaction2();
@@ -153,6 +157,14 @@ public class TransactionBean2 implements Serializable {
 	
 	public void refresh() {
 		this.listTransactions = ct.listTransactions();
+	}
+
+	public CardInfo getCardInfo() {
+		return cardInfo;
+	}
+
+	public void setCardInfo(CardInfo cardInfo) {
+		this.cardInfo = cardInfo;
 	}
 	
 	

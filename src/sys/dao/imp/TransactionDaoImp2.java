@@ -46,6 +46,7 @@ public class TransactionDaoImp2 implements TransactionDao2{
         nuevo.setIso(e.getIso());
         nuevo.setCurrency(e.getCurrency());
         nuevo.setPlace(e.getPlace());
+        nuevo.setAmount_transaction(e.getAmount_transaction());
         nuevo.setDate_transaction(e.getDate_transaction());
         nuevo.setTime_transaction(e.getTime_transaction());
         

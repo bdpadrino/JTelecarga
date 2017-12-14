@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -46,7 +46,7 @@ public class Transaction2 {
 	private String  currency;  												 //MONEDA
 	@Column(name = "place")												
 	private String  place;  												 //LUGAR DE LA TRANSACCION
-	@OneToOne
+	@ManyToOne
     @JoinColumn(name = "FK_CARD")
 	private CardInfo  card_info;  											 
 

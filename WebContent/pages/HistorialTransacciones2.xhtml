@@ -20,7 +20,10 @@
     	
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
-         	 
+         	<h:form id="refreshForm">
+         	  	<p:commandButton value="Actualizar" icon="fa fa-refresh" styleClass="btn-primary" update=":searchForm:tableStateDT" actionListener="#{transactionBean2.refresh}"/>
+	            <p:separator/>
+	         </h:form>
           	</div> <!--  box -header -->
 	         <div class="box-body">                                   
 	            <div class="nav-tabs-custom">
@@ -32,7 +35,6 @@
 		            <div class="tab-content">
 		              <div class="tab-pane active" id="tab_1">
 			            <h:form id="searchForm">
-			                <p:separator/>
 			            
 			   				<p:dataTable id="tableStateDT" var="car" value="#{transactionBean2.listTransactions}"  multiViewState="true"
 				                 rows="10" paginator="true" paginatorPosition="bottom" 
@@ -257,9 +259,9 @@
 			               		<p:message for="lugar" display="text" />
 			               		
 			               		<p:outputLabel for="Tarjetahabiente" value="Tarjetahabiente:"/>
-				                <p:selectOneMenu id="Tarjetahabiente" value="#{cardInfoBean.cardInfo}" >
+				                <p:selectOneMenu id="Tarjetahabiente" value="#{transactionBean2.cardInfo}" >
 						            <f:selectItem itemLabel="Select One" itemValue="" />
-						            <f:selectItems value="#{cardInfoBean.listCardInfos}" />
+						            <f:selectItems value="#{cardInfoBean.listCardInfos}" var="c" itemLabel="#{c.card_holder} #{c.pan}" itemValue="#{c}" />
 						        </p:selectOneMenu>
 						        <p:message for="Tarjetahabiente" display="text" />
 			               		
