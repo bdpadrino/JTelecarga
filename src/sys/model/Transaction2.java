@@ -20,7 +20,7 @@ public class Transaction2 {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="incrementoIdTransaction1")
 	@SequenceGenerator(
 	    name="incrementoIdTransaction1",
-		sequenceName="idSystem_transaction1_seq",
+		sequenceName="system_transaction1_id",
 		allocationSize=1)
 	@Column(name = "systems_trace_number")									//ID DE LA TRANSACCION
 	private Integer systems_trace_number;

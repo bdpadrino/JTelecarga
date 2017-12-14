@@ -9,11 +9,10 @@
 	
 	    
     <ui:define name="title">
-       Monitor de Transacciones
+       Tarjetahabiente
     </ui:define>
 
     <ui:define name="description">
-        Efectuadas en dispositivos POS
     </ui:define>
 
     <ui:define name="body">
@@ -38,6 +37,7 @@
 				                 rows="10" paginator="true" paginatorPosition="bottom" 
 				                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				                 rowsPerPageTemplate="5,10,15,20"
+				                 editable="true" 
 				                 emptyMessage="No hay transacciones" >
 				 
 						        <f:facet name="header">
@@ -49,33 +49,61 @@
 						            </p:outputPanel>
 					        	</f:facet>
 					 
+							 	<p:ajax event="rowEdit" listener="#{cardInfoBean.onRowEdit}" update="tableStateDT" />
+			      				<p:ajax event="rowEditCancel" listener="#{cardInfoBean.onRowCancel}" update="tableStateDT"/>
+			      				
 						        <p:column headerText="Id" priority="1" sortBy="#{car.id}" filterMatchMode="contains" width ="50">
 						            <h:outputText value="#{car.id}" />
 						        </p:column>
 					 					       
-						        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_holder}" sortBy="#{car.card_holder}" filterMatchMode="contains">
-						            <h:outputText value="#{car.card_holder}" />
+						        <p:column headerText="Tarjetahabiente" priority="1" filterBy="#{car.card_holder}" sortBy="#{car.card_holder}" filterMatchMode="contains">
+						            <p:cellEditor>  
+				                		<f:facet name="output">  
+						            		<h:outputText value="#{car.card_holder}" />
+						            	</f:facet>
+						            	 <f:facet name="input">  
+						                    <p:inputText id="card_holder" value="#{car.card_holder}" style="width:96%"/>  
+						                </f:facet>  			            	
+						            </p:cellEditor>
 						        </p:column>
 						        
-						        <p:column headerText="Numero de Tarjeta" priority="2" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
-						            <h:outputText value="#{car.pan}" />
+						        <p:column headerText="Numero de Tarjeta" priority="1" filterBy="#{car.pan}" sortBy="#{car.pan}" filterMatchMode="contains">
+						            <p:cellEditor>  
+				                		<f:facet name="output">  
+						            		<h:outputText value="#{car.pan}" />
+						            	</f:facet>
+						            	 <f:facet name="input">  
+						                    <p:inputText id="pan" value="#{car.pan}" style="width:96%"/>  
+						                </f:facet>  			            	
+						            </p:cellEditor>
 						        </p:column>
 						        
-				                <p:column headerText="Emisor:" priority="2" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
-						            <h:outputText value="#{car.issuer}" />
+				                <p:column headerText="Emisor" priority="3" filterBy="#{car.issuer}" sortBy="#{car.issuer}" filterMatchMode="contains">
+						            <p:cellEditor>  
+				                		<f:facet name="output">  
+						            		<h:outputText value="#{car.issuer}" />
+						            	</f:facet>
+						            	 <f:facet name="input">  
+						                    <p:inputText id="issuer" value="#{car.issuer}" style="width:96%"/>  
+						                </f:facet>  			            	
+						            </p:cellEditor>
 						        </p:column>
 						        
-						        <p:column headerText="Fecha expiracion de la tarjeta:" priority="2" filterBy="#{car.date_expiration}" sortBy="#{car.date_expiration}" filterMatchMode="contains">
-						            <h:outputText value="#{car.date_expiration}" />
+						        <p:column headerText="Fecha expiración" priority="3" filterBy="#{car.date_expiration}" sortBy="#{car.date_expiration}" filterMatchMode="contains">
+						            <h:outputText value="#{car.date_expiration}" >
+						            	<f:convertDateTime pattern="dd/MM/yyyy" />
+						            </h:outputText>
 						        </p:column>
-				        
-				              	   
-						        <p:column style="width:50px;text-align: center">
-						             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="Ver">
+						        
+						        <p:column style="width:50px; text-align: center">
+						             <p:commandButton styleClass="btn-primary" update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="Ver">
 						                <f:setPropertyActionListener value="#{car}" target="#{cardInfoBean.selectedCardInfo}" />
 						            </p:commandButton>
 						        </p:column>
 						        
+						         <p:column style="width:50px; text-align: center">
+						           <p:rowEditor />
+						        </p:column>  
 						       
        							<p:column style="width:50px;text-align: center">
 						         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" actionListener="#{cardInfoBean.deleteCardInfo(car)}"/>
@@ -83,11 +111,7 @@
 						        
 				 			</p:dataTable>
 				 			
-				 			<p:contextMenu for="tableStateDT">
-						        <p:menuitem value="Ver Detalle" update="carDetail" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>
-						        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{cardInfoBean.deleteCardInfo}"/>
-						    </p:contextMenu>
-			 
+				 			
 							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
 						        <p:outputPanel id="carDetail">
 						            <p:panelGrid  columns="2" rendered="#{not empty cardInfoBean.listCardInfos}">
@@ -103,7 +127,7 @@
 						                <h:outputText value="Emisor:"/>
 						                <h:outputText value="#{cardInfoBean.selectedCardInfo.issuer}" />	
 						                
-						                 <h:outputText value="Fecha expiracion de la tarjeta" />
+						                 <h:outputText value="Fecha expiracion" />
 						                <h:outputText value="#{cardInfoBean.selectedCardInfo.date_expiration}">
 							            	<f:convertDateTime pattern="dd/MM/yyyy" />
 							            </h:outputText>			                
