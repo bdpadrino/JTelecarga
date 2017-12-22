@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -132,5 +133,26 @@ public class Util {
        return strbCadenaMD5.toString();
    }
     
-	
+   /**
+    * METODO CREADO PARA GENERAR UN PASWWORD ALEATORIO 
+    * @return
+    */
+   public String generatePassword () {
+		Random rnd = new Random();
+		String abecedario = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String cadena ="";
+		int pos=0, num;
+		//BUSQUEDA ALEATORIA DE UNA POSICION ENTRE LA LONGITUD DEL ABECEDARIO
+		pos = (int) (rnd.nextDouble() * abecedario.length() - 1 + 0);
+		//BUSQUEDA ALEATORIA DE 4 DIGITOS NUMERICOS
+		num = (int) (rnd.nextDouble() * 9999 + 1000);
+		cadena = cadena + abecedario.charAt(pos) + num;
+		pos = (int) (rnd.nextDouble() * abecedario.length() - 1 + 0);
+		cadena = cadena + abecedario.charAt(pos);
+		
+		return cadena;
+	}
+   
+   
+   
 }

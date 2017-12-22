@@ -74,9 +74,8 @@ public class UserBean implements Serializable{
 			if (user!= null) {
 				User userBD = cu.findByUsernameActive(user.getUsername());
 				if (userBD != null) {
-					//System.out.println("MD5 del que ingrese "+util.encriptaEnMD5((user.getPassword().trim())));
 					if (util.encriptaEnMD5((user.getPassword().trim())).equals(userBD.getPassword())){
-						System.out.println("clave correcta user" +user.getUsername() + "password " + user.getPassword());
+						System.out.println("clave correcta user " +user.getUsername() + "password " + user.getPassword());
 						HttpSession session = SessionUtils.getSession();
 						session.setAttribute("username", user);
 						return "/Home.xhtml?faces-redirect=true";

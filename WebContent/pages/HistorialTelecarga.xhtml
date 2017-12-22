@@ -23,78 +23,84 @@
 
      	 <div class="box box-primary"> 
          	<h:form id="form">
-	         	<div class="box-header with-border">
-	         	  
-	                <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" actionListener="#{telecargaBean.eliminarTelecarga}"/>
-	                <p:spacer width="5"/>
-	                
-	                <p:separator/>
-	         
-	          </div> <!--  box -header -->
-	          <div class="box-body">                                   
+				<div class="box-header with-border">
+	         	    <p:separator/>
+	          	</div> <!--  box -header -->
+	          	<div class="box-body">                                   
 	              
-   				<p:dataTable id="tableStateDT" var="tele" value="#{telecargaBean.listTelecargas}" widgetVar="teleTable" multiViewState="true"
-	                 rows="10" paginator="true" paginatorPosition="bottom" 
-	                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-	                 rowsPerPageTemplate="5,10,15,20"
-	                 selectionMode="single" selection="#{telecargaBean.telecargaST}" rowKey="#{tele.id}"
-	                 emptyMessage="No hay Telecargas" >
-	                
-	 
-			        <f:facet name="header">
-			            <p:outputPanel>
-			            	<div align="right">
-				                <h:outputText value="Search all fields: " />
-				                <p:inputText id="globalFilter" onkeyup="PF('teleTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-			           		</div>
-			            </p:outputPanel>
-		        	</f:facet>
+	   				<p:dataTable id="tableStateDT" var="tele" value="#{telecargaBean.listTelecargas}" widgetVar="teleTable" multiViewState="true"
+		                 rows="10" paginator="true" paginatorPosition="bottom" 
+		                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                 rowsPerPageTemplate="5,10,15,20"
+		                 selectionMode="single" selection="#{telecargaBean.telecargaST}" rowKey="#{tele.id}"
+		                 emptyMessage="No hay Telecargas" >
+		                
 		 
-		  			<p:column headerText="Id" priority="1" width ="50" >
-			            <h:outputText value="#{tele.id}" />
-			        </p:column>
-			        	        
-			        <p:column headerText="Numero de folio" priority="1" filterBy="#{tele.tcFolio}" sortBy="#{tele.tcFolio}" filterMatchMode="contains">
-			            <h:outputText value="#{tele.tcFolio}" />
-			        </p:column>
-
-			        <p:column headerText="Aplicación" priority="1" filterBy="#{tele.appDesc}" sortBy="#{tele.appDesc}" filterMatchMode="contains">
-			            <h:outputText value="#{tele.appDesc}" />
-			        </p:column>
-			        
-			        <p:column headerText="Nombre del comercio" priority="3" filterBy="#{tele.commerceName}" sortBy="#{tele.commerceName}" filterMatchMode="contains">
-			            <h:outputText value="#{tele.commerceName}" />
-			        </p:column>
-			        
-			        
-			         <p:column headerText="Fecha orden de trabajo" priority="2" filterBy="#{tele.orderDate}" sortBy="#{tele.orderDate}" filterMatchMode="contains">
-					     <h:outputText value="#{tele.orderDate}">
-			            	<f:convertDateTime pattern="dd/MM/yyyy" />
-			            </h:outputText>
-					</p:column>
-					
-			         <p:column headerText="Marca" priority="1" filterBy="#{tele.terminalMark}" sortBy="#{tele.terminalMark}" filterMatchMode="contains">
-					    <h:outputText value="#{tele.terminalMark}" />
-					</p:column>
-					
-					<p:column headerText="Modelo" priority="1" filterBy="#{tele.terminalModel}" sortBy="#{tele.terminalModel}" filterMatchMode="contains">
-					    <h:outputText value="#{tele.terminalModel}" />
-					</p:column>
-					
-					<p:column headerText="Serial" priority="3" filterBy="#{tele.commerceName}" sortBy="#{tele.commerceName}" filterMatchMode="contains">
-			            <h:outputText value="#{tele.terId}" />
-			        </p:column>
-					<!--
-					<f:facet name="footer">
-			            <p:commandButton process="tableStateDT" update=":form:carDetail" icon="ui-icon-search" value="View" oncomplete="PF('teleDialog').show()" />
-			        </f:facet>
-					-->												       
-	 			</p:dataTable>
+				        <f:facet name="header">
+				            <p:outputPanel>
+				            	<div align="right">
+					                <h:outputText value="Search all fields: " />
+					                <p:inputText id="globalFilter" onkeyup="PF('teleTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+				           		</div>
+				            </p:outputPanel>
+			        	</f:facet>
+			 
+			  			<p:column headerText="Id" priority="1" width ="50" sortBy="#{tele.id}">
+				            <h:outputText value="#{tele.id}" />
+				        </p:column>
+				        	        
+				        <p:column headerText="Numero de folio" priority="1" filterBy="#{tele.tcFolio}" sortBy="#{tele.tcFolio}" filterMatchMode="contains">
+				            <h:outputText value="#{tele.tcFolio}" />
+				        </p:column>
+	
+				        <p:column headerText="Aplicación" priority="1" filterBy="#{tele.appDesc}" sortBy="#{tele.appDesc}" filterMatchMode="contains">
+				            <h:outputText value="#{tele.appDesc}" />
+				        </p:column>
+				        
+				        <p:column headerText="Nombre del comercio" priority="3" filterBy="#{tele.commerceName}" sortBy="#{tele.commerceName}" filterMatchMode="contains">
+				            <h:outputText value="#{tele.commerceName}" />
+				        </p:column>
+				        
+				        
+				         <p:column headerText="Fecha orden de trabajo" priority="2" filterBy="#{tele.orderDate}" sortBy="#{tele.orderDate}" filterMatchMode="contains">
+						     <h:outputText value="#{tele.orderDate}">
+				            	<f:convertDateTime pattern="dd/MM/yyyy" />
+				            </h:outputText>
+						</p:column>
+						
+				         <p:column headerText="Marca" priority="1" filterBy="#{tele.terminalMark}" sortBy="#{tele.terminalMark}" filterMatchMode="contains">
+						    <h:outputText value="#{tele.terminalMark}" />
+						</p:column>
+						
+						<p:column headerText="Modelo" priority="1" filterBy="#{tele.terminalModel}" sortBy="#{tele.terminalModel}" filterMatchMode="contains">
+						    <h:outputText value="#{tele.terminalModel}" />
+						</p:column>
+						
+						<p:column headerText="Serial" priority="3" filterBy="#{tele.commerceName}" sortBy="#{tele.commerceName}" filterMatchMode="contains">
+				            <h:outputText value="#{tele.terId}" />
+				        </p:column>
+				        
+				        
+				         <p:column style="width:50px;text-align: center">
+				             <p:commandButton action="TelecargaDetail.xhtml?faces-redirect=true" icon="fa fa-search" styleClass="btn-success" title="Ver">
+				                <f:setPropertyActionListener value="#{tele}" target="#{telecargaBean.telecargaST}" />
+				            </p:commandButton>
+				        </p:column>
+				        
+				        <p:column style="width:50px;text-align: center">
+				         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" action="#{telecargaBean.deleteTelecarga(car)}"/>
+				        </p:column>
+						<!--
+						<f:facet name="footer">
+				            <p:commandButton process="tableStateDT" update=":form:carDetail" icon="ui-icon-search" value="View" oncomplete="PF('teleDialog').show()" />
+				        </f:facet>
+						-->												       
+		 			</p:dataTable>
 	 			
 	 			<p:contextMenu for="tableStateDT">
 			        <p:menuitem value="Ver Detalle" icon="ui-icon-search" action="TelecargaDetail.xhtml?faces-redirect=true"/>			         
 			        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{telecargaBean.eliminarTelecarga}"/>
-			    	<p:menuitem value="Prueba" update="tableStateDT" icon="ui-icon-close" actionListener="#{telecargaBean.getParamters}"/>
+			    	<p:menuitem value="Prueba" update="tableStateDT" icon="ui-icon-close" actionListener="#{telecargaBean.getParameters}"/>
 			    </p:contextMenu>
 		   	  </div> <!-- box-body -->
 	   	   </h:form> 

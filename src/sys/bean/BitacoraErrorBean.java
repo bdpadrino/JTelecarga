@@ -52,13 +52,58 @@ public class BitacoraErrorBean implements Serializable {
 		this.listBitacoraErrors = listBitacoraErrors;
 	} 
 	
-	public void eliminarBitacoraError() {
-		if (bitacoraError == null) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Aviso","Debe Seleccionar una fila"));
-		}
-		else {
-			cbe.deleteBitacoraError(bitacoraError.getId());
+	
+	/**
+	 * METODO PARA ELIMINAR UNA FILA DE UNA SELECCION EN UN DATATABLE
+	 */
+	public void deleteBitacoraError() {
+		try {
+			if (bitacoraError == null) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe Seleccionar una fila",""));
+			}
+			else {
+				int id= bitacoraError.getId();
+				cbe.deleteBitacoraError(id);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
+				refresh();
+			}	
+		} 
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Eliminar",e.getMessage()));
+			System.out.println("Mensaje " +e.getMessage());
+			System.out.println("Causa "   +e.getCause());
 		}		
+	}
+	
+	/**
+	 * METODO PARA ELIMINAR UNA TRANSACCION POR EL ID
+	 * @param bitacoraErrorReceived
+	 */
+	public void deleteBitacoraError(BitacoraError bitacoraErrorReceived) { 
+		try {
+			if (bitacoraErrorReceived == null) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe Seleccionar una fila",""));
+			}
+			else {
+				int id= bitacoraErrorReceived.getId();
+				cbe.deleteBitacoraError(id);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
+				refresh();
+			}	
+		} 
+		catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Eliminar",e.getMessage()));
+			System.out.println("Mensaje " +e.getMessage());
+			System.out.println("Causa "   +e.getCause());
+		}	
+		
+	}
+	
+	/** 
+	 * METODO USADO PARA RECARGAR LA LISTA 	DE BITACORA
+	 */
+	public void refresh() {
+		this.listBitacoraErrors = cbe.listBitacoraErrors();
 	}
 	
 

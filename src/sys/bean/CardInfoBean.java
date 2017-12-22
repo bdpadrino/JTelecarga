@@ -138,11 +138,11 @@ public class CardInfoBean implements Serializable {
 				int id= cardInfoReceived.getId();
 				ct.deleteCardInfo(cardInfoReceived.getId());
 				refresh();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Tarjetahabiente "+ id+" Eliminado con exito",""));
 			}	
 		} 
 		catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Agregar",e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Eliminar Existen transacciones para este Tarjetahabiente",e.getMessage()));
 			System.out.println("mensaje exc" +e.getMessage());
 			System.out.println("causa" +e.getCause());
 		}	

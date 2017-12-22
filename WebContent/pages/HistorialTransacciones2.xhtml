@@ -36,113 +36,115 @@
 		              <div class="tab-pane active" id="tab_1">
 			            <h:form id="searchForm">
 			            
-			   				<p:dataTable id="tableStateDT" var="car" value="#{transactionBean2.listTransactions}"  multiViewState="true"
-				                 rows="10" paginator="true" paginatorPosition="bottom" 
-				                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				                 rowsPerPageTemplate="5,10,15,20"
-				                 editable="true" 
-				                 emptyMessage="No hay transacciones" >
-				 
-						        <f:facet name="header">
-						            <p:outputPanel>
-						            	<div align="right">
-							                <h:outputText value="Search all fields: " />
-							                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-						           		</div>
-						            </p:outputPanel>
-					        	</f:facet>
+			            	<h:panelGroup  id="container1">
+			            
+				   				<p:dataTable id="tableStateDT" var="car" value="#{transactionBean2.listTransactions}"  multiViewState="true"
+					                 rows="10" paginator="true" paginatorPosition="bottom" 
+					                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					                 rowsPerPageTemplate="5,10,15,20"
+					                 editable="true" 
+					                 emptyMessage="No hay transacciones" >
 					 
-					 
-					 			<p:ajax event="rowEdit" listener="#{transactionBean2.onRowEdit}" update="tableStateDT" />
-			      				<p:ajax event="rowEditCancel" listener="#{transactionBean2.onRowCancel}" update="tableStateDT"/>
-			      				
-			      				
-						        <p:column headerText="Id" priority="1" sortBy="#{car.systems_trace_number}" filterMatchMode="contains" width ="50">
-						            <h:outputText value="#{car.systems_trace_number}" />
-						        </p:column>
-					 
-						        <p:column headerText="Tipo de Transaccion" priority="3" filterBy="#{car.transaction_type}" sortBy="#{car.transaction_type}" filterMatchMode="contains">
-						            <p:cellEditor>  
-				                		<f:facet name="output">  
-						            		<h:outputText value="#{car.transaction_type}" />
-						            	</f:facet>
-						            	 <f:facet name="input">  
-						                     <p:inputText id="transaction_type" value="#{car.transaction_type}"  required="true"  minlength="4" maxlength="20" requiredMessage="Campo Requerido"  style="width:96%">
-						     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
-						     	     		</p:inputText> 
-						                </f:facet>  			            	
-						            </p:cellEditor>
-						        </p:column>
-
-					  			<p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
-						            <p:cellEditor>  
-				                		<f:facet name="output">  
-						            		<h:outputText value="#{car.card_acceptor_name}" />
-						            	</f:facet>
-						            	 <f:facet name="input">  
-						                    <p:inputText id="card_acceptor_name" value="#{car.card_acceptor_name}" style="width:96%"/>  
-						                </f:facet>  			            	
-						            </p:cellEditor>
-						        </p:column>	 
-						        			 
-						 		<p:column headerText="Fecha" priority="1" filterBy="#{car.date_transaction}" sortBy="#{car.date_transaction}" filterMatchMode="contains">
-						            <h:outputText value="#{car.date_transaction}">
-						            	<f:convertDateTime pattern="dd/MM/yyyy" />
-						            </h:outputText>
-						        </p:column>
-						     
-						       <p:column headerText="Monto" priority="1" filterBy="#{car.amount_transaction}" sortBy="#{car.amount_transaction}" filterMatchMode="contains">
-						            <p:cellEditor>  
-				                		<f:facet name="output">  
-						            		<h:outputText value="#{car.amount_transaction}">
-								             	<f:convertNumber  type="currency"/>
-								            </h:outputText>
-						            	</f:facet>
-						            	 <f:facet name="input">  
-						                    <p:inputText id="amount_transaction" value="#{car.amount_transaction}" style="width:96%"/>  
-						                </f:facet>  			            	
-						            </p:cellEditor>
-						        </p:column>
-						        
-						        <p:column headerText="Moneda" priority="1" filterBy="#{car.currency}" sortBy="#{car.currency}" filterMatchMode="contains">
-           				             <p:cellEditor>  
-				                		<f:facet name="output">  
-						            		 <h:outputText value="#{car.currency}">
-								             	<f:convertNumber  type="currency"/>
-								            </h:outputText>
-						            	</f:facet>
-						            	 <f:facet name="input">  
-						                     <p:selectOneMenu id="currency" value="#{transactionBean2.transactionToAdd.currency}" style="width:96%">
-									            <f:selectItem itemLabel="Select One" itemValue="" />
-									            <f:selectItem itemLabel="Dolar Americano" itemValue="USD" />
-									            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
-									            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
-									        </p:selectOneMenu>
-						                </f:facet>  			            	
-						            </p:cellEditor>
-						        </p:column>
-						        
-						        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_info.card_holder}" sortBy="#{car.card_info.card_holder}" filterMatchMode="contains">
-						            <h:outputText value="#{car.card_info.card_holder}" />
-						        </p:column>
-						        
-						        <p:column style="width:50px;text-align: center">
-						             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="Ver">
-						                <f:setPropertyActionListener value="#{car}" target="#{transactionBean2.selectedTransaction}" />
-						            </p:commandButton>
-						        </p:column>
-						        
-						        <p:column style="width:50px; text-align: center">
-						           <p:rowEditor />
-						        </p:column>  
-						        
-       							<p:column style="width:50px;text-align: center">
-						         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" actionListener="#{transactionBean2.deleteTransaction(car)}"/>
-						        </p:column>
-						        
-				 			</p:dataTable>
-				 			
-			 
+							        <f:facet name="header">
+							            <p:outputPanel>
+							            	<div align="right">
+								                <h:outputText value="Search all fields: " />
+								                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+							           		</div>
+							            </p:outputPanel>
+						        	</f:facet>
+						 
+						 
+						 			<p:ajax event="rowEdit" listener="#{transactionBean2.onRowEdit}" update="tableStateDT" />
+				      				<p:ajax event="rowEditCancel" listener="#{transactionBean2.onRowCancel}" update="tableStateDT"/>
+				      				
+				      				
+							        <p:column headerText="Id" priority="1" sortBy="#{car.systems_trace_number}" filterMatchMode="contains" width ="50">
+							            <h:outputText value="#{car.systems_trace_number}" />
+							        </p:column>
+						 
+							        <p:column headerText="Tipo de Transaccion" priority="3" filterBy="#{car.transaction_type}" sortBy="#{car.transaction_type}" filterMatchMode="contains">
+							            <p:cellEditor>  
+					                		<f:facet name="output">  
+							            		<h:outputText value="#{car.transaction_type}" />
+							            	</f:facet>
+							            	 <f:facet name="input">  
+							                     <p:inputText id="transaction_type" value="#{car.transaction_type}"  required="true"  minlength="4" maxlength="20" requiredMessage="Campo Requerido"  style="width:96%">
+							     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+							     	     		</p:inputText> 
+							                </f:facet>  			            	
+							            </p:cellEditor>
+							        </p:column>
+	
+						  			<p:column headerText="Comercio" priority="1" filterBy="#{car.card_acceptor_name}" sortBy="#{car.card_acceptor_name}" filterMatchMode="contains">
+							            <p:cellEditor>  
+					                		<f:facet name="output">  
+							            		<h:outputText value="#{car.card_acceptor_name}" />
+							            	</f:facet>
+							            	 <f:facet name="input">  
+							                    <p:inputText id="card_acceptor_name" value="#{car.card_acceptor_name}" style="width:96%"/>  
+							                </f:facet>  			            	
+							            </p:cellEditor>
+							        </p:column>	 
+							        			 
+							 		<p:column headerText="Fecha" priority="1" filterBy="#{car.date_transaction}" sortBy="#{car.date_transaction}" filterMatchMode="contains">
+							            <h:outputText value="#{car.date_transaction}">
+							            	<f:convertDateTime pattern="dd/MM/yyyy" />
+							            </h:outputText>
+							        </p:column>
+							     
+							       <p:column headerText="Monto" priority="1" filterBy="#{car.amount_transaction}" sortBy="#{car.amount_transaction}" filterMatchMode="contains">
+							            <p:cellEditor>  
+					                		<f:facet name="output">  
+							            		<h:outputText value="#{car.amount_transaction}">
+									             	<f:convertNumber  type="currency"/>
+									            </h:outputText>
+							            	</f:facet>
+							            	 <f:facet name="input">  
+							                    <p:inputText id="amount_transaction" value="#{car.amount_transaction}" style="width:96%"/>  
+							                </f:facet>  			            	
+							            </p:cellEditor>
+							        </p:column>
+							        
+							        <p:column headerText="Moneda" priority="1" filterBy="#{car.currency}" sortBy="#{car.currency}" filterMatchMode="contains">
+	           				             <p:cellEditor>  
+					                		<f:facet name="output">  
+							            		 <h:outputText value="#{car.currency}">
+									             	<f:convertNumber  type="currency"/>
+									            </h:outputText>
+							            	</f:facet>
+							            	 <f:facet name="input">  
+							                     <p:selectOneMenu id="currency" value="#{transactionBean2.transactionToAdd.currency}" style="width:96%">
+										            <f:selectItem itemLabel="Select One" itemValue="" />
+										            <f:selectItem itemLabel="Dolar Americano" itemValue="USD" />
+										            <f:selectItem itemLabel="Peso Mexicano" itemValue="MXN" />
+										            <f:selectItem itemLabel="Bolivares" itemValue="VEF" />							  
+										        </p:selectOneMenu>
+							                </f:facet>  			            	
+							            </p:cellEditor>
+							        </p:column>
+							        
+							        <p:column headerText="Tarjetahabiente" priority="2" filterBy="#{car.card_info.card_holder}" sortBy="#{car.card_info.card_holder}" filterMatchMode="contains">
+							            <h:outputText value="#{car.card_info.card_holder}" />
+							        </p:column>
+							        
+							        <p:column style="width:50px;text-align: center">
+							             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="Ver" styleClass="btn-success">
+							                <f:setPropertyActionListener value="#{car}" target="#{transactionBean2.selectedTransaction}" />
+							            </p:commandButton>
+							        </p:column>
+							        
+							        <p:column style="width:50px; text-align: center">
+							           <p:rowEditor />
+							        </p:column>  
+							        
+	       							<p:column style="width:50px;text-align: center">
+							         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update=":searchForm:container1" action="#{transactionBean2.deleteTransaction(car)}"/>
+							        </p:column>
+							        
+					 			</p:dataTable>
+							</h:panelGroup> 			
+			 	
 							<p:dialog header="Detalle Transacción " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
 						        <p:outputPanel id="carDetail">
 						            <p:panelGrid  columns="2" rendered="#{not empty transactionBean2.listTransactions}">
@@ -177,7 +179,7 @@
 						           
 						                <h:outputText value="Lugar" />
 						                <h:outputText value="#{transactionBean2.selectedTransaction.place}" />	
-						                
+
 						                
 						                <h:outputText value="Tarjetahabiente:" />
 						                <h:outputText value="#{transactionBean2.selectedTransaction.card_info.card_holder}"/>
@@ -194,16 +196,11 @@
 							            </h:outputText>			                
 						                
 						            </p:panelGrid>
-						            
 						        </p:outputPanel>
 						    </p:dialog>
 					  	</h:form>
-					 </div> <!-- tab-pane 1--> 
-					  
-					
-					 	
-						  
-				    </div> <!-- tab-content -->
+					  </div> <!-- tab-pane 1--> 
+				   </div> <!-- tab-content -->
 				</div><!-- nav-tabs-custom -->
 	   	  	</div> <!-- box-body -->	   	  
 		</div>  <!-- box-primary -->

@@ -86,6 +86,7 @@ public class UserTableBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+u.getUsername() +" Modificado Exitosamente",""));
 		}
 		catch(JDBCException e) {
+			
 			System.out.println("eror code "+e.getSQLException().getSQLState());
 			if (e.getSQLException().getSQLState().equals("23000")) {
 				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de Usuario ya registrado",e.getMessage()));

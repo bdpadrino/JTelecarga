@@ -29,11 +29,14 @@
 	            
 		            <p:panelGrid columns="2">
 					    <f:facet name="header">
-					       telecargaST1PQ98_U
+					       Telecarga1PQ98_U
 					    </f:facet>
 					 
-					    <h:outputText value="Id:" />
-						<h:outputText value="#{telecargaBean.telecargaST.rqtKey}" />
+					 	<h:outputText value="Id:" />
+						<h:outputText value="#{tele.id}" />
+					 
+					    <h:outputText value="Clave de Solicitud:" />
+						<h:outputText value="#{tele.rqtKey}" />
 						
 						<h:outputText value="Clave del banco:" />
 						<h:outputText value="#{telecargaBean.telecargaST.bnkKey}" />

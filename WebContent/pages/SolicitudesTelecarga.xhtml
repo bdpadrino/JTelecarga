@@ -17,73 +17,100 @@
     </ui:define>
 
     <ui:define name="body">
-    	<f:metadata>
-        </f:metadata>
    		 <adm:breadcrumb title="Solicitudes de Telecargas"/>
-
-
      	 <div class="box box-primary"> 
-     	 <h:form>
+     	 
          	<div class="box-header with-border">
           	</div> <!--  box -header -->
+          	
           	<div class="box-body">                                   
-               
-   				<p:dataTable id="tableStateDT" var="tele" value="#{solicitudTelecargaBean.listSolicitudTelecargas}" widgetVar="teleTable" multiViewState="true"
-	                 rows="10" paginator="true" paginatorPosition="bottom" 
-	                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-	                 rowsPerPageTemplate="5,10,15,20"
-	                 selectionMode="single" selection="#{solicitudTelecargaBean.solicitudTelecarga}" rowKey="#{tele.id}"
-	                 emptyMessage="No hay Solicitudes de Telecarga" >
-	                
-	 
-			        <f:facet name="header">
-			            <p:outputPanel>
-			            	<div align="right">
-				                <h:outputText value="Search all fields: " />
-				                <p:inputText id="globalFilter" onkeyup="PF('teleTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-			           		</div>
-			            </p:outputPanel>
-		        	</f:facet>
+               	<h:form id="searchForm">
+	   				<p:dataTable id="tableStateDT" var="obj" value="#{solicitudTelecargaBean.listSolicitudTelecargas}" widgetVar="objTable" multiViewState="true"
+		                 rows="10" paginator="true" paginatorPosition="bottom" 
+		                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                 rowsPerPageTemplate="5,10,15,20"
+		                 editable="true"
+		                 emptyMessage="No hay Solicitudes de Telecarga" >
+		                
 		 
-		  			<p:column headerText="Id" priority="1" width ="50" >
-			            <h:outputText value="#{tele.id}" />
-			        </p:column>
-			       			        
-			        <p:column headerText="Numero de folio" priority="1" filterBy="#{tele.numeroFolio}"  filterMatchMode="contains">
-			            <h:outputText value="#{tele.numeroFolio}" />
-			        </p:column>
-				       
-			       <p:column headerText="Marca" priority="1" filterBy="#{tele.marca}"  filterMatchMode="contains">
-			            <h:outputText value="#{tele.marca}" />
-			        </p:column>
-			        
-			        <p:column headerText="Modelo" priority="1" filterBy="#{tele.modelo}"  filterMatchMode="contains">
-			            <h:outputText value="#{tele.modelo}" />
-			        </p:column>
-			        
-			        <p:column headerText="Versión" priority="1" filterBy="#{tele.version}"  filterMatchMode="contains">
-			            <h:outputText value="#{tele.version}" />
-			        </p:column>
-			        
-			        <p:column headerText="Tipo de aplicacion" priority="2" filterBy="#{tele.tipoAplicacion}"  filterMatchMode="contains">
-			            <h:outputText value="#{tele.tipoAplicacion}" />
-			        </p:column>
-			        
-			         <p:column headerText="Fecha de Solicitud" priority="2" filterBy="#{tele.fechaSolicitud}"  filterMatchMode="contains">
-			            <h:outputText value="#{tele.fechaSolicitud}" />
-			        </p:column>
-				       
-				</p:dataTable>
-	 			
-	 			<p:contextMenu for="tableStateDT">
-			        <p:menuitem value="Eliminar" update="tableStateDT" icon="ui-icon-close" actionListener="#{solicitudTelecargaBean.eliminarSolicitudTelecarga}"/>
-			    </p:contextMenu>
- 
-		 
-   	  </div> <!-- box-body -->
-	
-	</h:form>
-	</div>  <!-- box-primary -->
+				        <f:facet name="header">
+				            <p:outputPanel>
+				            	<div align="right">
+					                <h:outputText value="Search all fields: " />
+					                <p:inputText id="globalFilter" onkeyup="PF('objTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+				           		</div>
+				            </p:outputPanel>
+			        	</f:facet>
+			 
+			  			<p:column headerText="Id" priority="1" width ="50" sortBy="#{obj.id}">
+				            <h:outputText value="#{obj.id}" />
+				        </p:column>
+				       			        
+				        <p:column headerText="Numero de folio" priority="1" filterBy="#{obj.numeroFolio}"  filterMatchMode="contains" sortBy="#{obj.numeroFolio}">
+				            <h:outputText value="#{obj.numeroFolio}" />
+				        </p:column>
+					       
+				       <p:column headerText="Marca" priority="2" filterBy="#{obj.marca}"  filterMatchMode="contains" sortBy="#{obj.marca}">
+				            <h:outputText value="#{obj.marca}" />
+				        </p:column>
+				        
+				        <p:column headerText="Modelo" priority="2" filterBy="#{obj.modelo}"  filterMatchMode="contains" sortBy="#{obj.modelo}">
+				            <h:outputText value="#{obj.modelo}" />
+				        </p:column>
+				        
+				        <p:column headerText="Versión" priority="1" filterBy="#{obj.version}"  filterMatchMode="contains" sortBy="#{obj.version}">
+				            <h:outputText value="#{obj.version}" />
+				        </p:column>
+				        
+				        <p:column headerText="Tipo de aplicacion" priority="3" filterBy="#{obj.tipoAplicacion}"  filterMatchMode="contains" sortBy="#{obj.tipoAplicacion}">
+				            <h:outputText value="#{obj.tipoAplicacion}" />
+				        </p:column>
+				        
+				         <p:column headerText="Fecha de Solicitud" priority="3" filterBy="#{obj.fechaSolicitud}"  filterMatchMode="contains" sortBy="#{obj.fechaSolicitud}">
+				            <h:outputText value="#{obj.fechaSolicitud}" />
+				        </p:column>
+					       
+					    <p:column style="width:50px;text-align: center">
+				             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="fa fa-search" title="Ver" styleClass="btn-success">
+				                <f:setPropertyActionListener value="#{obj}" target="#{solicitudTelecargaBean.solicitudTelecarga}" />
+				            </p:commandButton>
+				        </p:column>
+				         
+				      	<p:column style="width:50px;text-align: center">
+				         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update=":searchForm:tableStateDT" action="#{solicitudTelecargaBean.deleteDownloadRequest(obj)}"/>
+				        </p:column>   
+					</p:dataTable>
+		 			
+		 			<p:dialog header="Detalle de Solicitud de Telecarga " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
+				        <p:outputPanel id="carDetail">
+				            <p:panelGrid  columns="2" rendered="#{not empty solicitudTelecargaBean.listSolicitudTelecargas}" class="ui-noborder" >
+				             	<h:outputText value="Id:" />
+				                <h:outputText value=" #{solicitudTelecargaBean.solicitudTelecarga.id}" />
+				               
+				                <h:outputText value="Numero de Folio:" />
+				                <h:outputText value="#{solicitudTelecargaBean.solicitudTelecarga.numeroFolio}" />
+				                
+				                <h:outputText value="Marca:" />
+				                <h:outputText value="#{solicitudTelecargaBean.solicitudTelecarga.marca}" />
+				                
+				                <h:outputText value="Modelo:" />
+				                <h:outputText value="#{solicitudTelecargaBean.solicitudTelecarga.modelo}" />
+				                
+				                <h:outputText value="Version:" />
+				                <h:outputText value="#{solicitudTelecargaBean.solicitudTelecarga.version}" />
+				               
+				                <h:outputText value="Tipo de Aplicación:" />
+				                <h:outputText value="#{solicitudTelecargaBean.solicitudTelecarga.tipoAplicacion}" />
+				                
+				                <h:outputText value="Fecha de la Solicitud:" />
+				                <h:outputText value="#{solicitudTelecargaBean.solicitudTelecarga.fechaSolicitud}" />
+				               
+				            </p:panelGrid>
+				        </p:outputPanel>
+				    </p:dialog>
+		 		</h:form>
+   	  		</div> <!-- box-body -->
+		</div>  <!-- box-primary -->
          	        
     </ui:define>
 
