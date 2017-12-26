@@ -65,7 +65,6 @@ public class BitacoraErrorBean implements Serializable {
 				int id= bitacoraError.getId();
 				cbe.deleteBitacoraError(id);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
-				refresh();
 			}	
 		} 
 		catch(Exception e) {
@@ -76,7 +75,7 @@ public class BitacoraErrorBean implements Serializable {
 	}
 	
 	/**
-	 * METODO PARA ELIMINAR UNA TRANSACCION POR EL ID
+	 * METODO PARA ELIMINAR UNA FILA POR EL ID
 	 * @param bitacoraErrorReceived
 	 */
 	public void deleteBitacoraError(BitacoraError bitacoraErrorReceived) { 
@@ -87,8 +86,9 @@ public class BitacoraErrorBean implements Serializable {
 			else {
 				int id= bitacoraErrorReceived.getId();
 				cbe.deleteBitacoraError(id);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
-				refresh();
+				this.listBitacoraErrors.remove(bitacoraErrorReceived);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Bitacora "+id+" Eliminada con exito",""));
+				
 			}	
 		} 
 		catch(Exception e) {
@@ -97,13 +97,6 @@ public class BitacoraErrorBean implements Serializable {
 			System.out.println("Causa "   +e.getCause());
 		}	
 		
-	}
-	
-	/** 
-	 * METODO USADO PARA RECARGAR LA LISTA 	DE BITACORA
-	 */
-	public void refresh() {
-		this.listBitacoraErrors = cbe.listBitacoraErrors();
 	}
 	
 

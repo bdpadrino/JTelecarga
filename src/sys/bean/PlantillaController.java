@@ -25,7 +25,8 @@ public class PlantillaController implements Serializable {
 				context.getExternalContext().redirect("index.xhtml");
 			}
 		}catch(Exception e){
-			
+			System.out.println("Mensaje: "+e.getMessage());
+			System.out.println("Causa:   "+e.getCause());
 		}
 	}
 }

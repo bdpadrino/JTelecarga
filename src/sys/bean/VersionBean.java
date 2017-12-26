@@ -15,7 +15,6 @@ import sys.dao.VersionDao;
 import sys.dao.imp.VersionDaoImp;
 import sys.model.Version;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,9 +29,6 @@ public class VersionBean implements Serializable {
 	private Version version;  
 	private Version versionToAdd; 
 	private List<Version> listVersions;
-	private ArrayList<Version> listVersionsArray;
-	private String prueba;
-	
 		
 	public VersionBean() {
 		
@@ -42,8 +38,6 @@ public class VersionBean implements Serializable {
     public void init() {
 		this.version = new Version();
 		this.listVersions = ct.listVersions();	
-		this.prueba = "SIN TOCAR";
-		
     }
 	
 	public Version getVersion() {
@@ -145,8 +139,8 @@ public class VersionBean implements Serializable {
 		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Modificar ",e.getMessage()));
-			System.out.println("Mensaje "+e.getMessage());
-			System.out.println("Causa "+e.getCause());
+			System.out.println("Mensaje: "+e.getMessage());
+			System.out.println("Causa:   "+e.getCause());
 		}
 	}
 
@@ -162,35 +156,17 @@ public class VersionBean implements Serializable {
 				int id= versionReceived.getId();
 				ct.deleteVersion(id);
 				this.listVersions.remove(versionReceived);
-				prueba = "Tocado";
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
-				//refresh();
-				
 			}	
 		} 
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Eliminar",e.getMessage()));
 			System.out.println("Mensaje " +e.getMessage());
-			System.out.println("Causa "   +e.getCause());
+			System.out.println("Causa   " +e.getCause());
 		}	
 		
 	}
 	
-	/**
-	 * METODO USADO PARA ACTUALIZAR LA LISTA CON LA INFORMACION 
-	 */
-	public void refresh() {
-		//this.listVersions = ct.listVersions();
-		
-	}
-
-	public String getPrueba() {
-		return prueba;
-	}
-
-	public void setPrueba(String prueba) {
-		this.prueba = prueba;
-	}
 	
 	
 	

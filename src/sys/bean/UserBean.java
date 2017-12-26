@@ -69,6 +69,11 @@ public class UserBean implements Serializable{
 		this.listUsers = listUsers;
 	}
 
+	
+	/**
+	 * METODO USADO PARA INICIAR SESION EN LA APP
+	 * @return pagina de inicio de app
+	 */
 	public String iniciarSesion(){
 		try {
 			if (user!= null) {
@@ -97,23 +102,28 @@ public class UserBean implements Serializable{
 		}
 		catch(NoSuchAlgorithmException e) {
 			System.out.println("Mensaje: "+e.getMessage());
-			System.out.println("Causa: "+e.getCause());
+			System.out.println("Causa:   "+e.getCause());
 			FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getMessage(),""));
 			return "";
 		}
 			
 	}
 	
-	//logout event, invalidate session
+	/**
+	 * METODO USADO PARA CERRAR LA SESION
+	 * @return
+	 */
 	public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
 		return "/index.xhtml";
 	}
-		
+	
+	
+	/**
+	 * METODO PARA REGISTRAR USUARIO DESDE LA PAGINA PRINCIPAL 
+	 */
 	public void addUser() {
-		System.out.println("hola registrando "+user.toString());
-		
 		try{
 			userR.setStatus("Inactivo");
 			userR.setPassword(util.encriptaEnMD5(userR.getPassword()));
@@ -124,7 +134,6 @@ public class UserBean implements Serializable{
 			System.out.println("eror code "+e.getSQLException().getSQLState());
 			if (e.getSQLException().getSQLState().equals("23000")) {
 				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
-				
 			}
 		}
 		catch(Exception e) {

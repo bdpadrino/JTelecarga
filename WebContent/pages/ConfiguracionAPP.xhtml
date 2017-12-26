@@ -9,82 +9,167 @@
 	
 	    
     <ui:define name="title">
-       Configuración APP
+       Configuración de APP
     </ui:define>
-		
+
     <ui:define name="description">
-    
+       
     </ui:define>
 
     <ui:define name="body">
-   		<adm:breadcrumb title="Configuracion APP"/>              	
-        <p:tabView dynamic="true" cache="false">
-	        <p:tab >
-		        <f:facet name="title">
-			         <i class="fa fa-list"> </i>
-			         Username
-			     </f:facet>
-	           	<h:form id="form">
-	           	
-	           	 
-	               <p:separator/>
-	        		
-		   			<p:dataTable id="userDT" var="us" value="#{userBean.listUsers}"  widgetVar="usersTable" multiViewState="true"
-			                 rows="10" 
-			                 paginator="true" 
-			                 paginatorPosition="bottom"
-			                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
-			                 rowsPerPageTemplate="5,10,15,20"
-			                 selectionMode="single" selection="#{userBean.userToAdd}" rowKey="#{us.id}"
-			                 style="margin-bottom:5px"
-			                 editable="true" 	  
-			                 emptyMessage="No users found" >		                
-		 
-		 				<!--  <p:ajax event="rowEdit" listener="#{userBean.deleteUser}" update="userDT" />  -->
-			       		<p:ajax event="rowEdit" listener="#{userBean.onRowEdit}" update="userDT" />
-	      				<p:ajax event="rowEditCancel" listener="#{userBean.onRowCancel}" update="userDT"/>
-		 				<!--  <p:ajax event="rowSelect" listener="#{userBean.onRowSelect}" update="userDT" />  -->
-			 
-				        <p:column headerText="Id">
-				            <h:outputText value="#{us.id}" />
-			 			</p:column>
-			 
-				        <p:column headerText="Usuario" >
-			              	<p:cellEditor>  
-				                <f:facet name="output">  
-				                  	<h:outputText value="#{us.username}" />
-				                </f:facet>  
-				                <f:facet name="input">  
-				                    <p:inputText id="username" value="#{us.username}" style="width:96%"/>  
-				                </f:facet>  
-			            	</p:cellEditor>  
-				        </p:column>
-				 
-				 		<p:column headerText="Estatus">
-				         	<p:cellEditor>  
-				                <f:facet name="output">  
-				                  	<h:outputText value="#{us.status}" />
-				                </f:facet>  
-				                <f:facet name="input">  
-				                    <p:selectOneMenu value="#{us.status}" style="width:96%">
-				                       <f:selectItem itemLabel="Activo" itemValue="Activo" />
-				                       <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
-				                   </p:selectOneMenu>
-								</f:facet>  
-			            	</p:cellEditor>  						
-				        </p:column>
-				        
-				         <p:column style="width:32px">
-				           <p:rowEditor />
-				        </p:column>
-				        
-				        <p:column style="width:60px;text-align: center">
-				           <p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="userDT" actionListener="#{userBean.deleteUser(us)}"/>
-						</p:column>
-					       
-		 			  </p:dataTable>
-		       </h:form>          
-	        </p:tab>                          
-      	</p:tabView>     	        
+     	<style>
+			.btn-update{
+				display: inline-block;
+			    padding: 9px 8px;
+			    margin-bottom: 2;
+			    font-size: 16px;
+			    font-weight: normal;
+			    line-height: 1.42857143;
+			    text-align: right;
+			    vertical-align: middle;
+			    cursor: pointer;
+			    border-radius: 3px;
+				border: 1px solid #3c79bc;
+		   		background-color: #3c8dbc;
+				color: #fff;
+			}
+     	</style>
+   		 <adm:breadcrumb title="Configuración"/>
+
+     	 <div class="box box-primary"> 
+         	<div class="box-header with-border">
+         	 	
+          	</div> <!--  box -header -->
+	         <div class="box-body">                                   
+	          	<div class="nav-tabs-custom">
+		            <ul class="nav nav-tabs">
+		              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
+		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
+		              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-cogs"></i></a></li>
+		            </ul>
+		            <div class="tab-content">
+			              <div class="tab-pane active" id="tab_1">
+				           	<h:form id="searchForm">
+				               <p:separator/>
+				        		
+					   			<p:dataTable id="userDT" var="us" value="#{userBean.listUsers}"  widgetVar="usersTable" multiViewState="true"
+					                 rows="10" 
+					                 paginator="true" 
+					                 paginatorPosition="bottom"
+					                 paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+					                 rowsPerPageTemplate="5,10,15,20"
+					                 style="margin-bottom:5px"
+					                 editable="true" 	  
+					                 emptyMessage="No users found" >		                
+					 
+						       		<p:ajax event="rowEdit" listener="#{userBean.onRowEdit}" update="userDT" />
+				      				<p:ajax event="rowEditCancel" listener="#{userBean.onRowCancel}" update="userDT"/>
+						 
+							        <p:column headerText="Id" sortBy="#{us.id}">
+							            <h:outputText value="#{us.id}" />
+						 			</p:column>
+						 
+							        <p:column headerText="Usuario" sortBy="#{us.username}">
+						              	<p:cellEditor>  
+							                <f:facet name="output">  
+							                  	<h:outputText value="#{us.username}" />
+							                </f:facet>  
+							                <f:facet name="input">  
+							                    <p:inputText id="username" value="#{us.username}"  label="Usuario" maxlength="20" 
+							                    		required="true" requiredMessage="Nombre de usuario requerido" validatorMessage="Minimo 4 Caracteres" style="width:96%">
+									    			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+									    			<f:validateLength minimum="6" />
+							     	     		</p:inputText>
+				     	     					<p:message for="username" display="text" style="width:94%"/>
+							                </f:facet>  
+						            	</p:cellEditor>  
+							        </p:column>
+							 
+							 		<p:column headerText="Estatus" sortBy="#{us.status}">
+							         	<p:cellEditor>  
+							                <f:facet name="output">  
+							                	<span class="label label-success"><h:outputText value="#{us.status}" rendered="#{us.status eq 'Activo'}" /></span>
+							                  	<span class="label label-danger"><h:outputText value="#{us.status}" rendered="#{us.status eq 'Inactivo'}" /></span>
+							                </f:facet>  
+							                <f:facet name="input">  
+							                	<p:outputLabel for="console" value="Cambio de estatus:" />
+							                	<p:selectOneRadio id="console" value="#{us.status}" style="width:72%">
+										          <f:selectItem itemLabel= "Activo" itemValue="Activo" />
+										            <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+										        </p:selectOneRadio>
+										        <p:message for="console" display="text" style="width:94%"/>
+											</f:facet>  
+						            	</p:cellEditor>  						
+							        </p:column>
+							        
+							        <p:column headerText="Correo" sortBy="#{us.email}">
+							         	<p:cellEditor>  
+							                <f:facet name="output">  
+							                  	<h:outputText value="#{us.email}" />
+							                </f:facet>  
+							                <f:facet name="input">  
+												<p:inputText id="email" value="#{us.email}" label="Usuario" maxlength="35" 
+														required="true" requiredMessage="Correo Requerido" validatorMessage="Minimo 4 Caracteres" style="width:96%"> 	
+													<f:validateLength minimum="8" />
+												</p:inputText>
+												<p:message for="email" display="text" style="width:94%"/>										
+											</f:facet>  
+						            	</p:cellEditor>  	
+							        </p:column>
+							        
+						           <p:column style="width:50px;text-align: center">
+							           <p:rowEditor  styleClass="btn-update" title="Modificar"/>
+							        </p:column>  
+							      
+							        <p:column style="width:60px;text-align: center">
+							           <p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="userDT" actionListener="#{userBean.deleteUser(us)}"/>
+									</p:column>
+								       
+				 			  </p:dataTable>
+					       </h:form>          
+			       		</div> <!-- tab-pane Consultar -->  
+		       		  	<div class="tab-pane" id="tab_2">
+					     	<h:form id="addForm">
+				            	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
+				              		<p:outputLabel for="username" value="Nombre de Usuario:" />
+					                <p:inputText id="username" value="#{userBean.user.username}"  label="Usuario" maxlength="20" 
+					                		required="true" requiredMessage="Nombre de usuario requerido" validatorMessage="Minimo 4 Caracteres">
+						    			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+						    			<f:validateLength minimum="4" />
+				     	     		</p:inputText>
+				     	     		<p:message for="username" display="text" />
+				     	     		
+					                <p:outputLabel for="passwordLogin" value="Contraseña:" />
+				                 	<p:password id="passwordLogin" value="#{userBean.user.password}"  label="Password" maxlength="8" 
+				                 			required="true" requiredMessage="Contraseña requerida" validatorMessage="Minimo 4 Caracteres">
+					                	<f:validateLength minimum="2"/>
+					                </p:password>
+					                <p:message for="passwordLogin" display="text" />
+					                
+					                <p:outputLabel for="status" value="Estatus:" required="true" requiredMessage="Estatus Requerido"/>
+									<p:selectOneMenu id="status" value="#{userBean.user.status}" >
+									   <f:selectItem itemLabel="Activo" itemValue="Activo" />
+									   <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+									</p:selectOneMenu>
+				       				<p:message for="status" display="text" />				       				
+				       					                
+					                <p:outputLabel for="email" value="Correo Electronico:" />
+					                <p:inputText id ="email" value="#{userBean.user.email}" maxlength="35" required="true" requiredMessage="Correo Requerido" validatorMessage="Minimo 8 Caracteres">
+				     	     			<f:validateLength minimum="8" />
+				     	     		</p:inputText>
+					                <p:message for="email" display="text" />	   
+					                
+					                <p:commandButton value="Agregar" actionListener="#{userBean.addUser}" update=":addForm:addPanel :searchForm:userDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+				              		<p:spacer width="5"/>         
+					   			
+					   			</p:panelGrid>
+					   	  </h:form>
+			           	</div> <!-- tab-pane Agregar --> 
+				    </div> <!-- tab-content -->
+				</div><!-- nav-tabs-custom -->
+	   	  	</div> <!-- box-body -->	   	  
+		</div>  <!-- box-primary -->
+        	        
     </ui:define>
+
 </ui:composition>

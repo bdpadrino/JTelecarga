@@ -26,6 +26,8 @@ public class User {
 		private String password;  	    
 		@Column(name = "status")
 		private String status; 
+		@Column(name = "email")
+		private String email; 
 		    	    
 	    public Integer getId() {
 			return id;
@@ -59,9 +61,18 @@ public class User {
 			this.status = status;
 		}
 
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
 		@Override
 		public String toString() {
-			return "User [id=" + id + ", username=" + username + ", password=" + password + ", status=" + status + "]";
+			return "User [id=" + id + ", username=" + username + ", password=" + password + ", status=" + status
+					+ ", email=" + email + "]";
 		}
 
 

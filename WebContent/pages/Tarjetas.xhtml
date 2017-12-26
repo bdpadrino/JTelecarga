@@ -16,7 +16,23 @@
     </ui:define>
 
     <ui:define name="body">
-    	
+    	<style>
+			.btn-update{
+				display: inline-block;
+			    padding: 9px 8px;
+			    margin-bottom: 2;
+			    font-size: 16px;
+			    font-weight: normal;
+			    line-height: 1.42857143;
+			    text-align: right;
+			    vertical-align: middle;
+			    cursor: pointer;
+			    border-radius: 3px;
+				border: 1px solid #3c79bc;
+		   		background-color: #3c8dbc;
+				color: #fff;
+			}
+     	</style>
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
          	 
@@ -105,14 +121,14 @@
 						        </p:column>
 						        
 						        <p:column style="width:50px; text-align: center">
-						             <p:commandButton styleClass="btn-primary" update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="Ver">
+						             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="fa fa-search" styleClass="btn-success" title="Ver">
 						                <f:setPropertyActionListener value="#{car}" target="#{cardInfoBean.selectedCardInfo}" />
 						            </p:commandButton>
 						        </p:column>
 						        
-						         <p:column style="width:50px; text-align: center">
-						           <p:rowEditor />
-						        </p:column>  
+						        <p:column style="width:50px;text-align: center">
+							           <p:rowEditor  styleClass="btn-update" title="Modificar"/>
+						        </p:column>
 						       
        							<p:column style="width:50px;text-align: center">
 						         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" actionListener="#{cardInfoBean.deleteCardInfo(car)}"/>

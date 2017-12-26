@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
-
 @ManagedBean(name="reportBean")
 @RequestScoped
 public class ReportBean implements Serializable {

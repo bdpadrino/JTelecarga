@@ -9,7 +9,7 @@
 	
 	    
     <ui:define name="title">
-       Control de Versiones
+       Versiones de Aplicaciones
     </ui:define>
 
     <ui:define name="description">
@@ -17,66 +17,28 @@
     </ui:define>
 
     <ui:define name="body">
-    <style>
-		
-		.btn-bra{
-			display: inline-block;
-		    padding: 9px 8px;
-		    margin-bottom: 2;
-		    font-size: 16px;
-		    font-weight: normal;
-		    line-height: 1.42857143;
-		    text-align: right;
-		    /* white-space: nowrap; */
-		    vertical-align: middle;
-		    
-		    cursor: pointer;
-		    -webkit-user-select: none;
-		    -moz-user-select: none;
-		    -ms-user-select: none;
-		    user-select: none;
-		    background-image: none;
-		    border-radius: 4px;
-			border: 1px solid #3c8dbc;
-			
-    		background-color: #3c8dbc;
-			border-color: #3c8dbc;
-		}
-		
-		.ui-row-editor ui-helper-clearfix btn btn-primary btn-primaryb{
-			background-color: #337ab7;
-		}
-		.ui-datatable table tbody tr td .ui-row-editor .ui-icon-pencil 
-		{
-			background: none !important;
-			text-indent: initial;
-			display: inline-block;
-			font: normal normal normal 14px/1 FontAwesome;
-			font-size: inherit;
-			text-rendering: auto;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
-			transform: translate(0, 0);
-			
-			
-		}
-		
-		.ui-datatable table tbody tr td .ui-row-editor .ui-icon-pencil:before {
-		   content: "\f044";
-		}
-		.ui-datatable table tbody tr td .ui-row-editor .ui-icon-pencil:hover {
-		   font-weight: bold;
-		}
-		
-		.ui-datatable .ui-row-editor .ui-icon-check {
-		   padding: 1px 1px;
-		}
-    </style>
+     	<style>
+			.btn-update{
+				display: inline-block;
+			    padding: 9px 8px;
+			    margin-bottom: 2;
+			    font-size: 16px;
+			    font-weight: normal;
+			    line-height: 1.42857143;
+			    text-align: right;
+			    vertical-align: middle;
+			    cursor: pointer;
+			    border-radius: 3px;
+				border: 1px solid #3c79bc;
+		   		background-color: #3c8dbc;
+				color: #fff;
+			}
+     	</style>
    		 <adm:breadcrumb title="Control de Versiones"/>
 
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
-         	 
+         	 	
           	</div> <!--  box -header -->
 	         <div class="box-body">                                   
 	            <div class="nav-tabs-custom">
@@ -88,92 +50,84 @@
 		            <div class="tab-content">
 		              <div class="tab-pane active" id="tab_1">
 			            <h:form id="searchForm">
-			                
-			                <h:panelGroup  id="container1">
-			                
-			                	<p:outputLabel value="#{versionBean.prueba}" />
- h
-			            
-				   				<p:dataTable id="tableStateDT" var="car" value="#{versionBean.listVersions}" widgetVar="carsTable" multiViewState="true"
-					                rows="10" paginator="true" paginatorPosition="bottom" 
-					                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					                rowsPerPageTemplate="5,10,15,20"
-					                editable="true"
-					                emptyMessage="No hay transacciones" >
+		            		<p:separator/>
+			   				<p:dataTable id="tableStateDT" var="car" value="#{versionBean.listVersions}" widgetVar="carsTable" multiViewState="true"
+				                rows="10" paginator="true" paginatorPosition="bottom" 
+				                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				                rowsPerPageTemplate="5,10,15,20"
+				                editable="true"
+				                emptyMessage="No hay transacciones" >
+				 
+			 					<p:ajax event="rowEdit" listener="#{versionBean.onRowEdit}" update="tableStateDT" />
+			      				<p:ajax event="rowEditCancel" listener="#{versionBean.onRowCancel}" update="tableStateDT"/>
+				 
+						        <f:facet name="header">
+						            <p:outputPanel>
+						            	<div align="right">
+							                <h:outputText value="Search all fields: " />
+							                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+						           		</div>
+						            </p:outputPanel>
+					        	</f:facet>
 					 
-				 					<p:ajax event="rowEdit" listener="#{versionBean.onRowEdit}" update="tableStateDT" />
-				      				<p:ajax event="rowEditCancel" listener="#{versionBean.onRowCancel}" update="tableStateDT"/>
+						        <p:column headerText="Id" priority="1" sortBy="#{car.id}" width ="50" >
+						            <h:outputText value="#{car.id}" />
+						        </p:column>
 					 
-							        <f:facet name="header">
-							            <p:outputPanel>
-							            	<div align="right">
-								                <h:outputText value="Search all fields: " />
-								                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-							           		</div>
-							            </p:outputPanel>
-						        	</f:facet>
-						 
-							        <p:column headerText="Id" priority="1" sortBy="#{car.id}" width ="50" >
-							            <h:outputText value="#{car.id}" />
-							        </p:column>
-						 
-							        <p:column headerText="Tipo de Aplicacion" priority="3" filterBy="#{car.tipoAplicacion}" sortBy="#{car.tipoAplicacion}" filterMatchMode="contains">
-							             <p:cellEditor>  
-					                		<f:facet name="output">  
-							            		<h:outputText value="#{car.tipoAplicacion}" />
-							            	</f:facet>
-							            	 <f:facet name="input">  
-							                     <p:inputText id="tipoAplicacion" value="#{car.tipoAplicacion}"  required="true"  maxlength="25" requiredMessage="Campo Requerido"  style="width:96%">
-							     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
-							     	     		</p:inputText> 
-							                </f:facet>  			            	
-							            </p:cellEditor>
-							        </p:column>
-						   
-							        <p:column headerText="Modelo" priority="1" filterBy="#{car.modelo}" sortBy="#{car.modelo}" filterMatchMode="contains">
-							              <p:cellEditor>  
-					                		<f:facet name="output">  
-							            		<h:outputText value="#{car.modelo}" />
-							            	</f:facet>
-							            	 <f:facet name="input">  
-							                     <p:inputText id="modelo" value="#{car.modelo}"  required="true"  maxlength="10" requiredMessage="Campo Requerido"  style="width:96%">
-							     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
-							     	     		</p:inputText> 
-							                </f:facet>  			            	
-							            </p:cellEditor>
-							        </p:column>
-							  	
-							  		<p:column headerText="Version" priority="1" filterBy="#{car.version}" sortBy="#{car.version}" filterMatchMode="contains">
-							            <p:cellEditor>  
-					                		<f:facet name="output">  
-							            		<h:outputText value="#{car.version}" />
-							            	</f:facet>
-							            	 <f:facet name="input">  
-							                     <p:inputText id="version" value="#{car.version}"  required="true"  maxlength="10" requiredMessage="Campo Requerido"  style="width:96%">
-							     	     			<p:keyFilter regEx="/[1234567890.]/i"/>
-							     	     		</p:inputText> 
-							                </f:facet>  			            	
-							            </p:cellEditor>
-							        </p:column>
-							        
-							        <p:column style="width:50px;text-align: center">
-							             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="fa fa-search" styleClass="btn-success" title="Ver">
-							                <f:setPropertyActionListener value="#{car}" target="#{versionBean.version}" />
-							            </p:commandButton>
-							        </p:column>
-							        
-							        <p:column style="width:50px;text-align: center">
-							           <p:rowEditor  class="btn-bra btn-primary" title="Modificar"/>
-							        </p:column>  
-							        
-						  			<p:column style="width:50px;text-align: center">
-							         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" action="#{versionBean.deleteVersion(car)}" title="Eliminar"/>
-							        </p:column>
-					 			</p:dataTable>
+						        <p:column headerText="Tipo de Aplicacion" priority="3" filterBy="#{car.tipoAplicacion}" sortBy="#{car.tipoAplicacion}" filterMatchMode="contains">
+						             <p:cellEditor>  
+				                		<f:facet name="output">  
+						            		<h:outputText value="#{car.tipoAplicacion}" />
+						            	</f:facet>
+						            	 <f:facet name="input">  
+						                     <p:inputText id="tipoAplicacion" value="#{car.tipoAplicacion}"  required="true"  maxlength="25" requiredMessage="Campo Requerido"  style="width:96%">
+						     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+						     	     		</p:inputText> 
+						                </f:facet>  			            	
+						            </p:cellEditor>
+						        </p:column>
+					   
+						        <p:column headerText="Modelo" priority="1" filterBy="#{car.modelo}" sortBy="#{car.modelo}" filterMatchMode="contains">
+						              <p:cellEditor>  
+				                		<f:facet name="output">  
+						            		<h:outputText value="#{car.modelo}" />
+						            	</f:facet>
+						            	 <f:facet name="input">  
+						                     <p:inputText id="modelo" value="#{car.modelo}"  required="true"  maxlength="10" requiredMessage="Campo Requerido"  style="width:96%">
+						     	     			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+						     	     		</p:inputText> 
+						                </f:facet>  			            	
+						            </p:cellEditor>
+						        </p:column>
+						  	
+						  		<p:column headerText="Version" priority="1" filterBy="#{car.version}" sortBy="#{car.version}" filterMatchMode="contains">
+						            <p:cellEditor>  
+				                		<f:facet name="output">  
+						            		<h:outputText value="#{car.version}" />
+						            	</f:facet>
+						            	 <f:facet name="input">  
+						                     <p:inputText id="version" value="#{car.version}"  required="true"  maxlength="10" requiredMessage="Campo Requerido"  style="width:96%">
+						     	     			<p:keyFilter regEx="/[1234567890.]/i"/>
+						     	     		</p:inputText> 
+						                </f:facet>  			            	
+						            </p:cellEditor>
+						        </p:column>
+						        
+						        <p:column style="width:50px;text-align: center">
+						             <p:commandButton update=":searchForm:carDetail" oncomplete="PF('carDialog').show()" icon="fa fa-search" styleClass="btn-success" title="Ver">
+						                <f:setPropertyActionListener value="#{car}" target="#{versionBean.version}" />
+						            </p:commandButton>
+						        </p:column>
+						        
+						        <p:column style="width:50px;text-align: center">
+						           <p:rowEditor  styleClass="btn-update" title="Modificar"/>
+						        </p:column>  
+						        
+					  			<p:column style="width:50px;text-align: center">
+						         	<p:commandButton icon="fa fa-trash" styleClass="btn-danger" update="tableStateDT" action="#{versionBean.deleteVersion(car)}" title="Eliminar"/>
+						        </p:column>
+				 			</p:dataTable>
 				 			
-				 			</h:panelGroup>
-				 			
-			 
 							<p:dialog header="Detalle de Versión " widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" position="center center" > <!-- height="500" -->
 						        <p:outputPanel id="carDetail">
 						            <p:panelGrid  columns="2" rendered="#{not empty versionBean.listVersions}" class="ui-noborder" >
@@ -188,10 +142,8 @@
 						                
 						                <h:outputText value="Version:" />
 						                <h:outputText value="#{versionBean.version.version}" />
-						                
 						               
 						            </p:panelGrid>
-						            
 						        </p:outputPanel>
 						    </p:dialog>
 					  	</h:form>
@@ -218,7 +170,7 @@
 			     	     		</p:inputText>
 				                <p:message for="version" display="text" />	   
 				                
-				                <p:commandButton value="Agregar" actionListener="#{versionBean.addVersion}" update=":addForm:addPanel :searchForm:container1"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
+				                <p:commandButton value="Agregar" actionListener="#{versionBean.addVersion}" update=":addForm:addPanel :searchForm:tableStateDT"  class="btn btn-block btn-success"  icon="fa fa-plus-square"/>
 			              		<p:spacer width="5"/>             
 				   			
 				   			</p:panelGrid>

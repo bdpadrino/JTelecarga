@@ -32,8 +32,6 @@ public class CardInfoBean implements Serializable {
 	private CardInfo cardInfoToAdd; 
 	private CardInfo selectedCardInfo; 
 	private List<CardInfo> listCardInfos;
-	//private List<String> listFKCardInfos;
-	private Integer entero;
 		
 	public CardInfoBean() {
 		
@@ -44,7 +42,6 @@ public class CardInfoBean implements Serializable {
 		this.cardInfo = new CardInfo();
 		this.cardInfoToAdd = new CardInfo();
 		listCardInfos = ct.listCardInfos();	
-		//listFKCardInfos = ct.listCardInfos();
     }
 	
 	public CardInfo getCardInfo() {
@@ -113,14 +110,29 @@ public class CardInfoBean implements Serializable {
         }
     }
 	
+    /**
+     * METODO PARA AGREGAR INFORMACION DE UN TARJETAHABIENTE
+     */
 	public void addCardInfo() {
 		try {
-			
 			int id = ct.addCardInfo(cardInfoToAdd);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
 			cardInfoToAdd = new CardInfo();
-			refresh();
+			this.listCardInfos.add(cardInfoToAdd);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
 		} 
+		catch(JDBCException e) {
+			System.out.println("Sql State "+e.getSQLException().getSQLState());
+			System.out.println("Eror code "+e.getSQLException().getErrorCode());
+			//UNIQUE CONSTRAINT ERROR CODE 1
+			if (e.getSQLException().getErrorCode() == 1) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Valor a modificar ya existe",e.getMessage()));
+			}
+			//MANDATORIEDAD ERROR CODE 1400
+			if (e.getSQLException().getErrorCode() == 1400) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
+			}
+
+		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Agregar",e.getMessage()));
 			System.out.println("mensaje exc" +e.getMessage());
@@ -128,19 +140,35 @@ public class CardInfoBean implements Serializable {
 		}		
 	}
 
+	/**
+	 * METODO PARA ELIMINAR UN TARJETAHABIENTE
+	 * @param cardInfoReceived
+	 */
 	public void deleteCardInfo(CardInfo cardInfoReceived) { 
 		try {
 			if (cardInfoReceived == null) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Debe Seleccionar una fila",""));
 			}
 			else {
-				System.out.println("entrando a  eliminar transaccion "+cardInfoReceived.toString());
 				int id= cardInfoReceived.getId();
 				ct.deleteCardInfo(cardInfoReceived.getId());
-				refresh();
+				this.listCardInfos.remove(cardInfoReceived);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Tarjetahabiente "+ id+" Eliminado con exito",""));
 			}	
 		} 
+		catch(JDBCException e) {
+			System.out.println("Sql State "+e.getSQLException().getSQLState());
+			System.out.println("Eror code "+e.getSQLException().getErrorCode());
+			//UNIQUE CONSTRAINT ERROR CODE 1
+			if (e.getSQLException().getErrorCode() == 1) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Valor a modificar ya existe",e.getMessage()));
+			}
+			//MANDATORIEDAD ERROR CODE 1400
+			if (e.getSQLException().getErrorCode() == 1400) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
+			}
+
+		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Eliminar Existen transacciones para este Tarjetahabiente",e.getMessage()));
 			System.out.println("mensaje exc" +e.getMessage());
@@ -149,17 +177,6 @@ public class CardInfoBean implements Serializable {
 		
 	}
 	
-	public void refresh() {
-		this.listCardInfos = ct.listCardInfos();
-	}
-
-	public Integer getEntero() {
-		return entero;
-	}
-
-	public void setEntero(Integer entero) {
-		this.entero = entero;
-	}
 	
 	
 	

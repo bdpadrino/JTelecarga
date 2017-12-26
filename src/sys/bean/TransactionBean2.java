@@ -120,14 +120,17 @@ public class TransactionBean2 implements Serializable {
 		try {
 			transactionToAdd.setCard_info(cardInfo);
 			int id = ct.addTransaction(transactionToAdd);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
+			this.listTransactions.add(transactionToAdd);
 			transactionToAdd = new Transaction2();
-			refresh();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
+			
+			
+			
 		} 
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Agregar",e.getMessage()));
-			System.out.println("mensaje exc" +e.getMessage());
-			System.out.println("causa" +e.getCause());
+			System.out.println("Mensaje Exception "+e.getMessage());
+			System.out.println("Causa Exception   "+e.getCause());
 		}		
 	}
 	
@@ -149,8 +152,8 @@ public class TransactionBean2 implements Serializable {
 		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Modificar ",e.getMessage()));
-			System.out.println("Mensaje "+e.getMessage());
-			System.out.println("Causa "+e.getCause());
+			System.out.println("Mensaje Exception "+e.getMessage());
+			System.out.println("Causa Exception   "+e.getCause());
 		}
 	}
 	
@@ -166,8 +169,8 @@ public class TransactionBean2 implements Serializable {
 			else {
 				int id= transactionReceived.getSystems_trace_number();
 				ct.deleteTransaction(id);
+				this.listTransactions.remove(transactionReceived);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transaccion "+id+" Eliminada con exito",""));
-				refresh();
 			}	
 		} 
 		catch(Exception e) {
@@ -175,17 +178,9 @@ public class TransactionBean2 implements Serializable {
 			System.out.println("Mensaje " +e.getMessage());
 			System.out.println("Causa "   +e.getCause());
 		}	
-		
 	}
 	
-	/**
-	 * METODO USADO PARA RECARGAR LA LISTA DE TRANSACCIONES
-	 */
 	public void refresh() {
 		this.listTransactions = ct.listTransactions();
 	}
-
-	
-	
-	
 }

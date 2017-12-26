@@ -11,9 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.hibernate.JDBCException;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.event.SelectEvent;
 
 import sys.dao.imp.UserDaoImp;
 import sys.dao.UserDao;
@@ -26,14 +24,9 @@ public class UserTableBean implements Serializable{
 
 	private static final long serialVersionUID = -480409353442786930L;
 
-	//@ManagedProperty("#{carService}")
 	private User user;	
-	private User userToAdd;	
-	
 	Util util = new Util();
-
 	UserDao cu = new UserDaoImp();
-	
 	private List<User> listUsers;
 		
 	public UserTableBean() {
@@ -43,7 +36,6 @@ public class UserTableBean implements Serializable{
 	@PostConstruct
     public void init() {
 		this.user = new User();
-		this.userToAdd = new User();
 		this.listUsers = cu.listUsers();
 	}
 
@@ -55,13 +47,6 @@ public class UserTableBean implements Serializable{
 		this.user = user;
 	}
 
-	public User getUserToAdd() {
-		return userToAdd;
-	}
-
-	public void setUserToAdd(User userToAdd) {
-		this.userToAdd = userToAdd;
-	}
 	public List<User> getListUsers() {
 		return listUsers;
 	}
@@ -70,28 +55,71 @@ public class UserTableBean implements Serializable{
 		this.listUsers = listUsers;
 	}
 	
-	 public void onRowSelect(SelectEvent event) {
-		System.out.println("Fila seleccionada");
-		this.userToAdd =  ((User) event.getObject());
-	 	System.out.println("event "+((User)event.getObject()).toString());
-        FacesMessage msg = new FacesMessage("Car Selected", ((User)event.getObject()).toString());
+	public void onRowEdit(RowEditEvent event) {
+		User u = ((User) event.getObject()); 
+		modifyUser(u);
+	}
+    
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ""+((User) event.getObject()).getId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+  
+    /**
+     * METODO USADO PARA REGISTRAR UN USUARIO EN BD
+     */
+    public void addUser() {
+    	try{
+    		user.setPassword(util.encriptaEnMD5(user.getPassword()));
+    		cu.addUser(user);
+    		this.listUsers.add(user);
+    		FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+user.getUsername()+" Agregado Exitosamente",""));
+    		this.user = new User();
+    	}
+    	catch(JDBCException e) {
+    		System.out.println("Sql State "+e.getSQLException().getSQLState());
+    		System.out.println("Eror code "+e.getSQLException().getErrorCode());
+    		//UNIQUE CONSTRAINT ERROR CODE 1
+    		if (e.getSQLException().getErrorCode() == 1) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe",e.getMessage()));
+    		}
+    		//MANDATORIEDAD ERROR CODE 1400
+    		if (e.getSQLException().getErrorCode() == 1400) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
+    		}
+    	}
+    	catch(Exception e) {
+    		FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
+    		System.out.println("Mensaje EX"+e.getMessage());
+    		System.out.println("Causa   EX"+e.getCause());
+    	}
+    }
 	
-	public void onRowEdit(RowEditEvent event) {
+    /**
+     * METODO USADO PARA MODIFICAR USUARIOS EN BD
+     * @param userReceived
+     */
+    public void modifyUser(User userReceived) {
 		try {
-			User u = ((User) event.getObject()); 
-			System.out.println("nuevos valores" +u.toString());
-			cu.modifyUser(u);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+u.getUsername() +" Modificado Exitosamente",""));
+			cu.modifyUser(userReceived);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+userReceived.getUsername() +" Modificado Exitosamente",""));
 		}
 		catch(JDBCException e) {
-			
-			System.out.println("eror code "+e.getSQLException().getSQLState());
-			if (e.getSQLException().getSQLState().equals("23000")) {
-				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de Usuario ya registrado",e.getMessage()));
-			}
-		}
+			System.out.println("Sql State "+e.getSQLException().getSQLState());
+    		System.out.println("Eror code "+e.getSQLException().getErrorCode());
+    		//UNIQUE CONSTRAINT ERROR CODE 1
+    		if (e.getSQLException().getErrorCode() == 1) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe",e.getMessage()));
+    		}
+    		//MANDATORIEDAD ERROR CODE 1400
+    		if (e.getSQLException().getErrorCode() == 1400) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
+    		}
+    		//MANDATORIEDAD CAMPO A MODIFICAR NO PUEDE SER NULO ERROR CODE 1407
+    		if (e.getSQLException().getErrorCode() == 1407) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo a modificar no puede ser nulo",e.getMessage()));
+    		}
+    	}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
 			System.out.println("Mensaje "+e.getMessage());
@@ -99,47 +127,16 @@ public class UserTableBean implements Serializable{
 		}
     }
     
-    public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ""+((User) event.getObject()).getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-     
-    public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-         System.out.println("soi pasa por aca");
-        if(newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-    }
-  
-    public void addUser() {
-		try{
-			userToAdd.setPassword(util.encriptaEnMD5(userToAdd.getPassword()));
-			cu.addUser(userToAdd);
-			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro Exitoso",""));
-			userToAdd = new User();
-		}catch(JDBCException e) {
-			System.out.println("eror code "+e.getSQLException().getSQLState());
-			if (e.getSQLException().getSQLState().equals("23000")) {
-				FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario ya registrado",e.getMessage()));
-				
-			}
-		}
-		catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al registrar",e.getMessage()));
-			System.out.println("Mensaje "+e.getMessage());
-			System.out.println("Causa "+e.getCause());
-		}
-	}
-	
+    /**
+     * METODO USADO PARA ELIMINAR UN USUARIO EN BD
+     * @param userReceived
+     */
 	public void deleteUser(User userReceived) {
 		try {
 			String username = userReceived.getUsername();
 			cu.deleteUser(userReceived.getId());
+			this.listUsers.remove(userReceived);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+username+" Eliminado con exito",""));
-			refresh();
 		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Eliminar",e.getMessage()));
@@ -148,8 +145,5 @@ public class UserTableBean implements Serializable{
 		}
 	}
 	
-	public void refresh() {
-		this.listUsers = cu.listUsers();
-	}
     
 }

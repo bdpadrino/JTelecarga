@@ -26,17 +26,16 @@
           <div class="box-body">     
            	<div class="col-md-6">                            
 	            <h:form id="form">
-	            
-		            <p:panelGrid columns="2">
+		            <p:panelGrid columns="2" id="telePanel">
 					    <f:facet name="header">
 					       Telecarga1PQ98_U
 					    </f:facet>
 					 
 					 	<h:outputText value="Id:" />
-						<h:outputText value="#{tele.id}" />
+						<h:outputText value="#{telecargaBean.telecargaST.id}" />
 					 
 					    <h:outputText value="Clave de Solicitud:" />
-						<h:outputText value="#{tele.rqtKey}" />
+						<h:outputText value="#{telecargaBean.telecargaST.rqtKey}" />
 						
 						<h:outputText value="Clave del banco:" />
 						<h:outputText value="#{telecargaBean.telecargaST.bnkKey}" />
@@ -212,7 +211,7 @@
 	  		
 	  		<div class="col-md-6">   
 		  		<h:form id="bduForm"> 
-			  	 	<p:panelGrid columns="2" >
+			  	 	<p:panelGrid columns="2" rendered="#{telecargaBean.telecargaST.bduParameters != null}">
 					    <f:facet name="header">
 					       BDU_MULT
 					    </f:facet>
@@ -235,7 +234,7 @@
 						<h:outputText value="Nombre del Comercio:" />
 						<h:outputText value="#{telecargaBean.telecargaST.bduParameters.commerceName}"/>
 						
-						<h:outputText value="Lleva venta forzada::" />
+						<h:outputText value="Lleva venta forzada:" />
 						<h:outputText value="#{telecargaBean.telecargaST.bduParameters.forceSaleTer}"/>
 						
 						<h:outputText value="Valor del numero de terminal Id de Conexion a Base24:" />
