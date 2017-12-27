@@ -1,7 +1,6 @@
 package sys.model;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +8,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ACT")
+@Table(name = "TELECARGA1PQ98_U")
 public class TelecargaACT {
 
 	@Id
@@ -20,7 +19,7 @@ public class TelecargaACT {
 	@Column(name = "bcoNombre")
 	private String 	bnkName;				//Nombre del banco, para la impresión en pagaré
 	@Column(name = "terId")
-	private Integer terId;					//Numero de la caja de la terminal
+	private String 	 terId;					//Numero de la caja de la terminal
 	@Column(name = "aplDescripción")
 	private String  appDesc;				//Descripción de la aplicación (comercio, restaurantesucursal)
 	@Column(name = "plnDescripción")
@@ -151,10 +150,10 @@ public class TelecargaACT {
 	public void setBnkName(String bnkName) {
 		this.bnkName = bnkName;
 	}
-	public Integer getTerId() {
+	public String getTerId() {
 		return terId;
 	}
-	public void setTerId(Integer terId) {
+	public void setTerId(String terId) {
 		this.terId = terId;
 	}
 	public String getAppDesc() {

@@ -9,21 +9,29 @@ public class RespuestaException {
     
     private String mensaje;
     
-    private String accion;
-    
-    private Boolean exitoso;
+    private String codigoError;
     
     public RespuestaException() {
     }
 
-    public RespuestaException(String accion, String mensaje, Boolean exitoso) {
-        this.accion =  accion;
-        this.mensaje = mensaje;
-        this.exitoso = exitoso;
+    public RespuestaException(String mensaje, String codigoError) {
+		super();
+		this.mensaje = mensaje;
+		this.codigoError = codigoError;
+	}
 
-    }
 
-    public String getMensaje() {
+	public String getCodigoError() {
+		return codigoError;
+	}
+
+
+	public void setCodigoError(String codigoError) {
+		this.codigoError = codigoError;
+	}
+
+
+	public String getMensaje() {
         return mensaje;
     }
 
@@ -31,21 +39,5 @@ public class RespuestaException {
         this.mensaje = mensaje;
     }
 
-    public Boolean getExitoso() {
-        return exitoso;
-    }
-
-    public void setExitoso(Boolean exitoso) {
-        this.exitoso = exitoso;
-    }
-
-    public String getAccion() {
-        return accion;
-    }
-
-    public void setAccion(String accion) {
-        this.accion = accion;
-    }
-    
     
 }

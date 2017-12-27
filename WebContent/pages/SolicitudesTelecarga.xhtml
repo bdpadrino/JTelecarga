@@ -19,12 +19,11 @@
     <ui:define name="body">
    		 <adm:breadcrumb title="Solicitudes de Telecargas"/>
      	 <div class="box box-primary"> 
-     	 
-         	<div class="box-header with-border">
-          	</div> <!--  box -header -->
           	
           	<div class="box-body">                                   
                	<h:form id="searchForm">
+               	
+               		<p:separator/>
 	   				<p:dataTable id="tableStateDT" var="obj" value="#{solicitudTelecargaBean.listSolicitudTelecargas}" widgetVar="objTable" multiViewState="true"
 		                 rows="10" paginator="true" paginatorPosition="bottom" 
 		                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

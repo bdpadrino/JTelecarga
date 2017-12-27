@@ -35,10 +35,10 @@
 			}
      	</style>
    		 <adm:breadcrumb title="Configuración"/>
-
+		
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
-         	 	
+         	 	Usuarios
           	</div> <!--  box -header -->
 	         <div class="box-body">                                   
 	          	<div class="nav-tabs-custom">
@@ -110,7 +110,7 @@
 							                <f:facet name="input">  
 												<p:inputText id="email" value="#{us.email}" label="Usuario" maxlength="35" 
 														required="true" requiredMessage="Correo Requerido" validatorMessage="Minimo 4 Caracteres" style="width:96%"> 	
-													<f:validateLength minimum="8" />
+													<f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 												</p:inputText>
 												<p:message for="email" display="text" style="width:94%"/>										
 											</f:facet>  
@@ -139,12 +139,12 @@
 				     	     		</p:inputText>
 				     	     		<p:message for="username" display="text" />
 				     	     		
-					                <p:outputLabel for="passwordLogin" value="Contraseña:" />
-				                 	<p:password id="passwordLogin" value="#{userBean.user.password}"  label="Password" maxlength="8" 
+					                <p:outputLabel for="password" value="Contraseña:" />
+				                 	<p:password id="password" value="#{userBean.user.password}"  label="Password" maxlength="8" 
 				                 			required="true" requiredMessage="Contraseña requerida" validatorMessage="Minimo 4 Caracteres">
-					                	<f:validateLength minimum="2"/>
+					                	
 					                </p:password>
-					                <p:message for="passwordLogin" display="text" />
+					                <p:message for="password" display="text" />
 					                
 					                <p:outputLabel for="status" value="Estatus:" required="true" requiredMessage="Estatus Requerido"/>
 									<p:selectOneMenu id="status" value="#{userBean.user.status}" >
@@ -154,8 +154,9 @@
 				       				<p:message for="status" display="text" />				       				
 				       					                
 					                <p:outputLabel for="email" value="Correo Electronico:" />
-					                <p:inputText id ="email" value="#{userBean.user.email}" maxlength="35" required="true" requiredMessage="Correo Requerido" validatorMessage="Minimo 8 Caracteres">
-				     	     			<f:validateLength minimum="8" />
+					                <p:inputText id ="email" value="#{userBean.user.email}" maxlength="35"
+					                		required="true" requiredMessage="Correo Requerido" validatorMessage="Formato de correo invalido">
+				     	     			<f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 				     	     		</p:inputText>
 					                <p:message for="email" display="text" />	   
 					                

@@ -1,21 +1,28 @@
 package sys.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "control_versiones")
+@Table(name = "CONTROL_VERSIONES")
 public class TerminalVersion {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="incrementoControlVersiones")
+	@SequenceGenerator(
+	    name="incrementoControlVersiones",
+		sequenceName="idControlVersiones_seq",
+		allocationSize=1)
     @Column(name = "id")
 	private int 	id;	
-	@Column(name = "tipo_aplicacion")
-	private String 	tipo_aplicacion;
-	@Column(name = "terminal_version")
+	@Column(name = "tipoAplicacion")
+	private String 	tipoAplicacion;
+	@Column(name = "versión")
 	private Double	version;
 	@Column(name = "modelo")
 	private String 	modelo;
@@ -25,10 +32,10 @@ public class TerminalVersion {
 	
 	}
 	
-	public TerminalVersion(int id, String tipo_aplicacion, Double version, String modelo) {
+	public TerminalVersion(int id, String tipoAplicacion, Double version, String modelo) {
 		super();
 		this.id = id;
-		this.tipo_aplicacion = tipo_aplicacion;
+		this.tipoAplicacion = tipoAplicacion;
 		this.version = version;
 		this.modelo = modelo;
 	}
@@ -39,12 +46,13 @@ public class TerminalVersion {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getTipo_aplicacion() {
-		return tipo_aplicacion;
+	public String getTipoAplicacion() {
+		return tipoAplicacion;
 	}
-	public void setTipo_aplicacion(String tipo_aplicacion) {
-		this.tipo_aplicacion = tipo_aplicacion;
+	public void setTipoAplicacion(String tipoAplicacion) {
+		this.tipoAplicacion = tipoAplicacion;
 	}
+
 	public Double getVersion() {
 		return version;
 	}
@@ -60,7 +68,7 @@ public class TerminalVersion {
 	
 	@Override
 	public String toString() {
-		return "TerminalVersion [id=" + id + ", tipo_aplicacion=" + tipo_aplicacion + ", version=" + version
+		return "TerminalVersion [id=" + id + ", tipo_aplicacion=" + tipoAplicacion + ", version=" + version
 				+ ", modelo=" + modelo + "]";
 	}
 

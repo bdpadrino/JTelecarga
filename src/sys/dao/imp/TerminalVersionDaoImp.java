@@ -1,18 +1,15 @@
 package sys.dao.imp;
 
 import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-
+import sys.dao.TerminalVersionDao;
 import sys.model.TerminalVersion;
 import sys.util.HibernateUtilST;
 
-public class TerminalVersionDaoImp {
+public class TerminalVersionDaoImp implements  TerminalVersionDao{
 
-	 HibernateUtilST hu = new HibernateUtilST();
-
-    //@Override
+    @Override
     public Integer addTerminalVersion(TerminalVersion e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
@@ -23,7 +20,7 @@ public class TerminalVersionDaoImp {
         return e.getId();
     }
 
-    //@Override
+    @Override
     public  List<TerminalVersion> listTerminalVersions() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")			
@@ -33,22 +30,20 @@ public class TerminalVersionDaoImp {
         return listaTerminalVersion;
     }
  
-    //@Override
-   /* public void modifyTerminalVersion(TerminalVersion e) {
+    @Override
+    public void modifyTerminalVersion(TerminalVersion e) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
         TerminalVersion nuevo = (TerminalVersion) session.get(TerminalVersion.class, e.getId());
-        nuevo.setMarca(e.getMarca());
         nuevo.setModelo(e.getModelo());
-        nuevo.setNumeroFolio(e.getNumeroFolio());
-        nuevo.setTerminal(e.getTerminal());
-        nuevo.setTipo_aplicacion(e.getTipo_aplicacion());
+        nuevo.setVersion(e.getVersion());
+        nuevo.setTipoAplicacion(e.getTipoAplicacion());
         session.getTransaction().commit();
         session.close();
         System.out.println("Successfully updated " + e.toString());
-    }*/
+    }
 
-   // @Override
+    @Override
     public void deleteTerminalVersion(Integer id) {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
@@ -59,7 +54,7 @@ public class TerminalVersionDaoImp {
         System.out.println("Successfully deleted " + e.toString());
     }
 
-    //@Override
+    @Override
     public TerminalVersion findByID(Integer id) {   
         Session session = HibernateUtilST.getSessionFactory().openSession();
         TerminalVersion e = (TerminalVersion) session.get(TerminalVersion.class, id);
@@ -67,6 +62,14 @@ public class TerminalVersionDaoImp {
         return e;
     }
    
+    @Override
+    public Double findLastVersion (String modelo, String tipoApp) {
+	    Session session = HibernateUtilST.getSessionFactory().openSession();
+	    Double tel = (Double) session.createQuery("SELECT MAX(t.version) FROM TerminalVersion as t WHERE t.tipoAplicacion = '"+tipoApp+"' AND t.modelo = '"+modelo+"'").uniqueResult();
+  	    session.close();
+        return tel;
+    }
+    
     public void deleteAll() {
         Session session = HibernateUtilST.getSessionFactory().openSession();
         session.beginTransaction();
@@ -78,10 +81,4 @@ public class TerminalVersionDaoImp {
 
     }
 
-    public Double findLastVersionOfModel (String modelo, String tipoApp) {
-	    Session session = HibernateUtilST.getSessionFactory().openSession();
-	    Double tel = (Double) session.createQuery("SELECT MAX(t.version) FROM TerminalVersion as t WHERE t.tipo_aplicacion = '"+tipoApp+"' AND t.modelo = '"+modelo+"'").uniqueResult();
-  	    session.close();
-        return tel;
-    }
 }

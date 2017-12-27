@@ -1,21 +1,26 @@
 
 package sys.util;
-
+/*
 import sys.model.RespuestaException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 
-import org.hibernate.JDBCException;
+import org.hibernate.JDBCException;*/
 
 /**
  *
  * @author bdpad
  */
 public class CustomException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1167935269032567623L;
     
-    public static final long serialVersionUID = 700L;
-    RespuestaException respuesta = new RespuestaException();
+
+    /* RespuestaException respuesta = new RespuestaException();
     private Throwable causa;
     
     public CustomException(){       
@@ -25,10 +30,6 @@ public class CustomException extends Exception{
         super(mensaje);
     }
 
-    /*public CustomException (String mensaje, Throwable c){
-        super(mensaje)
-		causa = c;
-    }*/
     
     public Throwable getCausa() {
 		return causa;
@@ -56,7 +57,7 @@ public class CustomException extends Exception{
             respuesta.setMensaje(e.getSQLException().getMessage().replace("ERROR:",""));
         //ERROR DE UNIQUE
         if (e.getSQLException().getSQLState().equals("23505"))
-            respuesta.setMensaje("Error al Insertar, la cedula ya existe");/*"+em.getCedula()+"*/
+            respuesta.setMensaje("Error al Insertar, la cedula ya existe");/
         //ERROR DE ... 
         if (e.getSQLException().getSQLState().equals("28P01"))
             respuesta.setMensaje("Error: "+e.getSQLException().getMessage().replace("FATAL:",""));
@@ -105,7 +106,7 @@ public class CustomException extends Exception{
         respuesta.setMensaje("Error al "+mensaje+" Empleado " +e.getMessage());
         respuesta.setExitoso(false);
         return respuesta;
-    }
+    }*/
     
     
 }

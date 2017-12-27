@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 //import javax.persistence.Transient;
-
+//UN1Q
 
 @Entity
 @Table(name = "TELECARGA")
@@ -32,7 +32,7 @@ public class TelecargaST {
 	@Column(name = "bcoNombre")
 	private String 	bnkName;				//Nombre del banco, para la impresión en pagaré
 	@Column(name = "terId")
-	private Integer terId;					//Numero de la caja de la terminal
+	private String terId;					//Numero de la caja de la terminal
 	@Column(name = "aplDescripción")
 	private String  appDesc;				//Descripción de la aplicación (comercio, restaurante, sucursal)
 	@Column(name = "plnDescripción")
@@ -145,6 +145,11 @@ public class TelecargaST {
 	private String  qpsPrintLegend;			//Leyenda de impresión para vouchers QPS
 	@Column(name = "updateApp")
 	private Boolean updateApp;				//Bandera para saber si es necesario actualizar la app
+	@Column(name = "versionDescarga")
+	private Double  versionToDownload;		//Version de la App a descargar en el terminal 
+	@Column(name = "estatus")
+	private String  status;					//Bandera para saber si la telecarga fue realizada con exito
+	
 	
 	//NUEVOS
 	//@Transient 
@@ -183,10 +188,10 @@ public class TelecargaST {
 	public void setBnkName(String bnkName) {
 		this.bnkName = bnkName;
 	}
-	public Integer getTerId() {
+	public String getTerId() {
 		return terId;
 	}
-	public void setTerId(Integer terId) {
+	public void setTerId(String terId) {
 		this.terId = terId;
 	}
 	public String getAppDesc() {
@@ -525,6 +530,19 @@ public class TelecargaST {
 	public void setUpdateApp(Boolean updateApp) {
 		this.updateApp = updateApp;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Double getVersionToDownload() {
+		return versionToDownload;
+	}
+	public void setVersionToDownload(Double versionToDownload) {
+		this.versionToDownload = versionToDownload;
+	}
+	
 	@Override
 	public String toString() {
 		return "TelecargaST [id=" + id + ", rqtKey=" + rqtKey + ", bnkKey=" + bnkKey + ", bnkName=" + bnkName
@@ -547,7 +565,8 @@ public class TelecargaST {
 				+ keybnk + ", esn=" + esn + ", ip=" + ip + ", port=" + port + ", servicommerceCount="
 				+ servicommerceCount + ", country=" + country + ", currency=" + currency + ", promotions=" + promotions
 				+ ", qpsMaxAmount=" + qpsMaxAmount + ", qpsPrintLegend=" + qpsPrintLegend + ", updateApp=" + updateApp
-				+ ", bduParameters=" + bduParameters + "]";
+				+ ", versionToDownload=" + versionToDownload + ", status=" + status + ", bduParameters=" + bduParameters
+				+ "]";
 	}
 	
 }

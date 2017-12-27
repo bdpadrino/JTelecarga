@@ -58,35 +58,34 @@ public class TeleReport implements Serializable {
     private String  numSerie;               
     @Column(name = "fechaTelecarga")
     private Date    fechaTelecarga;
+    @Column(name = "fechaRecarga")
+    private Date    fechaRecarga; 
+    @Column(name = "pbiNombre")
+    private String  pbiNombre; 
+    @Column(name = "res")
+    private String  res; 
+    @Column(name = "resExt")
+    private String  resExt;            
+    @Column(name = "cBase")
+    private String  cBase;               
+    @Column(name = "cProfile")
+    private String  cProfile; 
+    @Column(name = "horaInicio")
+    private Date    horaInicio; 
+    @Column(name = "horaFin")
+    private Date    horaFin; 
+    @Column(name = "version")
+    private String  version; 
+    @Column(name = "fiid")
+    private String  fiid; 
+    @Column(name = "facturacion")
+    private String  facturacion; 
+    @Column(name = "cveInstalador")
+    private String  cveInstalador; 
 	
     public TeleReport() {
 		
 	}
-	
-	public TeleReport(Integer id, String aplDescripción, String bcoNombre, Integer comAfiliación, String comNombre,
-			String comDomicilio, String telLocal, String telAvantel, String telTelmex, Integer odtFolioTelecarga,
-			String modModelo, String cTram, String terId, String terIdEncr, String proveedor, String comPoblacion,
-			String numSerie, Date fechaTelecarga) {
-		super();
-		this.id = id;
-		this.aplDescripción = aplDescripción;
-		this.bcoNombre = bcoNombre;
-		this.comAfiliación = comAfiliación;
-		this.comNombre = comNombre;
-		this.comDomicilio = comDomicilio;
-		this.telLocal = telLocal;
-		this.telAvantel = telAvantel;
-		this.telTelmex = telTelmex;
-		this.odtFolioTelecarga = odtFolioTelecarga;
-		this.modModelo = modModelo;
-		this.cTram = cTram;
-		this.terId = terId;
-		this.terIdEncr = terIdEncr;
-		this.proveedor = proveedor;
-		this.comPoblacion = comPoblacion;
-		this.numSerie = numSerie;
-		this.fechaTelecarga = fechaTelecarga;
-	}   
 	
     public Integer getId() {
 		return id;
@@ -196,18 +195,79 @@ public class TeleReport implements Serializable {
 	public void setFechaTelecarga(Date fechaTelecarga) {
 		this.fechaTelecarga = fechaTelecarga;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Date getFechaRecarga() {
+		return fechaRecarga;
 	}
-	
-	@Override
-	public String toString() {
-		return "TeleReport [id=" + id + ", aplDescripción=" + aplDescripción + ", bcoNombre=" + bcoNombre
-				+ ", comAfiliación=" + comAfiliación + ", comNombre=" + comNombre + ", comDomicilio=" + comDomicilio
-				+ ", telLocal=" + telLocal + ", telAvantel=" + telAvantel + ", telTelmex=" + telTelmex
-				+ ", odtFolioTelecarga=" + odtFolioTelecarga + ", modModelo=" + modModelo + ", cTram=" + cTram
-				+ ", terId=" + terId + ", terIdEncr=" + terIdEncr + ", proveedor=" + proveedor + ", comPoblacion="
-				+ comPoblacion + ", numSerie=" + numSerie + ", fechaTelecarga=" + fechaTelecarga + "]";
+
+	public void setFechaRecarga(Date fechaRecarga) {
+		this.fechaRecarga = fechaRecarga;
+	}
+
+	public String getPbiNombre() {
+		return pbiNombre;
+	}
+	public void setPbiNombre(String pbiNombre) {
+		this.pbiNombre = pbiNombre;
+	}
+	public String getRes() {
+		return res;
+	}
+	public void setRes(String res) {
+		this.res = res;
+	}
+	public String getResExt() {
+		return resExt;
+	}
+	public void setResExt(String resExt) {
+		this.resExt = resExt;
+	}
+	public String getcBase() {
+		return cBase;
+	}
+	public void setcBase(String cBase) {
+		this.cBase = cBase;
+	}
+	public String getcProfile() {
+		return cProfile;
+	}
+	public void setcProfile(String cProfile) {
+		this.cProfile = cProfile;
+	}
+	public Date getHoraInicio() {
+		return horaInicio;
+	}
+	public void setHoraInicio(Date horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+	public Date getHoraFin() {
+		return horaFin;
+	}
+	public void setHoraFin(Date horaFin) {
+		this.horaFin = horaFin;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	public String getFiid() {
+		return fiid;
+	}
+	public void setFiid(String fiid) {
+		this.fiid = fiid;
+	}
+	public String getFacturacion() {
+		return facturacion;
+	}
+	public void setFacturacion(String facturacion) {
+		this.facturacion = facturacion;
+	}
+	public String getCveInstalador() {
+		return cveInstalador;
+	}
+	public void setCveInstalador(String cveInstalador) {
+		this.cveInstalador = cveInstalador;
 	}
 	
 	
