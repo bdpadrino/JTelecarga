@@ -8,23 +8,44 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Sistema Telecarga</title>
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
 	<style>
 		body{
-		    background: url(http://mymaplist.com/img/parallax/back.png);
 			background-color: #444;
-		    background: url(http://mymaplist.com/img/parallax/pinlayer2.png),url(http://mymaplist.com/img/parallax/pinlayer1.png),url(http://mymaplist.com/img/parallax/back.png);    
+			background: url(http://blog.bazaarvoice.com/wp-content/uploads/FakeReviews-768x396.jpg);
+			position: absolute;	
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			-webkit-filter: blur(0px);
+			z-index: 0;
 		}
 		.vertical-offset-100{
 		    padding-top:100px;
 		}
+		img{
+			display:block;
+			margin:auto;
+			}
 		img.mediana{
-		  width: 300px; height: 100px;
+		  width: 280px; height: 110px;
 		}
 	</style>
 
 </h:head>
 <body>
-	
+	 <script type="text/javascript">
+		 function hideshow(){
+			 var frm=document.form1;
+			 if(frm.style.display=="block"){
+				 frm.style.display="none"
+				 }
+			 else
+			 	if(frm.style.display=="none"){
+			 		frm.style.display="block"
+		 		}
+		 }
+	 </script>
 	
 	<div class="container">
 	
@@ -32,54 +53,82 @@
 	    	<div class="col-md-4 col-md-offset-4">
 	    		<div class="panel panel-default">
 	    			<p:graphicImage url="/resources/images/LogoCompletoUN1Q.png" class="user-image" alt="Failed to load Image" styleClass="mediana"/>
-				  	<div class="panel-heading">
-				  		
-				    	<h3 class="panel-title">Please sign in</h3>
-				 	</div>
 				  	<div class="panel-body">
 				    	<h:form id="formLogin">
 	                       <fieldset>
 	                       		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+	                       		<h5>Please sign in</h5>
+	                       		<p:spacer height="5px" />
 					    	  	<div class="form-group">
 					    		    <p:inputText id="usernameLogin" value="#{UserBean.user.username}" placeholder="Usuario" class="form-control" required="true" label="Usuario" requiredMessage="Usuario Requerido"/>
 					    		</div>
 					    		<div class="form-group">
 					    			 <p:password id="PasswordLogin" value="#{UserBean.user.password}" placeholder="Password" class="form-control" required="true" label="Password" requiredMessage="Password Requerido"/>
 					    		</div>
-					    		<div class="checkbox">
-					    	    	<label>
-					    	    		
-					    	    	</label>
+					      	    
+					      	    <p:separator />
+					    		<p:commandButton value="Ingresar" class="btn btn-primary btn-block btn-flat"  process="@form" action= "#{UserBean.iniciarSesion}" ></p:commandButton>
+								<p:commandButton value="Registrar" class="btn btn-danger btn-block btn-flat"  process="@none" onclick="PF('modal').show();"></p:commandButton>
+		    				   
+		    				</fieldset>
+				      	</h:form>	
+				      	<h:form id="forgotPasswordForm">
+	                       <fieldset>
+			    				<p:spacer height="5px" />
+			    				<div class="checkbox">
+					    			<p:commandLink id="ajax" onclick="document.getElementById('forgetPassword').hideshow()"  process="@none">
+									        <h:outputText value="Olvido su contraseña" /> 
+									    </p:commandLink>
 					      	    </div>
-					    		<p:commandButton value="Ingresar" class="btn btn-primary btn-block btn-flat"  action= "#{UserBean.iniciarSesion}" ></p:commandButton>
-							 	<p:commandButton value="Registrar" class="btn btn-danger btn-block btn-flat"  onclick="PF('modal').show();"></p:commandButton>
+					      	    <p:messages id="messages1" for="username email" showDetail="false" autoUpdate="true" closable="true" />
+					      	    <div class="form-group">
+					    		    <p:inputText id="username" value="#{UserBean.user.username}" placeholder="Nombre de usuario" class="form-control" 
+					    		    	 	label="Usuario" maxlength="20"  required="true" requiredMessage="Nombre de usuario requerido" validatorMessage="Minimo 4 Caracteres" >
+						    			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
+						    			<f:validateLength minimum="4" />
+					    			</p:inputText>
+					    		</div>
+			    				<div class="form-group">
+					    		    <p:inputText  id="email" value="#{UserBean.user.email}" placeholder="Correo" class="form-control"
+					    		    		required="true" label="Correo" requiredMessage="Correo Requerido" validatorMessage="Formato de correo invalido">
+					    				<f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				     	     		</p:inputText>
+					    		</div>
+			    				<p:separator />
+					    		<p:commandButton value="Enviar" class="btn btn-success btn-block btn-flat" process="@form" action= "#{UserBean.forgotPassword}" ></p:commandButton>
 			    			</fieldset>
-				      	</h:form>
-				    </div>
+			    		</h:form>
+				    </div><!-- Panel-body -->
 				</div>
 			</div>
 		</div>
 		
 		<h:form id="formSingUp">
 			<p:dialog header="Registro de Usuario" widgetVar="modal" modal="true" resizable="false" >
-			   	<p:messages for="addPanel" id="messages2" showDetail="false" autoUpdate="true" closable="true" severity="warn, info"/>
 	           	<p:panelGrid id="addPanel" class="ui-noborder" columns="3" cellpadding="5"> 
 				    <p:outputLabel for="addUser"  value="Usuario:" />
 				    <p:inputText id="addUser" value="#{UserBean.userR.username}" required="true" label="UsuarioR" requiredMessage="Usuario Requerido" validatorMessage="Minimo 4 Caracteres">
 					    <f:validateLength minimum="4" />
-					    <p:ajax update="msgUsuarioR" event="keyup" />
+					    <p:ajax update="msgUsuarioR" />
 				    </p:inputText>
                 	<p:message for="addUser" id="msgUsuarioR" display="text" />
                 	
 				    <p:outputLabel for="addPassword" value="Password:" />
 				    <p:password id="addPassword" value="#{UserBean.userR.password}" required="true" label="PasswordR" requiredMessage="Password Requerido" validatorMessage="Minimo 4 Caracteres">
 				  		<f:validateLength minimum="4" />
-					    <p:ajax update="msgPasswordR" event="keyup" />
+					    <p:ajax update="msgPasswordR"/>
 					</p:password>   
 					<p:message for="addPassword" id="msgPasswordR" display="text" />
+					
+					<p:outputLabel for="addEmail"  value="Usuario:" />
+				    <p:inputText id="addEmail" value="#{UserBean.userR.email}" required="true" label="EmailR" requiredMessage="Correo Requerido" validatorMessage="Minimo 4 Caracteres">
+					    <f:validateLength minimum="4" />
+					    <p:ajax update="addEmail" />
+				    </p:inputText>
+                	<p:message for="addEmail" id="msgaddEmail" display="text" />
 			  	</p:panelGrid>  
 			    <p:separator />
-			    <p:commandButton value="Registrar" class="btn-success"   actionListener= "#{UserBean.addUser}" update="addPanel"  ></p:commandButton>
+			    <p:commandButton value="Registrar" class="btn-success"   actionListener= "#{UserBean.addUser}"  process="@this" update="addPanel"  ></p:commandButton>
 			</p:dialog> 
 		</h:form>
 	

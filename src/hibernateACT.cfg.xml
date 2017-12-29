@@ -4,16 +4,15 @@
   <session-factory>
   
    											<!--ORACLE -->
-   <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
-   <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-   <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
-   <property name="hibernate.connection.username">brayan</property>
-   <property name="hibernate.connection.password">4321</property>
-   <property name="show_sql">false</property>
-   
+	<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+	<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+	<property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
+	<property name="hibernate.connection.username">brayan</property>
+	<property name="hibernate.connection.password">4321</property>
+	<property name="show_sql">false</property>
 
-
-   <mapping class="sys.model.TelecargaACT"/>
-
+   	<mapping class="sys.model.TelecargaACT"/>
+	<mapping class="sys.model.BduACT"/>
+	
  </session-factory>
 </hibernate-configuration>

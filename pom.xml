@@ -62,12 +62,14 @@
 			<version>1.0.0-RC1</version>
 		</dependency>
 		
+		<!-- PRIMEFACES -->
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>primefaces-extensions</artifactId>
 			<version>6.0.0</version>
 		</dependency>
 		
+		<!-- FONT-AWESOME -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
@@ -127,8 +129,16 @@
 		    <artifactId>jasperreports-fonts</artifactId>
 		    <version>6.0.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4</version>
+		</dependency>
 	</dependencies>
   
+  	
   
   <build>
     <sourceDirectory>src</sourceDirectory>

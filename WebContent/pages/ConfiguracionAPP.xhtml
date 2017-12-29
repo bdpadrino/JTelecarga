@@ -38,13 +38,14 @@
 		
      	 <div class="box box-primary"> 
          	<div class="box-header with-border">
-         	 	Usuarios
+         	 	<i class="fa fa-users"></i>
+         	 	<h3 class="box-title">Usuarios</h3>
           	</div> <!--  box -header -->
 	         <div class="box-body">                                   
 	          	<div class="nav-tabs-custom">
 		            <ul class="nav nav-tabs">
 		              <li class="active"><a href="#tab_1" data-toggle="tab"> <i class="fa fa-list"></i> Consultar</a></li>
-		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Agregar</a></li>
+		              <li><a href="#tab_2" data-toggle="tab"><i class="fa fa-user-plus"></i> Agregar</a></li>
 		              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-cogs"></i></a></li>
 		            </ul>
 		            <div class="tab-content">
@@ -78,7 +79,7 @@
 							                    <p:inputText id="username" value="#{us.username}"  label="Usuario" maxlength="20" 
 							                    		required="true" requiredMessage="Nombre de usuario requerido" validatorMessage="Minimo 4 Caracteres" style="width:96%">
 									    			<p:keyFilter regEx="/[abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/>
-									    			<f:validateLength minimum="6" />
+									    			<f:validateLength minimum="4" />
 							     	     		</p:inputText>
 				     	     					<p:message for="username" display="text" style="width:94%"/>
 							                </f:facet>  
@@ -109,7 +110,7 @@
 							                </f:facet>  
 							                <f:facet name="input">  
 												<p:inputText id="email" value="#{us.email}" label="Usuario" maxlength="35" 
-														required="true" requiredMessage="Correo Requerido" validatorMessage="Minimo 4 Caracteres" style="width:96%"> 	
+														required="true" requiredMessage="Correo Requerido" validatorMessage="Formato de correo invalido" style="width:96%"> 	
 													<f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 												</p:inputText>
 												<p:message for="email" display="text" style="width:94%"/>										

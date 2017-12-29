@@ -19,6 +19,7 @@
    <mapping class="sys.model.TelecargaST"/>
    <mapping class="sys.model.TelecargaACT"/>
    <mapping class="sys.model.Bdu"/>   
+   <mapping class="sys.model.BduACT"/>
 
    <mapping class="sys.model.BitacoraError"/>
    <mapping class="sys.model.TeleReport"/>

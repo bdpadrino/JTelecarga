@@ -70,7 +70,7 @@ public class UserTableBean implements Serializable{
      */
     public void addUser() {
     	try{
-    		user.setPassword(util.encriptaEnMD5(user.getPassword()));
+    		user.setPassword(util.encriptWithMD5(user.getPassword()));
     		cu.addUser(user);
     		this.listUsers.add(user);
     		FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario "+user.getUsername()+" Agregado Exitosamente",""));

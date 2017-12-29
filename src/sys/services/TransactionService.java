@@ -37,164 +37,19 @@ import sys.util.*;
 @Path("/prosa")
 public class TransactionService {
 
-    
-    
-    @POST
-    @Path("/transaction")
+	
+	@POST
+    @Path("/prueba")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaTransaction pruebaTransaccion(Transaction t) {
-
-        RespuestaTransaction r = new RespuestaTransaction();
-        TransactionDaoImp td = new TransactionDaoImp();
-        Util util = new Util();       
-        
-        try 
-        {
-	        System.out.println("Transaction N "+ t.getSystems_trace_number());	
-	        System.out.println("Nombre del afiliado: "+ t.getCard_acceptor_name());
-	        System.out.println("Serial del terminal" + t.getCard_acceptor_terminal_id());
-	        System.out.println("Iso: "+ t.getIso());
-	        System.out.println("Pan: "+ t.getPan());
-	        System.out.println("Modelo_del_terminal: "+ t.getModel());
-	        System.out.println("Nombre_del_tarjetahabiente: "+ t.getCard_holder());
-	        System.out.println("Emisor: "+ t.getIssuer());
-	        System.out.println("Moneda"+ t.getCurrency());
-	        System.out.println("Hora: "+ t.getTime_transaction());
-	       
-	        System.out.println("Fecha: "+ t.getDate_transaction());
-	        System.out.println("Fecha: "+ util.addDateFormat(t.getDate_transaction()));
-	        System.out.println("Monto: "+ t.getAmount_transaction());
-        
-	        td.addTransaction(t);
-	        System.out.println("Transaccion guardada");
-	        r.setIso(t.getIso());
-	        r.setStatus("1");
-	        r.setMessage("Aprobado");
-        
-        }
-        catch(JDBCException e) {
-        	try {
-        		System.out.println("Mensaje 502" +e.getMessage());
-            	System.out.println("Causa 502" +e.getCause());
-				System.out.println("Codigo de Error "+e.getSQLException().getSQLState());
-				if (e.getSQLException().getSQLState().equals("22008")) {
-					generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
-					r.setIso(null);
-		            r.setStatus("01861");
-		            r.setMessage("literal does not match format string");
-				}
-        	}catch(Exception ex){
-        		System.out.println("Mensaje 502" +e.getMessage());
-            	System.out.println("Causa 502" +e.getCause());
-        		r.setIso(null);
-	            r.setStatus("502");
-	            r.setMessage("No se logro escribir en bitacora");
-        	}
-        }
-        catch(Exception e){
-        	System.out.println("Mensaje" +e.getMessage());
-        	System.out.println("Causa" +e.getCause());
-        	generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());	
-        	r.setIso(null);
-            r.setStatus("503");
-            r.setMessage("Error de Conexion");
-        }
-        
-        return r;
-
-    }
-    
-    @POST
-    @Path("/addTransaction")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaTransaction Transaccion(Transaction2 t) {
-
-        RespuestaTransaction r = new RespuestaTransaction();
-        TransactionDao2 td = new TransactionDaoImp2();
-        CardInfoDao ci = new CardInfoDaoImp();
-        Util util = new Util();       
-        
-        try 
-        {
-	        System.out.println("Transaction N "+ t.getSystems_trace_number());	
-	        System.out.println("Nombre del afiliado: "+ t.getCard_acceptor_name());
-	        System.out.println("Serial del terminal" + t.getCard_acceptor_terminal_id());
-	        System.out.println("Iso: "+ t.getIso());
-	        System.out.println("Modelo_del_terminal: "+ t.getModel());
-	        System.out.println("Moneda"+ t.getCurrency());
-	        System.out.println("Hora: "+ t.getTime_transaction());
-	        System.out.println("Fecha: "+ t.getDate_transaction());
-	        System.out.println("Fecha: "+ util.addDateFormat(t.getDate_transaction()));
-	        System.out.println("Monto: "+ t.getAmount_transaction());
-	        System.out.println("Place: "+ t.getPlace());
-	        
-	       
-		        if (t.getCard_info() == null || t.getCard_info().getId() == null) {
-		        	r.setIso(null);
-			        r.setStatus("0");
-			        r.setMessage("Falta id de tarjeta");
-		        }
-		        else {
-		        	System.out.println("CardInfo: "+ t.getCard_info().getId());
-		        	CardInfo cardInfo = ci.findByID(t.getCard_info().getId());
-		            
-			        if (cardInfo != null)	{ 
-			        	System.out.println("antes de guardar");
-			        	td.addTransaction(t);
-				        System.out.println("Transaccion guardada");
-				        r.setIso(t.getIso());
-				        r.setStatus("1");
-				        r.setMessage("Transaccion Efectuada ");
-			        }
-			        else {
-			        	r.setIso(null);
-				        r.setStatus("0");
-				        r.setMessage("Tarjeta no se Encuentra en Sistema");
-			        }
-		        }
-	        
-	        
-	        
-        }
-        catch(JDBCException e) {
-        	try {
-        		System.out.println("Mensaje 502" +e.getMessage());
-            	System.out.println("Causa 502" +e.getCause());
-				System.out.println("Codigo de Error "+e.getSQLException().getSQLState());
-				if (e.getSQLException().getSQLState().equals("22008")) {
-					generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
-					r.setIso(null);
-		            r.setStatus("01861");
-		            r.setMessage("literal does not match format string");
-				}
-        	}catch(Exception ex){
-        		System.out.println("Mensaje 502" +e.getMessage());
-            	System.out.println("Causa 502" +e.getCause());
-        		r.setIso(null);
-	            r.setStatus("502");
-	            r.setMessage("No se logro escribir en bitacora");
-        	}
-        }
-        catch(Exception e){
-        	System.out.println("Mensaje" +e.getMessage());
-        	System.out.println("Causa" +e.getCause());
-        	generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());	
-        	r.setIso(null);
-            r.setStatus("503");
-            r.setMessage("Error de Conexion");
-        }
-        
-        return r;
-
-    }
-    
-    
-    
-    
-   
-    
+    public RespuestaTransaction pruebaCon(int id) {
+		RespuestaTransaction r = new RespuestaTransaction();
+		r.setIso("123");
+		r.setMessage("HOla recibido"+id);
+		r.setStatus("OK");
+		return r;
+	}
+	
 	@POST
     @Path("/telecarga")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -206,7 +61,6 @@ public class TransactionService {
 	    BduACT bduACT = new BduACT();
 		Map<String, Object> mapParameter = new HashMap<String, Object>();
 		RespuestaException respuesta= new RespuestaException();
-			
 
         TelecargaSTDaoImp cST = new TelecargaSTDaoImp();  
         TelecargaACTDaoImp cACT = new TelecargaACTDaoImp();  
@@ -215,7 +69,6 @@ public class TransactionService {
         
         BduACTDao cBduACT =new BduACTDaoImp();
         BduDao cBdu =new BduDaoImp();
-        
         	       
         try 
         {
@@ -233,6 +86,7 @@ public class TransactionService {
 			        	Double version = ctv.findLastVersion(stEntrante.getModelo(), stEntrante.getTipoAplicacion());
 			        	System.out.println("Ultima version disponible en ST para este modelo y tipo de app "+version+" version actual en POS "+stEntrante.getVersion());
 			        	telecargaST.setUpdateApp(false);
+			        	telecargaST.setStatus("Sin Finalizar");
 			        	if (version > stEntrante.getVersion() ) {
 			        		System.out.println("SE DEBE ACTUALIZAR A LA VERSION "+version);
 			        		telecargaST.setUpdateApp(true);
@@ -260,15 +114,15 @@ public class TransactionService {
 			        		}				        
 			        	}
 			        	
-			        	//SE REGISTRA LA INFORMACION DE ACT EN ST
-			        	addTelecargaACTinST(telecargaACT, telecargaST);
-			        	System.out.println("AGREGADO EN ST "+telecargaST.toString());
-			        	cST.addTelecarga(telecargaST);	
-			        	
 			        	//REGISTRO LA SOLICITUD 
 			        	Util util = new Util();
 			        	stEntrante.setFechaSolicitud(util.insertSqlTimeStamp());
 			        	cSolT.addSolicitudTelecarga(stEntrante);
+			        	
+			        	//SE REGISTRA LA INFORMACION DE ACT EN ST
+			        	addTelecargaACTinST(telecargaACT, telecargaST);
+			        	System.out.println("AGREGADO EN ST "+telecargaST.toString());
+			        	cST.addTelecarga(telecargaST);	
 	        		}
 	        		else {
 	        			//ERROR INFORMATIVO LOS MODELOS NO SON IGUALES
@@ -296,15 +150,16 @@ public class TransactionService {
 			System.out.println("Eror Code "+e.getSQLException().getErrorCode());
 			//UNIQUE CONSTRAINT ERROR CODE 1
 			if (e.getSQLException().getErrorCode() == 1) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 			//MANDATORIEDAD ERROR CODE 1400
 			if (e.getSQLException().getErrorCode() == 1400) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				System.out.println("entro aqui");
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 			//CAMPO NO ENCONTRADO EN BD ERROR CODE ORA-00904
 			if (e.getSQLException().getErrorCode() == 904) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 			
 			return getWrongResponse(mapParameter, respuesta, "524", e.getCause().toString());
@@ -312,7 +167,7 @@ public class TransactionService {
         catch(Exception e){
             System.out.println("Error 505 MENSAJE	" +e.getMessage());
             System.out.println("Error 505 CAUSA		" +e.getCause());
-            generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+            generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
             return getWrongResponse(mapParameter, respuesta, "503", e.getCause().toString());
         }
         //SE DEVUELVEN LOS PARAMETROS
@@ -327,7 +182,6 @@ public class TransactionService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public void guardarEnTeleReport(TeleReport trEntrante) {
-		//TeleReport telereport = new TeleReport();
 		TeleReportDao  ctr = new TeleReportDaoImp();		
 		try {
 			ctr.addTeleReport(trEntrante);
@@ -337,22 +191,22 @@ public class TransactionService {
 			System.out.println("Eror Code "+e.getSQLException().getErrorCode());
 			//UNIQUE CONSTRAINT ERROR CODE 1
 			if (e.getSQLException().getErrorCode() == 1) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 			//MANDATORIEDAD ERROR CODE 1400
 			if (e.getSQLException().getErrorCode() == 1400) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 		}
         catch(Exception e){
             System.out.println("Error 505 MENSAJE	" +e.getMessage());
             System.out.println("Error 505 CAUSA		" +e.getCause());
-            generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+            generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
         }
 	}
 	
 	@POST
-    @Path("/confirmarTelecarga")
+    @Path("/confirmarTelecarga1")
     @Consumes(MediaType.APPLICATION_JSON)
     public void guardarEnTeleReport1(int idTelecarga) {
 		TelecargaST telecarga = new TelecargaST();
@@ -360,8 +214,6 @@ public class TransactionService {
 		
 		TeleReport telereport = new TeleReport();
 		TeleReportDao  ctr = new TeleReportDaoImp();
-		
-		
 		
 		try {
 			telecarga = ct.findByID(idTelecarga);
@@ -403,19 +255,162 @@ public class TransactionService {
 			System.out.println("Eror Code "+e.getSQLException().getErrorCode());
 			//UNIQUE CONSTRAINT ERROR CODE 1
 			if (e.getSQLException().getErrorCode() == 1) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 			//MANDATORIEDAD ERROR CODE 1400
 			if (e.getSQLException().getErrorCode() == 1400) {
-				generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
 		}
         catch(Exception e){
             System.out.println("Error 505 MENSAJE	" +e.getMessage());
             System.out.println("Error 505 CAUSA		" +e.getCause());
-            generateBitacora("ST", "FAT", "LecBD",e.getCause().toString());
+            generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
         }
 	}
+	
+    @POST
+    @Path("/transaction")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public RespuestaTransaction pruebaTransaccion(Transaction t) {
+
+        RespuestaTransaction r = new RespuestaTransaction();
+        TransactionDaoImp td = new TransactionDaoImp();
+        Util util = new Util();       
+        
+        try 
+        {
+	        System.out.println("Transaction N "+ t.getSystems_trace_number());	
+	        System.out.println("Nombre del afiliado: "+ t.getCard_acceptor_name());
+	        System.out.println("Serial del terminal" + t.getCard_acceptor_terminal_id());
+	        System.out.println("Iso: "+ t.getIso());
+	        System.out.println("Pan: "+ t.getPan());
+	        System.out.println("Modelo_del_terminal: "+ t.getModel());
+	        System.out.println("Nombre_del_tarjetahabiente: "+ t.getCard_holder());
+	        System.out.println("Emisor: "+ t.getIssuer());
+	        System.out.println("Moneda"+ t.getCurrency());
+	        System.out.println("Hora: "+ t.getTime_transaction());
+	        System.out.println("Fecha: "+ t.getDate_transaction());
+	        System.out.println("Fecha: "+ util.addDateFormat(t.getDate_transaction()));
+	        System.out.println("Monto: "+ t.getAmount_transaction());
+        
+	        td.addTransaction(t);
+	        System.out.println("Transaccion guardada");
+	        r.setIso(t.getIso());
+	        r.setStatus("1");
+	        r.setMessage("Aprobado");
+        
+        }
+        catch(JDBCException e) {
+        	try {
+        		System.out.println("Mensaje 502" +e.getMessage());
+            	System.out.println("Causa 502" +e.getCause());
+				System.out.println("Codigo de Error "+e.getSQLException().getSQLState());
+				if (e.getSQLException().getSQLState().equals("22008")) {
+					generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
+					r.setIso(null);
+		            r.setStatus("01861");
+		            r.setMessage("literal does not match format string");
+				}
+        	}catch(Exception ex){
+        		System.out.println("Mensaje 502" +e.getMessage());
+            	System.out.println("Causa 502" +e.getCause());
+        		r.setIso(null);
+	            r.setStatus("502");
+	            r.setMessage("No se logro escribir en bitacora");
+        	}
+        }
+        catch(Exception e){
+        	System.out.println("Mensaje" +e.getMessage());
+        	System.out.println("Causa" +e.getCause());
+        	generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());	
+        	r.setIso(null);
+            r.setStatus("503");
+            r.setMessage("Error de Conexion");
+        }
+        return r;
+    }
+    
+    @POST
+    @Path("/addTransaction")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public RespuestaTransaction Transaccion(Transaction2 t) {
+
+        RespuestaTransaction r = new RespuestaTransaction();
+        TransactionDao2 td = new TransactionDaoImp2();
+        CardInfoDao ci = new CardInfoDaoImp();
+        Util util = new Util();       
+        
+        try 
+        {
+	        System.out.println("Transaction N "+ t.getSystems_trace_number());	
+	        System.out.println("Nombre del afiliado: "+ t.getCard_acceptor_name());
+	        System.out.println("Serial del terminal" + t.getCard_acceptor_terminal_id());
+	        System.out.println("Iso: "+ t.getIso());
+	        System.out.println("Modelo_del_terminal: "+ t.getModel());
+	        System.out.println("Moneda"+ t.getCurrency());
+	        System.out.println("Hora: "+ t.getTime_transaction());
+	        System.out.println("Fecha: "+ t.getDate_transaction());
+	        System.out.println("Fecha: "+ util.addDateFormat(t.getDate_transaction()));
+	        System.out.println("Monto: "+ t.getAmount_transaction());
+	        System.out.println("Place: "+ t.getPlace());
+	        if (t.getCard_info() == null || t.getCard_info().getId() == null) {
+	        	r.setIso(null);
+		        r.setStatus("0");
+		        r.setMessage("Falta id de tarjeta");
+	        }
+	        else {
+	        	System.out.println("CardInfo: "+ t.getCard_info().getId());
+	        	CardInfo cardInfo = ci.findByID(t.getCard_info().getId());
+	            
+		        if (cardInfo != null)	{ 
+		        	System.out.println("antes de guardar");
+		        	td.addTransaction(t);
+			        System.out.println("Transaccion guardada");
+			        r.setIso(t.getIso());
+			        r.setStatus("1");
+			        r.setMessage("Transaccion Efectuada ");
+		        }
+		        else {
+		        	r.setIso(null);
+			        r.setStatus("0");
+			        r.setMessage("Tarjeta no se Encuentra en Sistema");
+		        }
+	        }
+        }
+        catch(JDBCException e) {
+        	try {
+        		System.out.println("Mensaje 502" +e.getMessage());
+            	System.out.println("Causa 502" +e.getCause());
+				System.out.println("Codigo de Error "+e.getSQLException().getSQLState());
+				if (e.getSQLException().getSQLState().equals("22008")) {
+					generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
+					r.setIso(null);
+		            r.setStatus("01861");
+		            r.setMessage("literal does not match format string");
+				}
+        	}catch(Exception ex){
+        		System.out.println("Mensaje 502" +e.getMessage());
+            	System.out.println("Causa 502" +e.getCause());
+        		r.setIso(null);
+	            r.setStatus("502");
+	            r.setMessage("No se logro escribir en bitacora");
+        	}
+        }
+        catch(Exception e){
+        	System.out.println("Mensaje" +e.getMessage());
+        	System.out.println("Causa" +e.getCause());
+        	generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());	
+        	r.setIso(null);
+            r.setStatus("503");
+            r.setMessage("Error de Conexion");
+        }
+        
+        return r;
+
+    }
 	
 	/**
 	 * METODO 
@@ -436,15 +431,50 @@ public class TransactionService {
 		Util util = new Util();
         BitacoraErrorDao cBe = new BitacoraErrorDaoImp();
         BitacoraError be = new BitacoraError();		
-        //GENERA EL CODIGO DEL ERROR
-        String codigoError = "E_"+ubi+"_"+tip+"_"+err;
-		//GUARDAR EN ARCHIVO TXT
-		util.writeFile(util.StringTimeStampNow(), codigoError, message);
-		//GUARDAR EN BD
-		be.setCodigoError(codigoError);
-		be.setMensajeError(message);
-		be.setFecha(util.insertSqlTimeStamp());
-		cBe.addBitacoraError(be);
+        
+        try {
+	        //GENERA EL CODIGO DEL ERROR
+	        String codigoError = "E_"+ubi+"_"+tip+"_"+err;
+			//GUARDAR EN ARCHIVO TXT
+			util.writeFile(util.StringTimeStampNow(), codigoError, message);
+			//GUARDAR EN BD
+			be.setCodigoError(codigoError);
+			be.setMensajeError(message);
+			be.setFecha(util.insertSqlTimeStamp());
+			cBe.addBitacoraError(be);
+        }
+        catch(JDBCException e) {
+			System.out.println("Sql State "+e.getSQLException().getSQLState());
+    		System.out.println("Eror code "+e.getSQLException().getErrorCode());
+    		//UNIQUE CONSTRAINT ERROR CODE 1
+    		if (e.getSQLException().getErrorCode() == 1) {
+    			System.out.println("Campo ya existe ");
+    			System.out.println("Mensaje "+e.getMessage());
+    			System.out.println("Causa   "+e.getCause());
+    		}
+    		//MANDATORIEDAD ERROR CODE 1400
+    		if (e.getSQLException().getErrorCode() == 1400) {
+    			System.out.println("Campo que no puede ser nulo ");
+    			System.out.println("Mensaje "+e.getMessage());
+    			System.out.println("Causa   "+e.getCause());
+    		}
+    		//MANDATORIEDAD CAMPO A MODIFICAR NO PUEDE SER NULO ERROR CODE 1407
+    		if (e.getSQLException().getErrorCode() == 1407) {
+    			System.out.println("Campo a modificar no puede ser nulo ");
+    			System.out.println("Mensaje "+e.getMessage());
+    			System.out.println("Causa   "+e.getCause());
+    		}
+    		//VALOR DE UN CAMPO EXCEDE EL LIMITE PERMITIDO EN BD
+    		if (e.getSQLException().getErrorCode() == 12899) {
+    			System.out.println("VALOR DE UN CAMPO EXCEDE EL LIMITE PERMITIDO EN BD");
+    			System.out.println("Mensaje "+e.getMessage());
+    			System.out.println("Causa   "+e.getCause());
+    		}
+    	}
+		catch(Exception e) {
+			System.out.println("Mensaje EX "+e.getMessage());
+			System.out.println("Causa 	EX "+e.getCause());
+		}
 	}
 	
 	

@@ -14,10 +14,10 @@
         <p:growl autoUpdate="true" life="4000"/>
 
         <h2 class="align-center">
-            Bienve  
+            Bienv  
             <span class="text-aqua">
              <i>
-             	<a href="#" target="_blank" style="text-transform: none;text-decoration: none">nido</a>
+             	<a href="#" target="_blank" style="text-transform: none;text-decoration: none">enido</a>
              </i>
             </span>!
             <br/>
@@ -36,13 +36,13 @@
 	          <!-- small box -->
 	          <div class="small-box bg-aqua">
 	            <div class="inner">
-	              <h3>#{transactionBean2.listTransactions.size()}</h3>
-	              <p>Nuevas Transaciones</p>
+	              <h3>#{telecargaBean.listTelecargas.size()}</h3>
+	              <p>Telecargas</p>
 	            </div>
 	            <div class="icon">
-	              <i class="ion ion-bag"></i>
+	              <i class="fa fa-cloud-download"></i>
 	            </div>
-	            <a href="./pages/HistorialTransacciones.xhtml" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	            <a href="./pages/HistorialTelecarga.xhtml" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 	          </div>
 	        </div>
 	        <!-- ./col -->
@@ -50,14 +50,14 @@
 	          <!-- small box -->
 	          <div class="small-box bg-green">
 	            <div class="inner">
-	              <h3>53<sup style="font-size: 20px">%</sup></h3>
-	
-	              <p>Bounce Rate</p>
+	              <!--  <h3>53<sup style="font-size: 20px">%</sup></h3>-->
+	              <h3>#{versionBean.listVersions.size()}</h3>
+	              <p>Tipos de Aplicaciones</p>
 	            </div>
 	            <div class="icon">
-	              <i class="ion ion-stats-bars"></i>
+	              <i class="ion-android-apps"></i>
 	            </div>
-	            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	            <a href="./pages/Versiones.xhtml" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 	          </div>
 	        </div>
 	        <!-- ./col -->
@@ -65,12 +65,11 @@
 	          <!-- small box -->
 	          <div class="small-box bg-yellow">
 	            <div class="inner">
-	              <h3>#{UserBean.listUsers.size()}</h3>
-	
-	              <p>User Registrations</p>
+	              <h3>#{userBean.listUsers.size()}</h3>
+	              <p>Usuarios Registrados</p>
 	            </div>
 	            <div class="icon">
-	              <i class="ion ion-person-add"></i>
+	              <i class="ion-ios-people"></i>
 	            </div>
 	            <a href="./pages/ConfiguracionAPP.xhtml" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 	          </div>
@@ -80,14 +79,13 @@
 	          <!-- small box -->
 	          <div class="small-box bg-red">
 	            <div class="inner">
-	              <h3>65</h3>
-	
-	              <p>Unique Visitors</p>
+	              <h3>#{bitacoraErrorBean.listBitacoraErrors.size()}</h3>
+	              <p>Errores Generados</p>
 	            </div>
 	            <div class="icon">
-	              <i class="ion ion-pie-graph"></i>
+	              <i class="ion-backspace"></i>
 	            </div>
-	            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	            <a href="./pages/BitacoraErrores.xhtml" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 	          </div>
 	        </div>
 	        <!-- ./col -->

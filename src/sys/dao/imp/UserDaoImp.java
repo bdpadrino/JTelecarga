@@ -40,6 +40,8 @@ public class UserDaoImp implements UserDao {
         User nuevo = (User) session.get(User.class, e.getId());
         nuevo.setUsername(e.getUsername());
         nuevo.setStatus(e.getStatus());
+        nuevo.setEmail(e.getEmail());
+        nuevo.setPassword(e.getPassword());
         session.getTransaction().commit();
         session.close();
         System.out.println("Successfully updated " + e.toString());

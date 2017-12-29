@@ -112,7 +112,10 @@ public class VersionBean implements Serializable {
 			if (e.getSQLException().getErrorCode() == 1400) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
 			}
-
+			//MANDATORIEDAD CAMPO A MODIFICAR NO PUEDE SER NULO ERROR CODE 1407
+    		if (e.getSQLException().getErrorCode() == 1407) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo a modificar no puede ser nulo",e.getMessage()));
+    		}
 		}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error",e.getMessage()));
@@ -132,11 +135,21 @@ public class VersionBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Modificado Exitosamente",""));
 		}
 		catch(JDBCException e) {
-			System.out.println("eror code "+e.getSQLException().getSQLState());
-			if (e.getSQLException().getSQLState().equals("23000")) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Valor a modificar ya existe",e.getMessage()));
-			}
-		}
+			System.out.println("Sql State "+e.getSQLException().getSQLState());
+    		System.out.println("Eror code "+e.getSQLException().getErrorCode());
+    		//UNIQUE CONSTRAINT ERROR CODE 1
+    		if (e.getSQLException().getErrorCode() == 1) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe",e.getMessage()));
+    		}
+    		//MANDATORIEDAD ERROR CODE 1400
+    		if (e.getSQLException().getErrorCode() == 1400) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
+    		}
+    		//MANDATORIEDAD CAMPO A MODIFICAR NO PUEDE SER NULO ERROR CODE 1407
+    		if (e.getSQLException().getErrorCode() == 1407) {
+    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo a modificar no puede ser nulo",e.getMessage()));
+    		}
+    	}
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Modificar ",e.getMessage()));
 			System.out.println("Mensaje: "+e.getMessage());
