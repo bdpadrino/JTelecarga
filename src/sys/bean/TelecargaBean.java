@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.LazyDataModel;
+
 import sys.dao.TelecargaSTDao;
 import sys.dao.imp.TelecargaSTDaoImp;
 import sys.model.TelecargaST;
@@ -23,6 +25,9 @@ public class TelecargaBean implements Serializable {
 	private TelecargaST telecargaST;  
 	private List<TelecargaST> listTelecargas;
 	
+	//PAGINACION
+	private LazyDataModel<TelecargaST> listTelecargasLazyModel;
+	
 	TelecargaSTDao ct = new TelecargaSTDaoImp();  
 
 	FacesContext context;
@@ -35,6 +40,14 @@ public class TelecargaBean implements Serializable {
     public void init() {
 		this.telecargaST = new TelecargaST();
 		this.listTelecargas = ct.listTelecargas();
+		
+		//PAGINACION
+		//this.listTelecargasLazyModel = new TelecargaSTLazyDataModel();
+		/*final Long numEvents = (Long) dao.findByQuery("select count(id) from Footballer", -1, -1, null).get(0);
+		public List<TelecargaST> fetchLazyData(int first, int pageSize) {
+			return ct.findByQuery("from TelecargaST", first, pageSize, null);
+		}*/
+		//this.listTelecargasLazyModel = ct.listTelecargasPaginator();
     }
 	
 	public TelecargaST getTelecargaST() {
@@ -53,9 +66,18 @@ public class TelecargaBean implements Serializable {
 		this.listTelecargas = listTelecargas;
 	} 
 	
+	//PAGINACION
+	public LazyDataModel<TelecargaST> getListTelecargaslazyModel() {
+		return listTelecargasLazyModel;
+	}
+
+	public void setListTelecargaslazyModel(LazyDataModel<TelecargaST> listTelecargaslazyModel) {
+		this.listTelecargasLazyModel = listTelecargaslazyModel;
+	}
+
 	/**
 	 * METODO PARA ELIMINAR UNA TRANSACCION POR EL ID
-	 * @param bitacoraErrorReceived
+	 * @param telecarga
 	 */
 	public void deleteTelecarga(TelecargaST telecarga){
 		try {

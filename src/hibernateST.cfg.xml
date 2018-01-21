@@ -30,6 +30,6 @@
 	<mapping class="sys.model.CardInfo"/>
 	<mapping class="sys.model.User"/>
 	
-	
+	<mapping class="sys.model.Mail"/>
  </session-factory>
 </hibernate-configuration>

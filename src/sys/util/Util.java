@@ -181,110 +181,29 @@ public class Util {
 		return cadena;
 	}
    
-  
+    
    /**
-    * METODO QUE ENVIA CORREOS CON GMAIL VIA TLS USANDO PARAMETROS DE ENVIO
+    * METODO USADO PARA ENVIAR CORREOS CON ACORDE VIA SSL CON PARAMETROS DE ENVIO
     * @param username
     * @param password
     * @param asunto
     * @param cuerpo
     * @param destinatario
     */
-   public void sendEmail(String username, String password, String asunto, String cuerpo, String destinatario) {
-
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
-
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from-email@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
-			message.setSubject(asunto);
-			message.setText(cuerpo);
-
-			Transport.send(message);
-
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			System.out.println("Mensaje MessagingE "+e.getMessage());
-	    	System.out.println("Causa   MessagingE "+e.getCause());
-			throw new RuntimeException(e);			
-		}
-	    
-	}
-   
-   /**
-    * METODO QUE ENVIA CORREOS CON CORREO ACORDE VIA TLS USANDO PARAMETROS
-    * @param username
-    * @param password
-    * @param asunto
-    * @param cuerpo
-    * @param destinatario
-    */
-   public void sendEmailV3(String username, String password, String asunto, String cuerpo, String destinatario) {
-
-	    String u = "brayan.padrino@acorde.com.ve";
-	    String p = "Rusia3890*";
+   public void sendMailSSLAcorde (String username, String password,String host, int puerto, String asunto, String cuerpo, String dirEnvio, String destinatario) {
+	   	System.out.println("puerto" +puerto + "hpost" +host);
 	   
-	    
 		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "a2plcpnl0436.prod.iad2.secureserver.net");
-		props.put("mail.smtp.port", "465");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(u, p);
-			}
-		});
-
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from-email@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
-			message.setSubject(asunto);
-			message.setText(cuerpo);
-
-			Transport.send(message);
-
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			System.out.println("Mensaje MessagingE "+e.getMessage());
-	    	System.out.println("Causa   MessagingE "+e.getCause());
-			throw new RuntimeException(e);			
-		}
-	    
-	}
-   
-   /**
-    * METODO USADO PARA ENVIAR CORREOS CON GMAIL VIA SSL CON PARAMETROS DE ENVIO
-    * @param username
-    * @param password
-    * @param asunto
-    * @param cuerpo
-    * @param destinatario
-    */
-   public void sendMailSSL (String username, String password, String asunto, String cuerpo, String destinatario) {
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
+		/*props.put("mail.smtp.host", host);
+		props.put("mail.smtp.socketFactory.port", puerto);
+		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", puerto);*/
 
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
@@ -296,52 +215,7 @@ public class Util {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from@no-spam.com"));
-			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
-			message.setSubject("Testing Subject SSL");
-			message.setText("Dear Mail Crawler," + "\n\n No spam to my email, please SSL!");
-
-			Transport.send(message);
-
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			System.out.println("Mensaje MessagingE "+e.getMessage());
-	    	System.out.println("Causa   MessagingE "+e.getCause());
-			throw new RuntimeException(e);			
-		}
-	}
-   
-   /**
-    * METODO USADO PARA ENVIAR CORREOS CON ACORDE VIA SSL CON PARAMETROS DE ENVIO
-    * @param username
-    * @param password
-    * @param asunto
-    * @param cuerpo
-    * @param destinatario
-    */
-   public void sendMailSSL1 (String username, String password, String asunto, String cuerpo, String destinatario) {
-	   String u = "brayan.padrino@acorde.com.ve";
-	   String p = "Rusia3890*";
-	   
-	   Properties props = new Properties();
-		props.put("mail.smtp.host", "a2plcpnl0436.prod.iad2.secureserver.net");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-
-		Session session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(u,p);
-				}
-			});
-
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from@no-spam.com"));
+			message.setFrom(new InternetAddress(dirEnvio));
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
 			message.setSubject(asunto);
 			message.setText(cuerpo);

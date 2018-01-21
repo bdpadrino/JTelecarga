@@ -29,8 +29,7 @@ public class UserBean implements Serializable{
 	Util util = new Util();
 
 	UserDao cu = new UserDaoImp();
-	//private List<User> listUsers;
-		
+
 	public UserBean() {
 		
 	}
@@ -39,8 +38,6 @@ public class UserBean implements Serializable{
     public void init() {
 		this.user = new User();
 		this.userR = new User();
-		//this.listUsers = cu.listUsers();
-		
 	}
 
 	public User getUser() {
@@ -60,15 +57,6 @@ public class UserBean implements Serializable{
 	}
 
 
-	/*public List<User> getListUsers() {
-		return listUsers;
-	}
-
-	public void setListUsers(List<User> listUsers) {
-		this.listUsers = listUsers;
-	}*/
-
-	
 	/**
 	 * METODO USADO PARA INICIAR SESION EN LA APP
 	 * @return pagina de inicio de app
@@ -146,7 +134,6 @@ public class UserBean implements Serializable{
 	 * METODO USADO CUANDO SE OLVIDA LA CONTRASENA
 	 */
 	public void forgotPassword(){
-		System.out.println("paso1");
 		Util util = new Util();
 		try{
 			User userBD = cu.findByUsername(user.getUsername());
@@ -163,7 +150,7 @@ public class UserBean implements Serializable{
 				    String destinatario =  userBD.getEmail(); 										//CORREO DE DESTINO
 					//util.sendEmail(username,password,asunto,cuerpo,destinatario);					//ENVIO CORREO DESDE GMAIL
 				    System.out.println("paso3");
-					util.sendMailSSL1(username, password, asunto, cuerpo, destinatario);
+					//util.sendMailSSL1(username, password, asunto, cuerpo, destinatario);
 					System.out.println("paso4");
 					cu.modifyUser(userBD);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correo enviado con nueva contraseña",""));

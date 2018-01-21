@@ -19,8 +19,9 @@ import java.util.List;
 @SessionScoped
 public class BitacoraErrorBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 7084483613379638695L;
+	
 	BitacoraErrorDao cbe = new BitacoraErrorDaoImp();   		
 	private BitacoraError bitacoraError;  
 	private List<BitacoraError> listBitacoraErrors;
