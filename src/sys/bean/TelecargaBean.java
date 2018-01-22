@@ -12,7 +12,10 @@ import org.primefaces.model.LazyDataModel;
 import sys.dao.TelecargaSTDao;
 import sys.dao.imp.TelecargaSTDaoImp;
 import sys.model.TelecargaST;
+import sys.util.Util;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,6 +27,8 @@ public class TelecargaBean implements Serializable {
 	
 	private TelecargaST telecargaST;  
 	private List<TelecargaST> listTelecargas;
+	private Date startDate, endDate;
+	Util util = new Util();
 	
 	//PAGINACION
 	private LazyDataModel<TelecargaST> listTelecargasLazyModel;
@@ -39,7 +44,9 @@ public class TelecargaBean implements Serializable {
 	@PostConstruct
     public void init() {
 		this.telecargaST = new TelecargaST();
-		this.listTelecargas = ct.listTelecargas();
+		System.out.println("01/"+util.currentYearMonth()+ "fin" +util.daysInAMonth()+"/"+util.currentYearMonth());
+		this.listTelecargas = ct.listTelecargasByDates(util.stringToSqlDate("01/"+util.currentYearMonth()),util.stringToSqlDate(util.daysInAMonth()+"/"+util.currentYearMonth()));
+		//this.listTelecargas = ct.listTelecargas();
 		
 		//PAGINACION
 		//this.listTelecargasLazyModel = new TelecargaSTLazyDataModel();
@@ -65,6 +72,22 @@ public class TelecargaBean implements Serializable {
 	public void setListTelecargas(List<TelecargaST> listTelecargas) {
 		this.listTelecargas = listTelecargas;
 	} 
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 	
 	//PAGINACION
 	public LazyDataModel<TelecargaST> getListTelecargaslazyModel() {
@@ -97,6 +120,16 @@ public class TelecargaBean implements Serializable {
 			System.out.println("Causa "   +e.getCause());
 		}	
 	}
+
+	public void loadList(){
+		System.out.println("Entro "+startDate +" "+ endDate);
+	
+		this.listTelecargas = ct.listTelecargasByDates(util.addDateFormat(util.sumarDiasFecha(startDate, 1)),util.addDateFormat(util.sumarDiasFecha(endDate, 1)));
+		
+	}
+
+
+
 	
 	
 }

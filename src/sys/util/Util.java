@@ -80,6 +80,56 @@ public class Util {
     }
     
     /**
+   	 * METODO QUE DEVUELVE MES Y ANIO ACTUAL
+   	 * @return fecha y hora en String
+   	 */
+       public String currentYearMonth(){
+           Calendar calendar = Calendar.getInstance();
+           //calendar.add(Calendar.MINUTE, 30);
+           java.sql.Timestamp ourJavaTimestampObject = new java.sql.Timestamp(calendar.getTime().getTime());
+
+           SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+           return sdf.format(ourJavaTimestampObject);
+       }
+       
+       /**
+        * METODO QUE DEVUELVE LA CANTIDAD DE DIAS DEL MES
+        * @return
+        */
+       public int daysInAMonth() {
+    	   Calendar calendar = Calendar.getInstance();
+           java.sql.Timestamp ourJavaTimestampObject = new java.sql.Timestamp(calendar.getTime().getTime());
+           SimpleDateFormat sdf = new SimpleDateFormat("MM");
+           String mes = sdf.format(ourJavaTimestampObject);
+           System.out.println("mes " +mes);
+           if (mes.equals("01"))
+        	   return 31;
+		   if (mes.equals("02"))
+			   return 28;
+		   if (mes.equals("03"))
+			   return 31;
+		   if (mes.equals("04"))
+			   return 31;
+		   if (mes.equals("05"))
+			   return 31;
+		   if (mes.equals("06"))
+			   return 30;
+		   if (mes.equals("07"))
+			   return 31;
+		   if (mes.equals("08"))
+			   return 30;
+		   if (mes.equals("09"))
+			   return 30;
+		   if (mes.equals("10"))
+			   return 31;
+		   if (mes.equals("11"))
+			   return 30;
+		   if (mes.equals("12"))   
+			   return 31;
+        	return 1;	   
+       }
+    
+    /**
      * METODO PARA INSERTAR TIMESTAMP EN BD
      * @return java.sql.Timestamp
      */ 
@@ -191,8 +241,11 @@ public class Util {
     * @param destinatario
     */
    public void sendMailSSLAcorde (String username, String password,String host, int puerto, String asunto, String cuerpo, String dirEnvio, String destinatario) {
-	   	System.out.println("puerto" +puerto + "hpost" +host);
-	   
+	   	System.out.println("username "+ username + " password " + password + " host " + host + " puerto " +puerto +" asunto " +asunto +" cuerpo " +cuerpo +" dirEnvio "+dirEnvio+ " destinatario "+ destinatario);
+	    String u = "brayan.padrino@acorde.com.ve";
+		   String p = "Rusia3890**";
+	   	
+	   	
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "a2plcpnl0436.prod.iad2.secureserver.net");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -208,14 +261,14 @@ public class Util {
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(username,password);
+					return new PasswordAuthentication(u,p);
 				}
 			});
 
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(dirEnvio));
+			message.setFrom(new InternetAddress("from@no-spam.com"));
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
 			message.setSubject(asunto);
 			message.setText(cuerpo);
@@ -231,6 +284,46 @@ public class Util {
 		}
 	}
    
-   
+   /**
+   * METODO USADO PARA ENVIAR CORREOS CON GMAIL VIA SSL CON PARAMETROS DE ENVIO
+   * @param username
+   * @param password
+   * @param asunto
+   * @param cuerpo
+   * @param destinatario
+   */
+   public void sendMailSSLGmail (String username, String password, String asunto, String cuerpo, String destinatario) {
+   	Properties props = new Properties();
+   	props.put("mail.smtp.host", "smtp.gmail.com");
+   	props.put("mail.smtp.socketFactory.port", "465");
+   	props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+   	props.put("mail.smtp.auth", "true");
+   	props.put("mail.smtp.port", "465");
+
+   	Session session = Session.getDefaultInstance(props,
+   		new javax.mail.Authenticator() {
+   			protected PasswordAuthentication getPasswordAuthentication() {
+   				return new PasswordAuthentication(username,password);
+   			}
+   		});
+
+   	try {
+
+   		Message message = new MimeMessage(session);
+   		message.setFrom(new InternetAddress("prosa@noresponder.com"));
+   		message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
+   		message.setSubject(asunto);
+   		message.setText(cuerpo);
+
+   		Transport.send(message);
+
+   		System.out.println("Done");
+
+   	} catch (MessagingException e) {
+   		System.out.println("Mensaje MessagingE "+e.getMessage());
+       	System.out.println("Causa   MessagingE "+e.getCause());
+   		throw new RuntimeException(e);			
+   	}
+   }
    
 }

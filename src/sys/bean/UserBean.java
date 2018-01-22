@@ -130,60 +130,6 @@ public class UserBean implements Serializable{
 		}
 	}
 	
-	/**
-	 * METODO USADO CUANDO SE OLVIDA LA CONTRASENA
-	 */
-	public void forgotPassword(){
-		Util util = new Util();
-		try{
-			User userBD = cu.findByUsername(user.getUsername());
-			if (userBD != null) {
-				String newPassword = util.generatePassword();
-				userBD.setPassword(util.encriptWithMD5(newPassword));
-				if(userBD.getEmail().equals(user.getEmail())) {			
-					System.out.println("email iguales");
-				   	
-					String username = "bdpadrino@gmail.com";										//USUARIO  DE DONDE SE ENVIARA EL CORREO
-					String password = "Adrian280613.";												//PASSWORD DE DONDE SE ENVIARA EL CORREO
-				    String asunto = "Cambio de contraseña en UN1Q";
-				    String cuerpo = "Estimado usuario, "+user.getUsername()  + "\n\n 		Su clave de acceso fue cambiada a: "+newPassword;
-				    String destinatario =  userBD.getEmail(); 										//CORREO DE DESTINO
-					//util.sendEmail(username,password,asunto,cuerpo,destinatario);					//ENVIO CORREO DESDE GMAIL
-				    System.out.println("paso3");
-					//util.sendMailSSL1(username, password, asunto, cuerpo, destinatario);
-					System.out.println("paso4");
-					cu.modifyUser(userBD);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correo enviado con nueva contraseña",""));
-				}
-				else {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Correo no coincide con el registrado",""));
-				}
-			}
-			else {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario no registrado",""));
-				
-			}
-		}catch(JDBCException e) {
-			System.out.println("Sql State "+e.getSQLException().getSQLState());
-			System.out.println("Eror code "+e.getSQLException().getErrorCode());
-			//UNIQUE CONSTRAINT ERROR CODE 1
-			if (e.getSQLException().getErrorCode() == 1) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Valor a modificar ya existe",e.getMessage()));
-			}
-			//MANDATORIEDAD ERROR CODE 1400
-			if (e.getSQLException().getErrorCode() == 1400) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo que no puede ser nulo",e.getMessage()));
-			}
-			//MANDATORIEDAD CAMPO A MODIFICAR NO PUEDE SER NULO ERROR CODE 1407
-    		if (e.getSQLException().getErrorCode() == 1407) {
-    			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo a modificar no puede ser nulo",e.getMessage()));
-    		}
-		}
-		catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage("addPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error ",e.getMessage()));
-			System.out.println("Mensaje "+e.getMessage());
-			System.out.println("Causa "+e.getCause());
-		}
-	}
+	
 	
 }

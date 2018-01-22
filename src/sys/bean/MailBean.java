@@ -139,10 +139,15 @@ public class MailBean implements Serializable{
 				if(userBD.getEmail().equals(user.getEmail())) {			
 					System.out.println("email iguales");
 					Mail mail = cm.findByID(1);
-					util.sendMailSSLAcorde(mail.getUsername(), mail.getPassword(),mail.getHost(), mail.getPuerto(), mail.getAsunto(), mail.getCuerpo() + " "+ newPassword,  mail.getDirEnvio(), "bdpadrino@gmail.com");
-					System.out.println("Correo Enviado");
-					cu.modifyUser(userBD);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correo enviado con nueva contraseña",""));
+					if (mail == null)
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"No hay configuracion de envio de correos registrada",""));
+					else {
+						util.sendMailSSLAcorde(mail.getUsername(), mail.getPassword(),mail.getHost(), mail.getPuerto(), mail.getAsunto(), mail.getCuerpo() + " "+ newPassword,  mail.getDirEnvio(), "bdpadrino@gmail.com");
+						//util.sendMailSSLGmail("bdpadrino@gmail.com", "Adrian280613.", "testPass", "Cambio de clave", "bdpadrino@gmail.com");
+						System.out.println("Correo Enviado");
+						cu.modifyUser(userBD);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correo enviado con nueva contraseña",""));
+					}
 				}
 				else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Correo no coincide con el registrado",""));

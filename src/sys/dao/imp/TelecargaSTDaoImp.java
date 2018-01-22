@@ -31,6 +31,19 @@ public class TelecargaSTDaoImp implements TelecargaSTDao{
         return listaTelecarga;
     }
     
+    //TO_DATE ('2017/12/01', 'yyyy/mm/dd') AND   TO_DATE ('2018/01/21', 'yyyy/mm/dd'); String startDate, String endDate
+    @Override
+    public  List<TelecargaST> listTelecargasByDates(java.sql.Date startDate, java.sql.Date endDate) {
+	    Session session = HibernateUtilST.getSessionFactory().openSession();
+	    Query query = session.createQuery("FROM TelecargaST as t WHERE t.orderDate BETWEEN :startDate AND :endDate");
+	    query.setParameter("startDate", startDate);
+	    query.setParameter("endDate", endDate);
+	    @SuppressWarnings("unchecked")	
+	    List<TelecargaST> listaTelecarga = query.list();
+        session.close();
+        return listaTelecarga;
+    }
+    
     @Override
     public  TelecargaST findTelecargaByTerminal (String terminal) {
 	    Session session = HibernateUtilST.getSessionFactory().openSession();

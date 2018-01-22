@@ -123,9 +123,7 @@ public class TransactionBean2 implements Serializable {
 			this.listTransactions.add(transactionToAdd);
 			transactionToAdd = new Transaction2();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Transacción número "+id+" Guardada con Exito"," "));
-			
-			
-			
+						
 		} 
 		catch(Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error al Agregar",e.getMessage()));
