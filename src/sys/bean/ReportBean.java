@@ -2,6 +2,7 @@ package sys.bean;
 
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -33,15 +34,15 @@ public class ReportBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Report report;
-	private String search;
-	private String searchBy;
+	
+	
 	public ReportBean() {
 		
 	}
     
 	@PostConstruct
     public void init() {
-		this.setReport(new Report());
+		report = new Report();
     }
 		
 	public Report getReport() {
@@ -63,7 +64,12 @@ public class ReportBean implements Serializable {
             parameter.put("reportName", report.getReportName());
             parameter.put("fechaInicio", util.addDateFormat(report.getStartDate()));
             parameter.put("fechaFin", util.addDateFormat(report.getEndDate()));
-
+            
+            if (report.getStatus().trim() != "" || report.getStatus() == null) {
+            	System.out.println("llenando el estatus"+report.getStatus());
+            	 parameter.put("estatus", report.getStatus());
+            }
+            
             File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/"+report.getReportName()));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parameter, con);
             
@@ -82,10 +88,13 @@ public class ReportBean implements Serializable {
 		catch(FileNotFoundException e) {
 			System.out.println("Error FileNotFound" +e.getMessage());
 			System.out.println("Causa FileNotFound" +e.getCause());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Reporte no encontrado",""));
+			
 		}
         catch (Exception e) {
             System.out.println("Error Exception " +e.getMessage());
             System.out.println("Causa Exception" +e.getCause());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"No existe información según parametros dados",""));
         }
 				
 	}
@@ -94,7 +103,7 @@ public class ReportBean implements Serializable {
 		try {
 			Connection con = HibernateUtilST.getConnectionHibernate();
 	        Util util = new Util();
-	        
+	        System.out.println("Nombre Reporte"+report.getReportName());
 	        System.out.println("fecha i recibida "+report.getStartDate());
 	        System.out.println("fecha f recibida "+report.getEndDate());
 	        System.out.println("fecha f recibida "+util.addDateFormat(util.sumarDiasFecha(report.getEndDate(), 1)));
@@ -104,11 +113,11 @@ public class ReportBean implements Serializable {
             parameter.put("fechaInicio", util.addDateFormat(util.sumarDiasFecha(report.getStartDate(), 1)));
             parameter.put("fechaFin", util.addDateFormat(util.sumarDiasFecha(report.getEndDate(), 1)));
             
-            if (search != null) {
-            	System.out.println("llenando la busuqeda"+search);
-            	 parameter.put("search", search);
+            if (report.getStatus().trim() != "" || report.getStatus() == null) {
+            	System.out.println("llenando el estatus"+report.getStatus());
+            	 parameter.put("estatus", report.getStatus());
             }
-			
+          
 			File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/"+report.getReportName()));		
 			
 			byte[] bytes = JasperRunManager.runReportToPdf(jasper.getPath(), parameter, con);
@@ -125,30 +134,18 @@ public class ReportBean implements Serializable {
 		}
 		catch(FileNotFoundException e){
 			//throw new CustomException ("Archivo No Encontrado",e);
-		 System.out.println("archivo no encontrado" +e.getMessage());
+			System.out.println("archivo no encontrado" +e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Reporte no encontrado",""));
 		}
 		catch(Exception e){
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"No existe información según parametros dados",""));
 			 System.out.println("Error" +e.getMessage());
 			 System.out.println("Error" +e.getCause());
 		}
 		
 	}
 
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
-
-	public String getSearchBy() {
-		return searchBy;
-	}
-
-	public void setSearchBy(String searchBy) {
-		this.searchBy = searchBy;
-	}
+	
 	
 
 }

@@ -4,11 +4,31 @@ import java.util.Date;
 
 public class Report {
 
-	private Date startDate;
-	private Date endDate;
+	
 	private String reportName;
 	private String reportPath;
+	private Date startDate;
+	private Date endDate;
+	private String status;
+	private String codAfiliacion;
 	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getCodAfiliacion() {
+		return codAfiliacion;
+	}
+
+	public void setCodAfiliacion(String codAfiliacion) {
+		this.codAfiliacion = codAfiliacion;
+	}
+
 	
 	public Date getStartDate() {
 		return startDate;

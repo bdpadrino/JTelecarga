@@ -142,7 +142,7 @@ public class MailBean implements Serializable{
 					if (mail == null)
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"No hay configuracion de envio de correos registrada",""));
 					else {
-						util.sendMailSSLAcorde(mail.getUsername(), mail.getPassword(),mail.getHost(), mail.getPuerto(), mail.getAsunto(), mail.getCuerpo() + " "+ newPassword,  mail.getDirEnvio(), "bdpadrino@gmail.com");
+						util.sendMailSSLAcorde(mail.getUsername().trim(), mail.getPassword().trim(),mail.getHost().trim(), mail.getPuerto(), mail.getAsunto(), mail.getCuerpo() + " "+ newPassword,  mail.getDirEnvio(), user.getEmail());
 						//util.sendMailSSLGmail("bdpadrino@gmail.com", "Adrian280613.", "testPass", "Cambio de clave", "bdpadrino@gmail.com");
 						System.out.println("Correo Enviado");
 						cu.modifyUser(userBD);

@@ -26,14 +26,15 @@
 	                        <h3 class="box-title">Selección de Reportes</h3>
 	                    </div>
 	                    <div class="box-body">  
-	                    <p:messages id="messages" autoUpdate="true" closable="true" />                            
+	                    		<p:messages id="messages" autoUpdate="true" closable="true" />                            
 	                            <div class="form-group">
 	                                 <p:panelGrid  id="addPanel" class="ui-noborder" columns="2" cellpadding="5">  
 	                                    <p:outputLabel for="reportName" value="Nombre del Reporte:" />
 							               	<p:selectOneMenu id="reportName" value="#{reportBean.report.reportName}" required="true" requiredMessage="Nombre de reporte requerido">
 									            <f:selectItem itemLabel="Select One" itemValue="" />
-									            <f:selectItem itemLabel="Histórico de Transacciones" itemValue="Histórico de Transacciones2.jasper" />
-												<f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar2.jasper" />							  
+									       <!-- <f:selectItem itemLabel="Histórico de Transacciones" itemValue="Histórico de Transacciones2.jasper" /> 
+												<f:selectItem itemLabel="Transacciones por Lugar" itemValue="Transacciones por Lugar2.jasper" /> -->	
+												<f:selectItem itemLabel="Telecargas" itemValue="Telecargas1.jasper" />						  
 									        </p:selectOneMenu>
                                     	
                                     	<p:outputLabel for="startDate" value="Desde:" />                                   
@@ -46,10 +47,15 @@
 							 				<f:convertDateTime pattern="yyyy-MM-dd"/> 
 							 			</p:calendar>
 	                                   
-	                                    <p:outputLabel for="Buscar" value="Buscar:" />
-	                                    <p:inputText id="Buscar" value="#{reportBean.search}" maxlength="20"/>
-				                		<p:message for="Buscar" display="text" />
-	                                    
+	                                  	<p:outputLabel for="status" value="Estatus:" />                                                     
+                                       	<p:selectOneMenu id="status" value="#{reportBean.report.status}">
+								            <f:selectItem itemLabel="Select One" itemValue="" />
+						 					<f:selectItem itemLabel="Finalizada" itemValue="Finalizada" />		
+						 					<f:selectItem itemLabel="Sin Finalizar" itemValue="Sin Finalizar" />		
+									 		<!-- <p:outputLabel for="codAfiliacion" value="Código Afiliacion:" />                                                     
+		                                        <p:inputText id="codAfiliacion" value="#{reportBean.report.codAfiliacion}">     -->
+									 	</p:selectOneMenu>		
+							 			
 	                               </p:panelGrid>
 	                            </div> <!-- form-group --> 
 	                            

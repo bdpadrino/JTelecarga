@@ -242,33 +242,24 @@ public class Util {
     */
    public void sendMailSSLAcorde (String username, String password,String host, int puerto, String asunto, String cuerpo, String dirEnvio, String destinatario) {
 	   	System.out.println("username "+ username + " password " + password + " host " + host + " puerto " +puerto +" asunto " +asunto +" cuerpo " +cuerpo +" dirEnvio "+dirEnvio+ " destinatario "+ destinatario);
-	    String u = "brayan.padrino@acorde.com.ve";
-		   String p = "Rusia3890**";
-	   	
-	   	
+
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "a2plcpnl0436.prod.iad2.secureserver.net");
-		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.port", String.valueOf(puerto) );
 		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-		/*props.put("mail.smtp.host", host);
-		props.put("mail.smtp.socketFactory.port", puerto);
-		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", puerto);*/
+		props.put("mail.smtp.port", String.valueOf(puerto));
 
-		Session session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(u,p);
-				}
-			});
+		Session session = Session.getDefaultInstance(props,	new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username,password);
+			}
+		});
 
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from@no-spam.com"));
+			message.setFrom(new InternetAddress(dirEnvio));
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(destinatario));
 			message.setSubject(asunto);
 			message.setText(cuerpo);

@@ -42,7 +42,7 @@ public class TransactionService {
     @Path("/prueba")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaTransaction pruebaCon(int id) {
+    public RespuestaTransaction pruebaCon(String id) {
 		RespuestaTransaction r = new RespuestaTransaction();
 		r.setIso("123");
 		r.setMessage("HOla recibido"+id);
@@ -208,46 +208,59 @@ public class TransactionService {
 	@POST
     @Path("/confirmarTelecarga1")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void guardarEnTeleReport1(int idTelecarga) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public String guardarEnTeleReport1(String idTelecarga) { 
+		System.out.println("Entrando "+idTelecarga);
 		TelecargaST telecarga = new TelecargaST();
 		TelecargaSTDao ct = new TelecargaSTDaoImp();
+
+		String mensaje ="";
 		
 		TeleReport telereport = new TeleReport();
 		TeleReportDao  ctr = new TeleReportDaoImp();
 		
 		try {
-			telecarga = ct.findByID(idTelecarga);
-			telereport.setAplDescripción(telecarga.getAppDesc());
-			telereport.setBcoNombre(telecarga.getBnkName());
-			telereport.setComAfiliación(telecarga.getMembershipComm());
-			telereport.setComNombre(telecarga.getCommerceName());
-			telereport.setComDomicilio(telecarga.getCommerceAddres());
-			telereport.setTelLocal(telecarga.getAuthPhoneNumber());
-			telereport.setTelAvantel(telecarga.getAvantelPhoneNumber());
-			telereport.setTelTelmex(telecarga.getTelmexPhoneNumber());
-			telereport.setOdtFolioTelecarga(telecarga.getTcFolio());
-			telereport.setModModelo(telecarga.getTerminalModel());
-			telereport.setcTram(telecarga.getPaperKey());
-			telereport.setTerId(telecarga.getTerId());
-			telereport.setTerIdEncr(telecarga.getEncrTermId());
-			telereport.setProveedor(telecarga.getTerminalMark());
-			telereport.setComPoblacion("");
-			telereport.setNumSerie("");
-			telereport.setFechaTelecarga(telecarga.getOrderDate());
-			telereport.setRes("");
-			telereport.setResExt("");												//ACA SE GRABA LA DIRECCION DE IP DEL POS
-			telereport.setcBase("0");												//1 SI SE REALIZA CARGA BASE 
-			telereport.setcProfile(telecarga.getUpdateApp().toString());			//1 SI SE REALIZA CARGA PROFILE
-			telereport.setHoraInicio(telecarga.getOrderDate());
-			telereport.setHoraFin(telecarga.getOrderDate());
-			telereport.setVersion(telecarga.getVersionToDownload().toString());
-			
-			//MODIFICAR EL ESTATUS DE LA TELECARGA A FINALIZADA
-			telecarga.setStatus("Finalizada");	
-			ct.modifyTelecarga(telecarga);
-		
-			//REGISTRAMOS EN ACT EN TABLA TELEREPORT LA INFORMACION DE LA TELECARGA EXITOSA
-			ctr.addTeleReport(telereport);
+			System.out.println("Entrando2");
+			telecarga = ct.findByID(Integer.parseInt(idTelecarga));
+			if (telecarga == null) {
+				mensaje = "El id de Telecarga no se encuentra Registrado";
+				System.out.println("Entrando3");
+			}
+			else {
+				System.out.println("telecarga"+telecarga.toString());
+				telereport.setAplDescripción(telecarga.getAppDesc());
+				telereport.setBcoNombre(telecarga.getBnkName());
+				telereport.setComAfiliación(telecarga.getMembershipComm());
+				telereport.setComNombre(telecarga.getCommerceName());
+				telereport.setComDomicilio(telecarga.getCommerceAddres());
+				telereport.setTelLocal(telecarga.getAuthPhoneNumber());
+				telereport.setTelAvantel(telecarga.getAvantelPhoneNumber());
+				telereport.setTelTelmex(telecarga.getTelmexPhoneNumber());
+				telereport.setOdtFolioTelecarga(telecarga.getTcFolio());
+				telereport.setModModelo(telecarga.getTerminalModel());
+				telereport.setcTram(telecarga.getPaperKey());
+				telereport.setTerId(telecarga.getTerId());
+				telereport.setTerIdEncr(telecarga.getEncrTermId());
+				telereport.setProveedor(telecarga.getTerminalMark());
+				telereport.setComPoblacion("");
+				telereport.setNumSerie("");
+				telereport.setFechaTelecarga(telecarga.getOrderDate());
+				telereport.setRes("");
+				telereport.setResExt("");												//ACA SE GRABA LA DIRECCION DE IP DEL POS
+				telereport.setcBase("0");												//1 SI SE REALIZA CARGA BASE 
+				telereport.setcProfile(telecarga.getUpdateApp().toString());			//1 SI SE REALIZA CARGA PROFILE
+				telereport.setHoraInicio(telecarga.getOrderDate());
+				telereport.setHoraFin(telecarga.getOrderDate());
+				telereport.setVersion(telecarga.getVersionToDownload().toString());
+				
+				//MODIFICAR EL ESTATUS DE LA TELECARGA A FINALIZADA
+				telecarga.setStatus("Finalizada");	
+				ct.modifyTelecarga(telecarga);
+				
+				//REGISTRAMOS EN ACT EN TABLA TELEREPORT LA INFORMACION DE LA TELECARGA EXITOSA
+				ctr.addTeleReport(telereport);
+				mensaje = "Exitosa";
+			}
 			
 		}
 		catch(JDBCException e) {
@@ -261,12 +274,15 @@ public class TransactionService {
 			if (e.getSQLException().getErrorCode() == 1400) {
 				generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
 			}
+			mensaje = "Error";
 		}
         catch(Exception e){
             System.out.println("Error 505 MENSAJE	" +e.getMessage());
             System.out.println("Error 505 CAUSA		" +e.getCause());
             generateBitacora("ST", "FAT", "LecBD ",e.getCause().toString());
+            return "Error";
         }
+		return mensaje;	
 	}
 	
     @POST
@@ -543,6 +559,7 @@ public class TransactionService {
 		telecargaST.setPromotions(telecargaACT.getPromotions());
 		telecargaST.setQpsMaxAmount(telecargaACT.getQpsMaxAmount());
 		telecargaST.setQpsPrintLegend(telecargaACT.getQpsPrintLegend());
+		telecargaST.setStatus("Sin Finalizar");
 	}
 	
 	public void addBduACTinST(BduACT bduACT, Bdu bduST) {
